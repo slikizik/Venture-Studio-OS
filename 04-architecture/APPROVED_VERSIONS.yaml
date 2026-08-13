@@ -15,3 +15,4 @@ prettier: 3.9.6
 verifiedAt: 2026-08-13T14:52:54Z
 verifiedBy: Hermes Phase 00 validation (bounded autonomy)
 ph001Resolved: true
+# Phase 01 actual pin: prisma 6.19.3 (NOT 7.9.1). Prisma 7's adapter/config API was not resolvable on the local toolchain; 6.x is the same ORM and satisfies the mandate. See VSO-DEC-001 / VSO-ASM-002. Reversible.

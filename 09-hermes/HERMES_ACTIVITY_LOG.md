@@ -27,3 +27,15 @@ Append significant execution events using this format.
 - **Problems encountered:** None blocking. PH-001 placeholder expected-work; resolved by version recording.
 - **Recovery performed:** None required.
 - **Next action:** Await owner review of PHASE_00_REPORT.md; authorize Phase 01 via REUSABLE_PHASE_PROMPT.md.
+## Phase 01 — Foundation
+
+- **Date and time:** 2026-08-13T18:10:00Z
+- **Phase:** PHASE_01
+- **Work item:** Implement application Foundation (Next.js + Prisma + SQLite + Zod + Vitest shell) and the three normative requirements NFR-001, NFR-003, DAT-004.
+- **Action:** Scaffolded the Next.js 16 (App Router, TS strict) app under app/; defined the Prisma schema from DATA_MODEL.md and applied the initial SQLite migration; implemented Zod validation, the DAT-004 backup-before-destructive service + CLI, and a live-DB dashboard page; wrote tests TEST-NFR-001 (real build+serve, HTTP 200), TEST-NFR-003 (tsc strict + no `any`), TEST-DAT-004 (4 cases). Pinned Prisma to 6.19.3 (see VSO-DEC-001 / VSO-ASM-002).
+- **Result:** Phase 01 PASSED. Preflight --completion => PREFLIGHT READY: PHASE_01. 7/7 tests pass. tsc --noEmit 0 errors. ESLint 0 errors. validate_package.py PASS (incl. 23-view atlas + telegram/git unit tests). Product Alignment carried APPROVED. Phase 02 marked READY.
+- **Files changed:** app/ (scaffold + libs + tests + config), .gitignore, scripts/validate_package.py, BUILD_MANIFEST.yaml, PROJECT_STATUS.md, 09-hermes/EXECUTION_QUEUE.yaml, 09-hermes/EXECUTION_STATE.json, 09-hermes/DECISION_LOG.md, 09-hermes/ASSUMPTION_LOG.md, 02-requirements/REQUIREMENTS_TRACEABILITY.csv, 04-architecture/APPROVED_VERSIONS.yaml (note), CHANGELOG.md, PHASE_01_REPORT.md
+- **Commands/tests run:** npx vitest run; npx tsc --noEmit; npx eslint .; python scripts/preflight.py --phase PHASE_01 --completion; python scripts/validate_package.py; npx prisma generate/migrate dev; npx next build
+- **Problems encountered:** Prisma 7.x adapter API not resolvable on local toolchain (down-pinned to 6.19.3); eslint-config-next@16 flat export circular ref (replaced with minimal flat config); next build disrupted inside Vitest worker pool (switched NFR-001 test to detached OS processes); stray app/src/.next build artifact and node_modules JSON tripped placeholder scan / package validator (gitignored .next, validator now skips node_modules/.next).
+- **Recovery performed:** Down-pin Prisma; minimal ESLint flat config; detached-process e2e; removed stray build dir; validator scan exclusions.
+- **Next action:** Await owner review of PHASE_01_REPORT.md; authorize Phase 02 (Project Core) via REUSABLE_PHASE_PROMPT.md.

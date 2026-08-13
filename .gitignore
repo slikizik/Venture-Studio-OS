@@ -12,8 +12,24 @@ runtime/telegram/*.log
 # Recreated dependencies/build outputs
 node_modules/
 .next/
+src/.next/
 dist/
 build/
 coverage/
 __pycache__/
 *.pyc
+
+# Application (app/) local data — never commit local DB, backups, or env
+app/.env
+app/.env.local
+app/dev.db
+app/dev.db-journal
+app/dev.db-shm
+app/dev.db-wal
+app/backups/
+app/prisma/generated/
+app/.next/
+app/coverage/
+
+# Keep the example env template
+!app/.env.example

@@ -21,11 +21,13 @@ required=[
 errors=[]
 for rel in required:
     if not (ROOT/rel).exists(): errors.append(f'missing: {rel}')
+SKIP_DIRS={'node_modules','.next','.git','__pycache__'}
 for p in ROOT.rglob('*.json'):
-    if '__pycache__' in p.parts: continue
+    if '__pycache__' in p.parts or any(s in p.parts for s in SKIP_DIRS): continue
     try: json.loads(p.read_text(encoding='utf-8'))
     except Exception as e: errors.append(f'JSON {p.relative_to(ROOT)}: {e}')
 for p in ROOT.rglob('*.yaml'):
+    if any(s in p.parts for s in SKIP_DIRS): continue
     try: yaml.safe_load(p.read_text(encoding='utf-8'))
     except Exception as e: errors.append(f'YAML {p.relative_to(ROOT)}: {e}')
 py_files=['telegram_common.py','telegram_router.py','telegram_notify.py','setup_project_profiles.py','save_execution_checkpoint.py','verify_project_routing.py','vso_git_sync.py','vso_execution_lease.py','verify_resume_safety.py','scan_placeholders.py','validate_operational_readiness.py','validate_product_alignment.py','preflight.py']

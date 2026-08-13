@@ -1,4 +1,4 @@
-activePhase: PHASE_00
+activePhase: PHASE_01
 queue:
 - id: P00-001
   title: Validate required files and paths
@@ -32,3 +32,34 @@ queue:
   - P00-003
   - P00-004
   - P00-005
+
+- id: P01-001
+  title: Scaffold Next.js (TS strict) + Prisma + SQLite + Zod + Vitest + ESLint/Prettier app shell
+  status: COMPLETE
+  dependencies: []
+- id: P01-002
+  title: Define Prisma schema from DATA_MODEL.md (Phase 01 entities) + initial migration
+  status: COMPLETE
+  dependencies:
+  - P01-001
+- id: P01-003
+  title: Implement backup service (DAT-004) - backup before destructive migration/import
+  status: COMPLETE
+  dependencies:
+  - P01-001
+- id: P01-004
+  title: Write tests TEST-NFR-001 (cross-platform run), TEST-NFR-003 (strict TS), TEST-DAT-004
+  status: COMPLETE
+  dependencies:
+  - P01-002
+  - P01-003
+- id: P01-005
+  title: Run preflight --completion + all tests + package/atlas validators
+  status: COMPLETE
+  dependencies:
+  - P01-004
+- id: P01-006
+  title: Update tracking files + EXECUTION_STATE.json + write PHASE_01_REPORT.md
+  status: COMPLETE
+  dependencies:
+  - P01-005

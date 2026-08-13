@@ -1,0 +1,42 @@
+/* VSO design tokens — derived from 03-ux-design/DESIGN_TOKENS.md.
+   Centralized CSS custom properties consumed by the app shell and screens. */
+:root {
+  /* Brand */
+  --vso-bg: #0b0e14;
+  --vso-surface: #121722;
+  --vso-surface-2: #1a2230;
+  --vso-border: #232c3d;
+  --vso-text: #e6e9ef;
+  --vso-text-muted: #9aa6b8;
+  --vso-primary: #4f8cff;
+  --vso-primary-contrast: #ffffff;
+
+  /* Health/status palette (mirrors ProjectHealth enum) */
+  --vso-healthy: #2ecc71;
+  --vso-attention: #f1c40f;
+  --vso-at-risk: #e67e22;
+  --vso-blocked: #e74c3c;
+
+  /* Spacing scale */
+  --vso-space-1: 4px;
+  --vso-space-2: 8px;
+  --vso-space-3: 12px;
+  --vso-space-4: 16px;
+  --vso-space-6: 24px;
+  --vso-space-8: 32px;
+
+  /* Radius + shadow */
+  --vso-radius: 10px;
+  --vso-shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 4px 16px rgba(0, 0, 0, 0.25);
+
+  --vso-font: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--vso-bg);
+  color: var(--vso-text);
+  font-family: var(--vso-font);
+}

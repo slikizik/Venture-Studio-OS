@@ -39,14 +39,14 @@ ENV-004,Display visible environment identity in non-production builds,7,Applicat
 DAT-001,Export a complete project as a versioned package,8,Import export service,TEST-DAT-001,PENDING,NOT_STARTED
 DAT-002,Import a compatible project package transactionally,8,Import export service,TEST-DAT-002,PENDING,NOT_STARTED
 DAT-003,Reject invalid or unsupported import packages safely,8,Import export service,TEST-DAT-003,PENDING,NOT_STARTED
-DAT-004,Create backups before destructive migrations and imports,1,Backup service,TEST-DAT-004,PENDING,NOT_STARTED
+DAT-004,Create backups before destructive migrations and imports,1,Backup service,TEST-DAT-004,app/src/__tests__/dat004-backup.test.ts (4/4 PASS),PASS
 DAT-005,Restore a verified backup with integrity checks,8,Recovery service,TEST-DAT-005,PENDING,NOT_STARTED
 ATT-001,Attach files links notes test results and artifacts,4,Evidence service,TEST-ATT-001,PENDING,NOT_STARTED
 ATT-002,Sanitize filenames validate size and preserve checksums,4,File service,TEST-ATT-002,PENDING,NOT_STARTED
 AUD-001,Record required append-only audit events,2,Activity service,TEST-AUD-001,PENDING,NOT_STARTED
-NFR-001,Application must run locally on Windows 11 and Ubuntu LTS,1,Platform,TEST-NFR-001,PENDING,NOT_STARTED
+NFR-001,Application must run locally on Windows 11 and Ubuntu LTS,1,Platform,TEST-NFR-001,app/src/__tests__/nfr001-run.test.ts (build+serve 200),PASS
 NFR-002,All persisted data must survive application restart,8,Persistence,TEST-NFR-002,PENDING,NOT_STARTED
-NFR-003,TypeScript strict mode must pass without errors,1,Code quality,TEST-NFR-003,PENDING,NOT_STARTED
+NFR-003,TypeScript strict mode must pass without errors,1,Code quality,TEST-NFR-003,app/src/__tests__/nfr003-strict-ts.test.ts (tsc strict 0 errors),PASS
 NFR-004,Core pages must meet WCAG 2.1 AA keyboard and contrast expectations,8,Accessibility,TEST-NFR-004,PENDING,NOT_STARTED
 NFR-005,Primary list and dashboard actions should respond within two seconds at MVP data volume,8,Performance,TEST-NFR-005,PENDING,NOT_STARTED
 NFR-006,Rendered Markdown and user text must be sanitized,8,Security,TEST-NFR-006,PENDING,NOT_STARTED

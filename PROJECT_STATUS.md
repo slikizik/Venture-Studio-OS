@@ -4,13 +4,13 @@
 |---|---|
 | Specification baseline | v1.7.0 — Product Alignment Baseline |
 | Target application | v0.1.0 |
-| Current phase | Phase 00 — Validation (complete) |
+| Current phase | Phase 01 — Foundation (complete) |
 | Phase status | COMPLETE |
 | Product alignment | APPROVED |
 | Architecture | FROZEN_FOR_MVP after successful Phase 00 |
 | SEVL milestone | Required by end of Phase 05 |
-| Implementation code | Not started |
-| Open blockers | None — Phase 01 READY |
+| Implementation code | Phase 01 Foundation complete; Phase 02 READY |
+| Open blockers | None — Phase 02 READY |
 | Primary owner instructions | `docs/OWNER_RUNBOOK.md` |
 | Supporting build guide | `docs/OWNER_BUILD_GUIDE.md` |
 | Bootstrap prompt | `09-hermes/prompts/BOOTSTRAP_PROMPT.md` |

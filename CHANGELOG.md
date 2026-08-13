@@ -1,3 +1,12 @@
+## 1.7.0 — Phase 01 foundation complete (2026-08-13)
+
+- Phase 01 (Foundation) implemented and verified: Next.js 16 (App Router, TypeScript strict) application shell under `app/`, Prisma schema from `DATA_MODEL.md` with initial SQLite migration, Zod validation layer, and a live-DB dashboard page.
+- Implemented DAT-004 backup-before-destructive service (`app/src/lib/backup.ts`) + CLI; destructive operations are refused if the backup fails.
+- Added passing tests for the three normative Phase 01 requirements: TEST-NFR-001 (real production build + serve returns HTTP 200), TEST-NFR-003 (`tsc --noEmit` strict passes with no `any`), TEST-DAT-004 (4/4 cases).
+- Pinned Prisma to 6.19.3 (VSO-DEC-001 / VSO-ASM-002): Prisma 7.x's adapter API is not reliably resolvable on the local toolchain; 6.x is the same ORM and satisfies the mandate.
+- Updated `scripts/validate_package.py` to skip `node_modules`/`.next` in JSON/YAML scans (now tolerates the new `app/` subtree).
+- Verification: preflight `--completion` READY; 7/7 Vitest tests pass; ESLint 0 errors; `validate_package.py` PASS (architecture atlas 23 views, telegram + git unit tests). Phase 02 marked READY.
+
 # Changelog
 
 ## 1.7.0 — Phase 00 validation complete (2026-08-13)
