@@ -5,7 +5,7 @@
   "currentPhase": "PHASE_01",
   "currentWorkPacket": null,
   "lastCheckpointAt": null,
-  "lastSuccessfulAction": "Phase 01 Foundation complete: Next.js+Prisma+SQLite+Zod+Vitest shell, DAT-004 backup service, NFR-001/NFR-003/DAT-004 tests passing; PHASE_02 READY",
+  "lastSuccessfulAction": "Phase 01 Foundation complete (spec baseline v1.7.0): Next.js+Prisma+SQLite+Zod+Vitest shell, DAT-004 backup service, NFR-001/NFR-003/DAT-004 tests passing; PHASE_02 READY",
   "resumeInstruction": "Run Phase 00 using 09-hermes/prompts/BOOTSTRAP_PROMPT.md",
   "safeToResume": true,
   "git": {
