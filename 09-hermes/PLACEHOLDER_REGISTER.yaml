@@ -10,7 +10,9 @@ placeholders:
     mustBeResolvedBy: PHASE_00
     blockingLevel: PHASE
     validation: APPROVED_VERSIONS.yaml status must become VERIFIED and required version fields must be non-null.
-    status: OPEN
+    resolvedAt: 2026-08-13T14:54:33Z
+    resolution: Phase 00 verified current stable versions from official npm/Node sources and recorded them in 04-architecture/APPROVED_VERSIONS.yaml (status VERIFIED, all version fields non-null). No application stack installed.
+    status: RESOLVED
 
   - id: PH-002
     class: CONFIGURATION

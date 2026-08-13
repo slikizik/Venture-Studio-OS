@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.7.0 — Phase 00 validation complete (2026-08-13)
+
+- Phase 00 (Specification and Runtime-Control Validation) passed with no blocking specification issues.
+- Resolved PH-001: verified current mutually-compatible stable tool versions from official npm/Node sources and recorded them in `04-architecture/APPROVED_VERSIONS.yaml` (status VERIFIED).
+- Validated all required paths, 70 requirement IDs (no duplicates), traceability coverage, acceptance/test-ID mapping, JSON/YAML/CSV syntax, Python compile of all scripts, Telegram fail-closed unit tests, project routing, package structure, and Architecture Atlas (23 views, no diagram/spec contradictions).
+- Product Alignment Gate result: APPROVED. Phase 01 marked READY.
+- Updated `PROJECT_STATUS.md`, `BUILD_MANIFEST.yaml`, `09-hermes/EXECUTION_QUEUE.yaml`, `09-hermes/HERMES_ACTIVITY_LOG.md`, `09-hermes/ASSUMPTION_LOG.md`.
+
+
 ## 1.7.0 — Product Alignment Baseline
 
 - Reframed VSO explicitly as an AI Product Development Operating System for commercial-quality output with governed autonomy and low owner-attention cost.

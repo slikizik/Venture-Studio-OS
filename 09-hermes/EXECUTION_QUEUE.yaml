@@ -2,31 +2,31 @@ activePhase: PHASE_00
 queue:
 - id: P00-001
   title: Validate required files and paths
-  status: READY
+  status: COMPLETE
   dependencies: []
 - id: P00-002
   title: Validate requirements and traceability completeness
-  status: NOT_STARTED
+  status: COMPLETE
   dependencies:
   - P00-001
 - id: P00-003
   title: Validate data model and workflow state consistency
-  status: NOT_STARTED
+  status: COMPLETE
   dependencies:
   - P00-001
 - id: P00-004
   title: Validate screen contracts templates and tests
-  status: NOT_STARTED
+  status: COMPLETE
   dependencies:
   - P00-001
 - id: P00-005
   title: Verify compatible tool versions and update APPROVED_VERSIONS.yaml
-  status: NOT_STARTED
+  status: COMPLETE
   dependencies:
   - P00-001
 - id: P00-006
   title: Create Phase 00 readiness report
-  status: NOT_STARTED
+  status: COMPLETE
   dependencies:
   - P00-002
   - P00-003
