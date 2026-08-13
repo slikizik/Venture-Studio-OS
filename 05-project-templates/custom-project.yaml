@@ -1,0 +1,94 @@
+schemaVersion: 1
+templateVersion: 1.0.0
+id: custom-project
+name: Custom Project
+requiredBrainSections:
+- VISION
+- AUDIENCE
+- PROBLEM
+- OUTCOMES
+- CONSTRAINTS
+- NON_GOALS
+- SUCCESS_METRICS
+stages:
+- id: definition
+  name: Definition
+  order: 1
+  entryCriteria: []
+  exitCriteria:
+  - definition-outputs-approved
+  defaultDeliverables:
+  - id: project-brief
+    type: project-brief
+    title: Project Brief
+    required: true
+    weight: 1
+- id: planning
+  name: Planning
+  order: 2
+  entryCriteria: []
+  exitCriteria:
+  - planning-outputs-approved
+  defaultDeliverables:
+  - id: plan
+    type: plan
+    title: Plan
+    required: true
+    weight: 1
+- id: production
+  name: Production
+  order: 3
+  entryCriteria: []
+  exitCriteria:
+  - production-outputs-approved
+  defaultDeliverables:
+  - id: primary-output
+    type: primary-output
+    title: Primary Output
+    required: true
+    weight: 1
+- id: review
+  name: Review
+  order: 4
+  entryCriteria: []
+  exitCriteria:
+  - review-outputs-approved
+  defaultDeliverables:
+  - id: review-record
+    type: review-record
+    title: Review Record
+    required: true
+    weight: 1
+- id: release
+  name: Release
+  order: 5
+  entryCriteria: []
+  exitCriteria:
+  - release-outputs-approved
+  defaultDeliverables:
+  - id: release-package
+    type: release-package
+    title: Release Package
+    required: true
+    weight: 1
+qualityGates:
+- id: definition-approved
+  stage: definition
+  requiredEvidence:
+  - definition-approval-record
+- id: planning-approved
+  stage: planning
+  requiredEvidence:
+  - planning-approval-record
+- id: production-approved
+  stage: production
+  requiredEvidence:
+  - production-approval-record
+- id: review-approved
+  stage: review
+  requiredEvidence:
+  - review-approval-record
+- id: release-approved
+  stage: release
+  requiredEvidence:
+  - release-approval-record

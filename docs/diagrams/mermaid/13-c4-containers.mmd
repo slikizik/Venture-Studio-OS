@@ -1,0 +1,14 @@
+flowchart TB
+  Owner[Owner Browser] --> Web[VSO Web Application
+Next.js / TypeScript]
+  Web --> DB[(SQLite)]
+  Web --> Files[Project file/evidence storage]
+  Web --> Domain[Application + Domain Modules]
+  Telegram[Telegram Bot] --> Router[Fail-closed Control Router]
+  Router --> Control[Governance + per-project queues]
+  Control --> Hermes[Hermes CLI Profiles]
+  Control --> State[Execution state + decision logs]
+  Hermes --> Repo[Git working repository]
+  Domain --> DB
+  Domain --> Files
+  Repo <--> Remote[(Private Git Remote + lease refs)]

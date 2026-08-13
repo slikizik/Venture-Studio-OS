@@ -1,0 +1,20 @@
+version: 1
+conditions:
+  directionRequired:
+    - material_requirement_conflict
+    - scope_expansion_required
+    - architecture_change_required
+    - destructive_data_change
+    - legal_or_commercial_choice
+    - major_ux_choice_unspecified
+    - credentials_or_paid_service_required
+  criticalStop:
+    - possible_secret_exposure
+    - possible_repository_corruption
+    - uncontrolled_data_loss
+    - security_boundary_breach
+behavior:
+  blockAffectedWorkOnly: true
+  continueUnaffectedWork: true
+  createDirectionRequest: true
+  updateProjectStatus: true

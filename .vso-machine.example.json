@@ -1,0 +1,4 @@
+{
+  "machineId": "windows-main",
+  "notes": "Copy this to .vso-machine.local.json on each workstation and give each machine a unique machineId. The local file is never committed."
+}

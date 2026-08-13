@@ -1,0 +1,13 @@
+flowchart TB
+  Owner[Owner] --> UI[VSO Interface]
+  UI --> PM[Project Manager]
+  UI --> Brain[Project Brain]
+  UI --> Work[Deliverables and Work Packets]
+  UI --> Gov[Reviews, Decisions, Risks, Quality Gates]
+  UI --> Agents[Agent Execution]
+  UI --> Versions[Versions and Releases]
+  Agents --> Hermes[Hermes / AI Agents]
+  Work --> Gov
+  Brain --> Work
+  PM --> Brain
+  Gov --> Versions

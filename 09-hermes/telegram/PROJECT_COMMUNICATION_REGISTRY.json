@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 2,
+  "telegram": {
+    "botTokenEnv": "TELEGRAM_BOT_TOKEN",
+    "pollTimeoutSeconds": 30,
+    "allowedUserIds": [],
+    "defaultNotificationLevels": [
+      "ATTENTION",
+      "DIRECTION_REQUIRED",
+      "CRITICAL"
+    ],
+    "authorizationMode": "deny_all_unless_listed",
+    "workerQueueMaxPerProject": 25,
+    "hermesTimeoutSeconds": 1800
+  },
+  "projects": {
+    "VSO": {
+      "name": "Venture Studio OS",
+      "enabled": false,
+      "hermesProfile": "vso",
+      "repository": ".",
+      "telegram": {
+        "chatId": 0,
+        "topicId": 0
+      },
+      "sessionTitle": "VSO Control Session",
+      "directionRequestDirectory": "09-hermes/direction-requests",
+      "directionResponseDirectory": "09-hermes/direction-responses",
+      "decisionLog": "09-hermes/DECISION_LOG.md",
+      "executionState": "09-hermes/EXECUTION_STATE.json",
+      "executionMode": "governed_worker",
+      "leaseProjectId": "VSO"
+    }
+  }
+}

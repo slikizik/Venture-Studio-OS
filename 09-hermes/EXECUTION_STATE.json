@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "projectId": "VSO",
+  "status": "idle",
+  "currentPhase": "PHASE_00",
+  "currentWorkPacket": null,
+  "lastCheckpointAt": null,
+  "lastSuccessfulAction": "Specification package v1.7.0 Product Alignment Baseline prepared for Phase 00 validation",
+  "resumeInstruction": "Run Phase 00 using 09-hermes/prompts/BOOTSTRAP_PROMPT.md",
+  "safeToResume": true,
+  "git": {
+    "branch": null,
+    "commit": null,
+    "dirty": false
+  },
+  "lastError": null
+}

@@ -1,0 +1,18 @@
+flowchart LR
+  UI[Presentation] --> Projects[Projects]
+  UI --> Brain[Project Brain]
+  UI --> Templates[Templates / Stages]
+  UI --> Deliverables[Deliverables]
+  UI --> Packets[Work Packets]
+  UI --> Reviews[Reviews / Approvals]
+  UI --> Decisions[Decisions / Risks]
+  UI --> Versions[Versions / Dashboards]
+  Projects --> Brain
+  Templates --> Projects
+  Projects --> Deliverables
+  Deliverables --> Packets
+  Packets --> Reviews
+  Reviews --> Decisions
+  Deliverables --> Versions
+  Decisions --> Versions
+  Versions --> Persistence[(Persistence + validation + logging)]

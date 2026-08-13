@@ -1,0 +1,9 @@
+flowchart TD
+  Issue[Hermes encounters issue] --> Safe{Can resolve safely within approved rules?}
+  Safe -->|Yes| Resolve[Resolve, test, log] --> Continue[Continue work]
+  Safe -->|No| Request[Create DIRECTION_REQUIRED file]
+  Request --> Notify[Notify owner: VSO UI / Telegram]
+  Notify --> Decision[Owner selects direction]
+  Decision --> Persist[Persist OWNER_RESPONSE + Decision Log]
+  Persist --> Resume[Resume affected work]
+  Request --> Other[Continue unaffected approved work]

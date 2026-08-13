@@ -1,0 +1,127 @@
+schemaVersion: 1
+templateVersion: 1.0.0
+id: creative-project
+name: Creative Product
+requiredBrainSections:
+- VISION
+- AUDIENCE
+- PROBLEM
+- OUTCOMES
+- CONSTRAINTS
+- NON_GOALS
+- SUCCESS_METRICS
+stages:
+- id: concept
+  name: Concept
+  order: 1
+  entryCriteria: []
+  exitCriteria:
+  - concept-outputs-approved
+  defaultDeliverables:
+  - id: creative-brief
+    type: creative-brief
+    title: Creative Brief
+    required: true
+    weight: 1
+- id: references
+  name: References
+  order: 2
+  entryCriteria: []
+  exitCriteria:
+  - references-outputs-approved
+  defaultDeliverables:
+  - id: design-system
+    type: design-system
+    title: Design System
+    required: true
+    weight: 1
+- id: design
+  name: Design
+  order: 3
+  entryCriteria: []
+  exitCriteria:
+  - design-outputs-approved
+  defaultDeliverables:
+  - id: draft
+    type: draft
+    title: Draft
+    required: true
+    weight: 1
+- id: production
+  name: Production
+  order: 4
+  entryCriteria: []
+  exitCriteria:
+  - production-outputs-approved
+  defaultDeliverables:
+  - id: final-artifact
+    type: final-artifact
+    title: Final Artifact
+    required: true
+    weight: 1
+- id: review
+  name: Review
+  order: 5
+  entryCriteria: []
+  exitCriteria:
+  - review-outputs-approved
+  defaultDeliverables:
+  - id: release-package
+    type: release-package
+    title: Release Package
+    required: true
+    weight: 1
+- id: packaging
+  name: Packaging
+  order: 6
+  entryCriteria: []
+  exitCriteria:
+  - packaging-outputs-approved
+  defaultDeliverables: []
+- id: release
+  name: Release
+  order: 7
+  entryCriteria: []
+  exitCriteria:
+  - release-outputs-approved
+  defaultDeliverables: []
+- id: promotion
+  name: Promotion
+  order: 8
+  entryCriteria: []
+  exitCriteria:
+  - promotion-outputs-approved
+  defaultDeliverables: []
+qualityGates:
+- id: concept-approved
+  stage: concept
+  requiredEvidence:
+  - concept-approval-record
+- id: references-approved
+  stage: references
+  requiredEvidence:
+  - references-approval-record
+- id: design-approved
+  stage: design
+  requiredEvidence:
+  - design-approval-record
+- id: production-approved
+  stage: production
+  requiredEvidence:
+  - production-approval-record
+- id: review-approved
+  stage: review
+  requiredEvidence:
+  - review-approval-record
+- id: packaging-approved
+  stage: packaging
+  requiredEvidence:
+  - packaging-approval-record
+- id: release-approved
+  stage: release
+  requiredEvidence:
+  - release-approval-record
+- id: promotion-approved
+  stage: promotion
+  requiredEvidence:
+  - promotion-approval-record

@@ -1,0 +1,17 @@
+version: 1
+environments:
+  - id: verified-main
+    purpose: Latest verified official development instance
+    branch: main
+    worktree: null
+    port: 3000
+    database: runtime/main/database
+    storage: runtime/main/storage
+    logs: runtime/main/logs
+    status: not_created
+allocationRules:
+  firstFeaturePort: 3001
+  portIncrement: 1
+  isolateDatabase: true
+  isolateStorage: true
+  showEnvironmentBanner: true

@@ -1,0 +1,12 @@
+flowchart TB
+  Router[Telegram / Operator Router] --> Registry[Deterministic Registry]
+  Registry --> Governance[Governed command validation]
+  Governance --> QA[Project A serialized queue]
+  Governance --> QB[Project B serialized queue]
+  Governance --> QC[Project C serialized queue]
+  QA --> A[Hermes profile A → Repository A]
+  QB --> B[Hermes profile B → Repository B]
+  QC --> C[Hermes profile C → Repository C]
+  A --> EA[Runtime A: branch/worktree/port/database]
+  B --> EB[Runtime B: branch/worktree/port/database]
+  C --> EC[Runtime C: branch/worktree/port/database]

@@ -1,0 +1,25 @@
+@startuml
+title Venture Studio OS — Cross-Workstation Deployment
+actor Owner
+cloud "Private Git Remote" as Git
+cloud "AI Provider" as AI
+cloud "Telegram" as TG
+node "Windows PC" as Win {
+  component "VSO" as WV
+  component "Hermes profile" as WH
+  folder "Local secrets / machine config" as WS
+}
+node "Linux PC" as Lin {
+  component "VSO" as LV
+  component "Hermes profile" as LH
+  folder "Local secrets / machine config" as LS
+}
+WV <--> Git
+LV <--> Git
+WH --> AI
+LH --> AI
+Owner <--> TG
+TG --> WH : single active router example
+WS ..> WV : local only
+LS ..> LV : local only
+@enduml

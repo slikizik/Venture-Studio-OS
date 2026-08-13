@@ -1,0 +1,30 @@
+@startuml
+top to bottom direction
+skinparam componentStyle rectangle
+actor "Project Owner" as Owner
+cloud "Telegram Bot" as Telegram
+rectangle "VSO Runtime" {
+  component "Web Application
+Next.js / TypeScript" as Web
+  database "SQLite" as DB
+  folder "Project Files / Evidence" as Files
+  component "Application + Domain Modules" as Domain
+  component "Fail-closed Telegram Router" as Router
+  component "Governance + Per-project Worker Queues" as Control
+  component "Hermes CLI Profiles" as Hermes
+  artifact "Execution State + Decision Logs" as State
+  folder "Git Working Repository" as Repo
+}
+cloud "Private Git Remote
++ execution lease refs" as Remote
+Owner --> Web
+Telegram --> Router
+Router --> Control
+Control --> Hermes
+Control --> State
+Web --> Domain
+Domain --> DB
+Domain --> Files
+Hermes --> Repo
+Repo <--> Remote
+@enduml

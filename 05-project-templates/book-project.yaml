@@ -1,0 +1,148 @@
+schemaVersion: 1
+templateVersion: 1.0.0
+id: book-project
+name: Book and Publishing
+requiredBrainSections:
+- VISION
+- AUDIENCE
+- PROBLEM
+- OUTCOMES
+- CONSTRAINTS
+- NON_GOALS
+- SUCCESS_METRICS
+stages:
+- id: concept
+  name: Concept
+  order: 1
+  entryCriteria: []
+  exitCriteria:
+  - concept-outputs-approved
+  defaultDeliverables:
+  - id: manuscript
+    type: manuscript
+    title: Manuscript
+    required: true
+    weight: 1
+- id: research
+  name: Research
+  order: 2
+  entryCriteria: []
+  exitCriteria:
+  - research-outputs-approved
+  defaultDeliverables:
+  - id: character-bible
+    type: character-bible
+    title: Character Bible
+    required: true
+    weight: 1
+- id: outline
+  name: Outline
+  order: 3
+  entryCriteria: []
+  exitCriteria:
+  - outline-outputs-approved
+  defaultDeliverables:
+  - id: illustration
+    type: illustration
+    title: Illustration
+    required: true
+    weight: 1
+- id: manuscript
+  name: Manuscript
+  order: 4
+  entryCriteria: []
+  exitCriteria:
+  - manuscript-outputs-approved
+  defaultDeliverables:
+  - id: cover
+    type: cover
+    title: Cover
+    required: true
+    weight: 1
+- id: editing
+  name: Editing
+  order: 5
+  entryCriteria: []
+  exitCriteria:
+  - editing-outputs-approved
+  defaultDeliverables:
+  - id: print-pdf
+    type: print-pdf
+    title: Print Pdf
+    required: true
+    weight: 1
+- id: illustration
+  name: Illustration
+  order: 6
+  entryCriteria: []
+  exitCriteria:
+  - illustration-outputs-approved
+  defaultDeliverables:
+  - id: ebook
+    type: ebook
+    title: Ebook
+    required: true
+    weight: 1
+- id: layout
+  name: Layout
+  order: 7
+  entryCriteria: []
+  exitCriteria:
+  - layout-outputs-approved
+  defaultDeliverables:
+  - id: product-listing
+    type: product-listing
+    title: Product Listing
+    required: true
+    weight: 1
+- id: publication
+  name: Publication
+  order: 8
+  entryCriteria: []
+  exitCriteria:
+  - publication-outputs-approved
+  defaultDeliverables: []
+- id: marketing
+  name: Marketing
+  order: 9
+  entryCriteria: []
+  exitCriteria:
+  - marketing-outputs-approved
+  defaultDeliverables: []
+qualityGates:
+- id: concept-approved
+  stage: concept
+  requiredEvidence:
+  - concept-approval-record
+- id: research-approved
+  stage: research
+  requiredEvidence:
+  - research-approval-record
+- id: outline-approved
+  stage: outline
+  requiredEvidence:
+  - outline-approval-record
+- id: manuscript-approved
+  stage: manuscript
+  requiredEvidence:
+  - manuscript-approval-record
+- id: editing-approved
+  stage: editing
+  requiredEvidence:
+  - editing-approval-record
+- id: illustration-approved
+  stage: illustration
+  requiredEvidence:
+  - illustration-approval-record
+- id: layout-approved
+  stage: layout
+  requiredEvidence:
+  - layout-approval-record
+- id: publication-approved
+  stage: publication
+  requiredEvidence:
+  - publication-approval-record
+- id: marketing-approved
+  stage: marketing
+  requiredEvidence:
+  - marketing-approval-record

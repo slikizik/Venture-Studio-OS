@@ -1,0 +1,8 @@
+flowchart LR
+  Owner[Owner: intent, priorities, consequential decisions] --> VSO[VSO governance]
+  VSO --> Queue[Approved execution queue]
+  Queue --> Agent[Hermes / Agent]
+  Agent --> Result[Work + tests + evidence]
+  Result --> Review[Review / quality gate]
+  Review -->|Pass| Next[Continue]
+  Review -->|Needs owner choice| Owner

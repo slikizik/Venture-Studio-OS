@@ -1,0 +1,62 @@
+# Functional Requirements
+
+- **PRJ-001** — Create a project from a built-in or custom template.
+- **PRJ-002** — Edit project metadata and Project Brain.
+- **PRJ-003** — Archive and restore a project without data loss.
+- **PRJ-004** — Search sort and filter projects.
+- **PRJ-005** — Calculate and display project phase progress health risks and blockers.
+- **DEL-001** — Create edit reorder archive and restore deliverables.
+- **DEL-002** — Support validated parent-child hierarchy.
+- **DEL-003** — Store status owner due date dependencies criteria and versions.
+- **WPK-001** — Create work packet linked to a project and optional deliverable.
+- **WPK-002** — Store complete work packet specification evidence status and assignee.
+- **WPK-003** — Submit versioned work for review.
+- **REV-001** — Create criterion-based review records.
+- **REV-002** — Approve reject or request revision under transition rules.
+- **REV-003** — Preserve immutable review comments and history.
+- **TPL-001** — Load and validate built-in project templates.
+- **TPL-002** — Create stages deliverables brain sections and gates from a template.
+- **TPL-003** — Create and version custom templates.
+- **GOV-001** — Create immutable decision records.
+- **GOV-002** — Record and manage risks.
+- **GOV-003** — Record project versions and change summaries.
+- **DSH-001** — Display portfolio dashboard metrics.
+- **DSH-002** — Display project dashboard.
+- **DSH-003** — Display pending reviews blockers risks recent decisions and progress.
+- **AGT-001** — Store generic agent records capabilities provider model autonomy and status.
+- **AGT-002** — Maintain ordered execution queue with dependencies and evidence.
+- **AGT-003** — Record append-only agent activity and outcomes.
+- **EXC-001** — Classify recoverable assumptions direction-required and critical issues.
+- **EXC-002** — Create formal direction requests.
+- **EXC-003** — Continue unaffected work while an item is blocked.
+- **EXC-004** — Record owner decisions and resume blocked work.
+- **VER-001** — Present understandable project version labels.
+- **VER-002** — Record official development test and released versions.
+- **VER-003** — Record comparison approval merge readiness and release status.
+- **ENV-001** — Register isolated software development environments.
+- **ENV-002** — Record branch worktree port database storage logs and status.
+- **ENV-003** — Prevent runtime data sharing between isolated environments.
+- **ENV-004** — Display visible environment identity in non-production builds.
+- **DAT-001** — Export a complete project as a versioned package.
+- **DAT-002** — Import a compatible project package transactionally.
+- **DAT-003** — Reject invalid or unsupported import packages safely.
+- **DAT-004** — Create backups before destructive migrations and imports.
+- **DAT-005** — Restore a verified backup with integrity checks.
+- **ATT-001** — Attach files links notes test results and artifacts.
+- **ATT-002** — Sanitize filenames validate size and preserve checksums.
+- **AUD-001** — Record required append-only audit events.
+- **INT-001** — Capture and approve a plain-language Project Intent Brief with outcome audience constraints success measures commercial target and priorities.
+- **INT-002** — Create and approve a project benchmark brief with target dimensions differentiators and intentional omissions.
+- **DSG-001** — Trace approved intent into requirements and acceptance criteria without silently changing owner intent.
+- **DSG-002** — Map requirements to deliverables dependencies and executable work packets with explicit exclusions and evidence expectations.
+- **QLT-001** — Create and version a project Quality Profile with project-type quality dimensions and target levels.
+- **QLT-002** — Evaluate work packet deliverable stage and release quality gates using retained evidence.
+- **QLT-003** — Record benchmark gaps and show whether mandatory commercial targets are met or explicitly accepted.
+- **QLT-004** — Distinguish technically ready from commercially ready release states.
+- **LRN-001** — Capture learning records from defects feedback tests benchmarks usability commercial insights agent failures and retrospectives.
+- **LRN-002** — Convert assessed learning into controlled change requests requirements or backlog without silently expanding scope.
+- **AUT-001** — Calculate autonomy rate and first-pass acceptance from auditable execution and review records.
+- **AUT-002** — Record and display owner attention time without suppressing required escalations.
+- **AUT-003** — Record escalation quality and identify unnecessary escalation events.
+- **AUT-004** — Calculate autonomous recovery rate from classified recoverable execution incidents.
+- **SEVL-001** — Complete one persisted end-to-end Smallest Executable VSO Loop from intent through learning with evidence and review.

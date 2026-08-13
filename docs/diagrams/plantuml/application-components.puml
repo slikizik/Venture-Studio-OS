@@ -1,0 +1,17 @@
+@startuml
+title Venture Studio OS — Application Components
+package "Modular Monolith" {
+  [Projects] --> [Project Brain]
+  [Templates / Stages] --> [Projects]
+  [Projects] --> [Deliverables]
+  [Deliverables] --> [Work Packets]
+  [Work Packets] --> [Reviews / Approvals]
+  [Reviews / Approvals] --> [Decisions / Risks]
+  [Deliverables] --> [Versions / Dashboards]
+  [Decisions / Risks] --> [Versions / Dashboards]
+}
+database "Persistence" as DB
+[Projects] --> DB
+[Work Packets] --> DB
+[Reviews / Approvals] --> DB
+@enduml

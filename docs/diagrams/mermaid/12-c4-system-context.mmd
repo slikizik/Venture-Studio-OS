@@ -1,0 +1,13 @@
+flowchart LR
+  Owner[Person: Project Owner]
+  VSO[System: Venture Studio OS]
+  Hermes[External: Hermes Agent]
+  Telegram[External: Telegram]
+  Git[External: Private Git Remote]
+  Models[External: AI Model Providers]
+  Owner -->|Creates, reviews, decides| VSO
+  Owner <-->|Remote notifications / decisions| Telegram
+  VSO -->|Structured work and control| Hermes
+  Hermes -->|Model requests| Models
+  VSO <-->|Version sync / handoff| Git
+  Telegram -->|Validated owner input| VSO

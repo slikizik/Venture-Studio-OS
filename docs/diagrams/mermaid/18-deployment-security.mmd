@@ -1,0 +1,25 @@
+flowchart TB
+  Owner[Owner] --> TG[Telegram]
+  subgraph Cloud[External services]
+    Remote[(Private Git Remote)]
+    Provider[AI Provider]
+    TG
+  end
+  subgraph Win[Windows workstation]
+    WinVSO[VSO repo + app]
+    WinHermes[Hermes profile]
+    WinSecrets[Local secrets / machine config]
+  end
+  subgraph Lin[Linux workstation]
+    LinVSO[VSO repo + app]
+    LinHermes[Hermes profile]
+    LinSecrets[Local secrets / machine config]
+  end
+  WinVSO <--> Remote
+  LinVSO <--> Remote
+  WinHermes --> Provider
+  LinHermes --> Provider
+  TG --> Router[Single active Telegram router]
+  Router --> WinHermes
+  WinSecrets -. not committed .-> WinVSO
+  LinSecrets -. not committed .-> LinVSO

@@ -1,0 +1,10 @@
+flowchart LR
+    O[Owner intent] --> I[Intent Engine]
+    I --> D[Design Engine]
+    D --> E[Execution Engine]
+    E --> Q[Quality Engine]
+    Q --> R[Release / accepted outcome]
+    R --> L[Learning Engine]
+    L --> I
+    E --> A[Hermes and other agents]
+    Q --> O

@@ -1,0 +1,11 @@
+flowchart LR
+  Owner[Owner phone] <--> Bot[One Telegram Bot]
+  Bot <--> Router[Fail-closed Telegram Router]
+  Router --> Auth[Allowlist + exact topic routing]
+  Auth --> Governance[VSO Governance Control]
+  Governance --> Persist[Direction response + decision log]
+  Governance --> QA[Per-project serialized queues]
+  QA --> VSO[VSO worker → vso profile → VSO repo]
+  Governance --> QB[Project B queue]
+  QB --> P2[Project B worker → profile B → repo B]
+  Router -. rejects .-> Free[Free-form execution]

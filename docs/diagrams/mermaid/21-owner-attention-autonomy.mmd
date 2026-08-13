@@ -1,0 +1,9 @@
+flowchart TD
+    A[Approved work queue] --> X[Agents execute]
+    X --> C{Can VSO resolve safely?}
+    C -->|Yes| X
+    C -->|No| D[Concise direction request]
+    D --> O[Owner decision remotely or in VSO]
+    O --> X
+    X --> E[Evidence + quality]
+    E --> M[Autonomy / attention metrics]

@@ -1,0 +1,8 @@
+flowchart TD
+  Draft --> Ready --> InProgress[In Progress] --> Submitted --> InReview[In Review]
+  InReview -->|Approved| Approved
+  InReview -->|Revision requested| Revision[Revision Requested]
+  Revision --> NewVersion[Create new version] --> InProgress
+  InReview -->|Rejected| Rejected
+  Draft -->|Cancel| Cancelled
+  Ready -->|Cancel| Cancelled

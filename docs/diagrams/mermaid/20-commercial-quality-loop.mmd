@@ -1,0 +1,10 @@
+flowchart TD
+    B[Benchmark brief] --> P[Quality Profile]
+    P --> R[Requirements and criteria]
+    R --> W[Work + evidence]
+    W --> G[Quality gates]
+    G -->|Revision required| W
+    G --> T[Technically ready]
+    T --> C[Commercial review]
+    C -->|Gaps| R
+    C -->|Targets met / accepted risk| CR[Commercially ready]

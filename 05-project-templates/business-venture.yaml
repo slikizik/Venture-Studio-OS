@@ -1,0 +1,143 @@
+schemaVersion: 1
+templateVersion: 1.0.0
+id: business-venture
+name: Business Venture
+requiredBrainSections:
+- VISION
+- AUDIENCE
+- PROBLEM
+- OUTCOMES
+- CONSTRAINTS
+- NON_GOALS
+- SUCCESS_METRICS
+stages:
+- id: opportunity
+  name: Opportunity
+  order: 1
+  entryCriteria: []
+  exitCriteria:
+  - opportunity-outputs-approved
+  defaultDeliverables:
+  - id: opportunity-brief
+    type: opportunity-brief
+    title: Opportunity Brief
+    required: true
+    weight: 1
+- id: research
+  name: Research
+  order: 2
+  entryCriteria: []
+  exitCriteria:
+  - research-outputs-approved
+  defaultDeliverables:
+  - id: market-research
+    type: market-research
+    title: Market Research
+    required: true
+    weight: 1
+- id: business-model
+  name: Business Model
+  order: 3
+  entryCriteria: []
+  exitCriteria:
+  - business-model-outputs-approved
+  defaultDeliverables:
+  - id: business-model
+    type: business-model
+    title: Business Model
+    required: true
+    weight: 1
+- id: validation
+  name: Validation
+  order: 4
+  entryCriteria: []
+  exitCriteria:
+  - validation-outputs-approved
+  defaultDeliverables:
+  - id: financial-model
+    type: financial-model
+    title: Financial Model
+    required: true
+    weight: 1
+- id: financial-plan
+  name: Financial Plan
+  order: 5
+  entryCriteria: []
+  exitCriteria:
+  - financial-plan-outputs-approved
+  defaultDeliverables:
+  - id: operating-plan
+    type: operating-plan
+    title: Operating Plan
+    required: true
+    weight: 1
+- id: operations
+  name: Operations
+  order: 6
+  entryCriteria: []
+  exitCriteria:
+  - operations-outputs-approved
+  defaultDeliverables:
+  - id: pitch-deck
+    type: pitch-deck
+    title: Pitch Deck
+    required: true
+    weight: 1
+- id: funding
+  name: Funding
+  order: 7
+  entryCriteria: []
+  exitCriteria:
+  - funding-outputs-approved
+  defaultDeliverables: []
+- id: launch
+  name: Launch
+  order: 8
+  entryCriteria: []
+  exitCriteria:
+  - launch-outputs-approved
+  defaultDeliverables: []
+- id: growth
+  name: Growth
+  order: 9
+  entryCriteria: []
+  exitCriteria:
+  - growth-outputs-approved
+  defaultDeliverables: []
+qualityGates:
+- id: opportunity-approved
+  stage: opportunity
+  requiredEvidence:
+  - opportunity-approval-record
+- id: research-approved
+  stage: research
+  requiredEvidence:
+  - research-approval-record
+- id: business-model-approved
+  stage: business-model
+  requiredEvidence:
+  - business-model-approval-record
+- id: validation-approved
+  stage: validation
+  requiredEvidence:
+  - validation-approval-record
+- id: financial-plan-approved
+  stage: financial-plan
+  requiredEvidence:
+  - financial-plan-approval-record
+- id: operations-approved
+  stage: operations
+  requiredEvidence:
+  - operations-approval-record
+- id: funding-approved
+  stage: funding
+  requiredEvidence:
+  - funding-approval-record
+- id: launch-approved
+  stage: launch
+  requiredEvidence:
+  - launch-approval-record
+- id: growth-approved
+  stage: growth
+  requiredEvidence:
+  - growth-approval-record

@@ -1,0 +1,11 @@
+flowchart LR
+  A[PC A owns execution lease] --> WorkA[Work + checkpoint]
+  WorkA --> Handoff[Smart Git handoff]
+  Handoff --> ValidateA[Validate + fetch + commit + push]
+  ValidateA --> Release[Release remote execution lease]
+  Release --> Remote[(Private Git remote)]
+  Remote --> Resume[PC B: Smart Git resume]
+  Resume --> ValidateB[Clean check + fetch + ff-only + validation]
+  ValidateB --> Acquire[Acquire remote execution lease]
+  Acquire --> B[PC B: RESUME READY]
+  B --> WorkB[Continue work]

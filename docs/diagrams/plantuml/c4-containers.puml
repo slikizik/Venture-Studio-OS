@@ -1,0 +1,23 @@
+@startuml
+title Venture Studio OS — Container View
+actor Owner
+node "VSO Workstation" {
+  component "VSO Web App\nNext.js / TypeScript" as Web
+  component "Application + Domain Modules" as Domain
+  database "SQLite" as DB
+  folder "Project Files / Evidence" as Files
+  component "Telegram Router / Ops Scripts\nPython" as Router
+  component "Hermes CLI Profiles" as Hermes
+  folder "Execution State / Logs" as State
+  folder "Git Working Repository" as Repo
+}
+cloud "Private Git Remote" as Remote
+Owner --> Web
+Web --> Domain
+Domain --> DB
+Domain --> Files
+Router --> Hermes
+Router --> State
+Hermes --> Repo
+Repo <--> Remote
+@enduml

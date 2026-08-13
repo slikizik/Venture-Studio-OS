@@ -1,0 +1,15 @@
+flowchart LR
+    I[Project intent] --> R[Requirement + criterion]
+    R --> D[Deliverable]
+    D --> W[Work packet]
+    W --> A[Agent execution]
+    A --> E[Evidence]
+    E --> Q[Quality gate]
+    Q --> V[Review]
+    V --> O{Direction needed?}
+    O -->|Yes| H[Owner decision]
+    H --> V
+    O -->|No| P[Approve]
+    V --> P
+    P --> L[Learning record]
+    L --> N[Backlog / change / next iteration]

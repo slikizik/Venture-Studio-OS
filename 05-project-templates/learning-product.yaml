@@ -1,0 +1,143 @@
+schemaVersion: 1
+templateVersion: 1.0.0
+id: learning-product
+name: Learning Product
+requiredBrainSections:
+- VISION
+- AUDIENCE
+- PROBLEM
+- OUTCOMES
+- CONSTRAINTS
+- NON_GOALS
+- SUCCESS_METRICS
+stages:
+- id: learner-research
+  name: Learner Research
+  order: 1
+  entryCriteria: []
+  exitCriteria:
+  - learner-research-outputs-approved
+  defaultDeliverables:
+  - id: learner-profile
+    type: learner-profile
+    title: Learner Profile
+    required: true
+    weight: 1
+- id: outcomes
+  name: Outcomes
+  order: 2
+  entryCriteria: []
+  exitCriteria:
+  - outcomes-outputs-approved
+  defaultDeliverables:
+  - id: curriculum-map
+    type: curriculum-map
+    title: Curriculum Map
+    required: true
+    weight: 1
+- id: curriculum
+  name: Curriculum
+  order: 3
+  entryCriteria: []
+  exitCriteria:
+  - curriculum-outputs-approved
+  defaultDeliverables:
+  - id: lesson
+    type: lesson
+    title: Lesson
+    required: true
+    weight: 1
+- id: lesson-design
+  name: Lesson Design
+  order: 4
+  entryCriteria: []
+  exitCriteria:
+  - lesson-design-outputs-approved
+  defaultDeliverables:
+  - id: assessment
+    type: assessment
+    title: Assessment
+    required: true
+    weight: 1
+- id: assessment
+  name: Assessment
+  order: 5
+  entryCriteria: []
+  exitCriteria:
+  - assessment-outputs-approved
+  defaultDeliverables:
+  - id: teacher-guide
+    type: teacher-guide
+    title: Teacher Guide
+    required: true
+    weight: 1
+- id: production
+  name: Production
+  order: 6
+  entryCriteria: []
+  exitCriteria:
+  - production-outputs-approved
+  defaultDeliverables:
+  - id: release-package
+    type: release-package
+    title: Release Package
+    required: true
+    weight: 1
+- id: pilot
+  name: Pilot
+  order: 7
+  entryCriteria: []
+  exitCriteria:
+  - pilot-outputs-approved
+  defaultDeliverables: []
+- id: release
+  name: Release
+  order: 8
+  entryCriteria: []
+  exitCriteria:
+  - release-outputs-approved
+  defaultDeliverables: []
+- id: improvement
+  name: Improvement
+  order: 9
+  entryCriteria: []
+  exitCriteria:
+  - improvement-outputs-approved
+  defaultDeliverables: []
+qualityGates:
+- id: learner-research-approved
+  stage: learner-research
+  requiredEvidence:
+  - learner-research-approval-record
+- id: outcomes-approved
+  stage: outcomes
+  requiredEvidence:
+  - outcomes-approval-record
+- id: curriculum-approved
+  stage: curriculum
+  requiredEvidence:
+  - curriculum-approval-record
+- id: lesson-design-approved
+  stage: lesson-design
+  requiredEvidence:
+  - lesson-design-approval-record
+- id: assessment-approved
+  stage: assessment
+  requiredEvidence:
+  - assessment-approval-record
+- id: production-approved
+  stage: production
+  requiredEvidence:
+  - production-approval-record
+- id: pilot-approved
+  stage: pilot
+  requiredEvidence:
+  - pilot-approval-record
+- id: release-approved
+  stage: release
+  requiredEvidence:
+  - release-approval-record
+- id: improvement-approved
+  stage: improvement
+  requiredEvidence:
+  - improvement-approval-record

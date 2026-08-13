@@ -1,0 +1,23 @@
+version: 1
+limits:
+  commandRetries: 3
+  buildRepairAttempts: 3
+  testRepairAttempts: 3
+  dependencyInstallRetries: 2
+  portReallocationAttempts: 5
+continueOn:
+  - formatting_error
+  - lint_error
+  - recoverable_test_failure
+  - occupied_port
+  - missing_generated_directory
+  - transient_dependency_download_failure
+stopOn:
+  - destructive_migration
+  - repository_corruption
+  - requirement_conflict
+  - architecture_change_required
+  - credential_required
+  - paid_service_required
+  - unresolved_security_risk
+  - retry_limit_exceeded

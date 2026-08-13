@@ -1,0 +1,10 @@
+stateDiagram-v2
+  [*] --> PENDING
+  PENDING --> APPROVED
+  PENDING --> REVISION_REQUESTED
+  PENDING --> REJECTED
+  APPROVED --> SUPERSEDED: later corrective review
+  REVISION_REQUESTED --> SUPERSEDED: newer submission reviewed
+  REJECTED --> SUPERSEDED: newer submission reviewed
+  SUPERSEDED --> [*]
+  APPROVED --> [*]

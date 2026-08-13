@@ -1,0 +1,15 @@
+@startuml
+title Venture Studio OS — C4 System Context
+actor Owner
+rectangle "Venture Studio OS" as VSO
+rectangle "Hermes Agent" as Hermes
+rectangle "Telegram" as Telegram
+cloud "Private Git Remote" as Git
+cloud "AI Model Provider" as Model
+Owner --> VSO : creates, reviews, decides
+Owner <--> Telegram : notifications / decisions
+Telegram --> VSO : validated owner input
+VSO --> Hermes : structured work + control
+Hermes --> Model : model requests
+VSO <--> Git : version sync / handoff
+@enduml

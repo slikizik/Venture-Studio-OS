@@ -1,0 +1,19 @@
+
+# Telegram control-plane secrets and runtime
+.env.telegram
+runtime/telegram/*.json
+runtime/telegram/*.log
+
+# Machine-local VSO configuration
+.vso-machine.local.json
+.env
+.env.*.local
+
+# Recreated dependencies/build outputs
+node_modules/
+.next/
+dist/
+build/
+coverage/
+__pycache__/
+*.pyc

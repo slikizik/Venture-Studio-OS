@@ -1,0 +1,13 @@
+flowchart TD
+  Queue[Execution Queue] --> Pick[Select next READY item]
+  Pick --> Execute[Execute]
+  Execute --> Test[Run required tests]
+  Test -->|Pass| Record[Update state, evidence, logs]
+  Record --> More{More approved READY work?}
+  More -->|Yes| Pick
+  More -->|No| Complete[Phase completion / wait]
+  Test -->|Fail| Recover{Safe retry permitted?}
+  Recover -->|Yes| Retry[Diagnose + retry within limits] --> Execute
+  Recover -->|No| Stop{Direction required?}
+  Stop -->|Yes| Direction[Create direction request]
+  Stop -->|Critical| Halt[Persist checkpoint and halt affected work]

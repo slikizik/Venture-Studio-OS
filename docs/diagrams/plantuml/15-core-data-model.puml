@@ -1,0 +1,32 @@
+@startuml
+hide methods
+hide stereotypes
+skinparam classAttributeIconSize 0
+class Project
+class ProjectBrainEntry
+class ProjectStage
+class Deliverable
+class WorkPacket
+class Review
+class ReviewComment
+class DecisionRecord
+class RiskRecord
+class VersionRecord
+class ActivityRecord
+class AcceptanceCriterion
+class Evidence
+Project "1" -- "0..*" ProjectBrainEntry : contains
+Project "1" -- "0..*" ProjectStage : progresses through
+Project "1" -- "0..*" Deliverable : contains
+Deliverable "0..1 parent" -- "0..* children" Deliverable : parent of
+Deliverable "1" -- "0..*" WorkPacket : decomposes into
+WorkPacket "1" -- "0..*" Review : receives
+Review "1" -- "0..*" ReviewComment : contains
+Project "1" -- "0..*" DecisionRecord : records
+Project "1" -- "0..*" RiskRecord : tracks
+Project "1" -- "0..*" VersionRecord : versions
+Project "1" -- "0..*" ActivityRecord : logs
+Deliverable "1" -- "0..*" AcceptanceCriterion : verifies
+WorkPacket "1" -- "0..*" AcceptanceCriterion : verifies
+WorkPacket "1" -- "0..*" Evidence : produces
+@enduml

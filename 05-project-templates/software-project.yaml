@@ -1,0 +1,137 @@
+schemaVersion: 1
+templateVersion: 1.0.0
+id: software-project
+name: Software Product
+requiredBrainSections:
+- VISION
+- AUDIENCE
+- PROBLEM
+- OUTCOMES
+- CONSTRAINTS
+- NON_GOALS
+- SUCCESS_METRICS
+stages:
+- id: discovery
+  name: Discovery
+  order: 1
+  entryCriteria: []
+  exitCriteria:
+  - discovery-outputs-approved
+  defaultDeliverables:
+  - id: product-brief
+    type: product-brief
+    title: Product Brief
+    required: true
+    weight: 1
+- id: requirements
+  name: Requirements
+  order: 2
+  entryCriteria: []
+  exitCriteria:
+  - requirements-outputs-approved
+  defaultDeliverables:
+  - id: requirements
+    type: requirements
+    title: Requirements
+    required: true
+    weight: 1
+- id: ux-design
+  name: Ux Design
+  order: 3
+  entryCriteria: []
+  exitCriteria:
+  - ux-design-outputs-approved
+  defaultDeliverables:
+  - id: interface
+    type: interface
+    title: Interface
+    required: true
+    weight: 1
+- id: architecture
+  name: Architecture
+  order: 4
+  entryCriteria: []
+  exitCriteria:
+  - architecture-outputs-approved
+  defaultDeliverables:
+  - id: source-code
+    type: source-code
+    title: Source Code
+    required: true
+    weight: 1
+- id: implementation
+  name: Implementation
+  order: 5
+  entryCriteria: []
+  exitCriteria:
+  - implementation-outputs-approved
+  defaultDeliverables:
+  - id: test-suite
+    type: test-suite
+    title: Test Suite
+    required: true
+    weight: 1
+- id: testing
+  name: Testing
+  order: 6
+  entryCriteria: []
+  exitCriteria:
+  - testing-outputs-approved
+  defaultDeliverables:
+  - id: build
+    type: build
+    title: Build
+    required: true
+    weight: 1
+- id: release
+  name: Release
+  order: 7
+  entryCriteria: []
+  exitCriteria:
+  - release-outputs-approved
+  defaultDeliverables:
+  - id: documentation
+    type: documentation
+    title: Documentation
+    required: true
+    weight: 1
+- id: monitoring
+  name: Monitoring
+  order: 8
+  entryCriteria: []
+  exitCriteria:
+  - monitoring-outputs-approved
+  defaultDeliverables: []
+qualityGates:
+- id: discovery-approved
+  stage: discovery
+  requiredEvidence:
+  - discovery-approval-record
+- id: requirements-approved
+  stage: requirements
+  requiredEvidence:
+  - requirements-approval-record
+- id: ux-design-approved
+  stage: ux-design
+  requiredEvidence:
+  - ux-design-approval-record
+- id: architecture-approved
+  stage: architecture
+  requiredEvidence:
+  - architecture-approval-record
+- id: implementation-approved
+  stage: implementation
+  requiredEvidence:
+  - implementation-approval-record
+- id: testing-approved
+  stage: testing
+  requiredEvidence:
+  - testing-approval-record
+- id: release-approved
+  stage: release
+  requiredEvidence:
+  - release-approval-record
+- id: monitoring-approved
+  stage: monitoring
+  requiredEvidence:
+  - monitoring-approval-record

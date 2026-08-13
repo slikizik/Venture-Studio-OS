@@ -1,0 +1,15 @@
+erDiagram
+  PROJECT ||--o{ PROJECT_BRAIN_ENTRY : contains
+  PROJECT ||--o{ PROJECT_STAGE : progresses_through
+  PROJECT ||--o{ DELIVERABLE : contains
+  DELIVERABLE ||--o{ DELIVERABLE : parent_of
+  DELIVERABLE ||--o{ WORK_PACKET : decomposes_into
+  WORK_PACKET ||--o{ REVIEW : receives
+  REVIEW ||--o{ REVIEW_COMMENT : contains
+  PROJECT ||--o{ DECISION_RECORD : records
+  PROJECT ||--o{ RISK_RECORD : tracks
+  PROJECT ||--o{ VERSION_RECORD : versions
+  PROJECT ||--o{ ACTIVITY_RECORD : logs
+  DELIVERABLE ||--o{ ACCEPTANCE_CRITERION : verifies
+  WORK_PACKET ||--o{ ACCEPTANCE_CRITERION : verifies
+  WORK_PACKET ||--o{ EVIDENCE : produces

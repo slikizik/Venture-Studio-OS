@@ -1,0 +1,31 @@
+@startuml
+top to bottom direction
+skinparam componentStyle rectangle
+actor "Project Owner" as Owner
+cloud "Telegram" as TG
+cloud "Private Git Remote" as Remote
+cloud "AI Provider" as Provider
+node "Windows Workstation" as Win {
+  component "VSO Repo + App" as WinVSO
+  component "Hermes Profile" as WinHermes
+  artifact "Local Secrets +
+Machine Config" as WinSecrets
+}
+node "Linux Workstation" as Lin {
+  component "VSO Repo + App" as LinVSO
+  component "Hermes Profile" as LinHermes
+  artifact "Local Secrets +
+Machine Config" as LinSecrets
+}
+component "Single Active
+Telegram Router" as Router
+Owner --> TG
+TG --> Router
+Router --> WinHermes
+WinVSO <--> Remote
+LinVSO <--> Remote
+WinHermes --> Provider
+LinHermes --> Provider
+WinSecrets ..> WinVSO : local only / not committed
+LinSecrets ..> LinVSO : local only / not committed
+@enduml
