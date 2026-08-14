@@ -1,4 +1,4 @@
-activePhase: PHASE_03
+activePhase: PHASE_04
 queue:
 - id: P00-001
   title: Validate required files and paths
@@ -138,3 +138,49 @@ queue:
   status: COMPLETE
   dependencies:
   - P03-007
+- id: P04-001
+  title: Implement work packet service (WPK-001..003, DSG-002) — create/submit/approve/revise, version bump, draft-lock
+  status: COMPLETE
+  dependencies: []
+- id: P04-002
+  title: Implement execution queue + agent activity (AGT-002/003) — ordered queue, dependency readiness, linked evidence, append-only activity
+  status: COMPLETE
+  dependencies:
+  - P04-001
+- id: P04-003
+  title: Implement attachments/evidence (ATT-001/002) — attach files/links/notes/artifacts, filename sanitization, size/checksum
+  status: COMPLETE
+  dependencies:
+  - P04-001
+- id: P04-004
+  title: Implement requirement→work-packet links (DSG-002) — exclusions + evidence expectations
+  status: COMPLETE
+  dependencies:
+  - P04-001
+- id: P04-005
+  title: Implement API routes (workpackets, workpacket/[id] submit/approve, attachments, queue, activity, requirements/links)
+  status: COMPLETE
+  dependencies:
+  - P04-002
+  - P04-003
+  - P04-004
+- id: P04-006
+  title: Implement UI (work packet pages, queue, evidence/attachments, project dashboard links)
+  status: COMPLETE
+  dependencies:
+  - P04-005
+- id: P04-007
+  title: Write Phase 04 tests (wpk/agt2/att/dsg2) + run full suite (79 tests)
+  status: COMPLETE
+  dependencies:
+  - P04-006
+- id: P04-008
+  title: Verify preflight --completion, tsc, eslint, package + atlas validators
+  status: COMPLETE
+  dependencies:
+  - P04-007
+- id: P04-009
+  title: Update trackers + EXECUTION_STATE.json + write PHASE_04_REPORT.md
+  status: COMPLETE
+  dependencies:
+  - P04-008

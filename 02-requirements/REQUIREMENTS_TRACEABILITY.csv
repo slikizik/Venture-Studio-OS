@@ -7,9 +7,9 @@ PRJ-005,Calculate and display project phase progress health risks and blockers,7
 DEL-001,Create edit reorder archive and restore deliverables,3,Deliverable service,TEST-DEL-001,app/src/__tests__/del.test.ts (TEST-DEL-001 PASS),PASS
 DEL-002,Support validated parent-child hierarchy,3,Deliverable service,TEST-DEL-002,app/src/__tests__/del.test.ts (TEST-DEL-002 PASS),PASS
 DEL-003,Store status owner due date dependencies criteria and versions,3,Deliverable service,TEST-DEL-003,app/src/__tests__/del.test.ts (TEST-DEL-003 PASS),PASS
-WPK-001,Create work packet linked to a project and optional deliverable,4,Work packet service,TEST-WPK-001,PENDING,NOT_STARTED
-WPK-002,Store complete work packet specification evidence status and assignee,4,Work packet service,TEST-WPK-002,PENDING,NOT_STARTED
-WPK-003,Submit versioned work for review,4,Work packet workflow,TEST-WPK-003,PENDING,NOT_STARTED
+WPK-001,Create work packet linked to a project and optional deliverable,4,Work packet service,TEST-WPK-001,app/src/__tests__/wpk.test.ts (TEST-WPK-001 PASS),PASS
+WPK-002,Store complete work packet specification evidence status and assignee,4,Work packet service,TEST-WPK-002,app/src/__tests__/wpk.test.ts (TEST-WPK-002 PASS),PASS
+WPK-003,Submit versioned work for review,4,Work packet workflow,TEST-WPK-003,app/src/__tests__/wpk.test.ts (TEST-WPK-003 PASS),PASS
 REV-001,Create criterion-based review records,5,Review service,TEST-REV-001,PENDING,NOT_STARTED
 REV-002,Approve reject or request revision under transition rules,5,Review service,TEST-REV-002,PENDING,NOT_STARTED
 REV-003,Preserve immutable review comments and history,5,Review service,TEST-REV-003,PENDING,NOT_STARTED
@@ -23,8 +23,8 @@ DSH-001,Display portfolio dashboard metrics,7,Dashboard service,TEST-DSH-001,PEN
 DSH-002,Display project dashboard,7,Dashboard service,TEST-DSH-002,PENDING,NOT_STARTED
 DSH-003,Display pending reviews blockers risks recent decisions and progress,7,Dashboard service,TEST-DSH-003,PENDING,NOT_STARTED
 AGT-001,Store generic agent records capabilities provider model autonomy and status,2,Agent model,TEST-AGT-001,app/src/__tests__/agt.test.ts (TEST-AGT-001 PASS),PASS
-AGT-002,Maintain ordered execution queue with dependencies and evidence,4,Execution queue,TEST-AGT-002,PENDING,NOT_STARTED
-AGT-003,Record append-only agent activity and outcomes,4,Activity service,TEST-AGT-003,PENDING,NOT_STARTED
+AGT-002,Maintain ordered execution queue with dependencies and evidence,4,Execution queue,TEST-AGT-002,app/src/__tests__/agt2.test.ts (TEST-AGT-002 PASS),PASS
+AGT-003,Record append-only agent activity and outcomes,4,Activity service,TEST-AGT-003,app/src/__tests__/agt2.test.ts (TEST-AGT-003 PASS),PASS
 EXC-001,Classify recoverable assumptions direction-required and critical issues,5,Exception manager,TEST-EXC-001,PENDING,NOT_STARTED
 EXC-002,Create formal direction requests,5,Direction service,TEST-EXC-002,PENDING,NOT_STARTED
 EXC-003,Continue unaffected work while an item is blocked,5,Execution coordinator,TEST-EXC-003,PENDING,NOT_STARTED
@@ -41,8 +41,8 @@ DAT-002,Import a compatible project package transactionally,8,Import export serv
 DAT-003,Reject invalid or unsupported import packages safely,8,Import export service,TEST-DAT-003,PENDING,NOT_STARTED
 DAT-004,Create backups before destructive migrations and imports,1,Backup service,TEST-DAT-004,app/src/__tests__/dat004-backup.test.ts (4/4 PASS),PASS
 DAT-005,Restore a verified backup with integrity checks,8,Recovery service,TEST-DAT-005,PENDING,NOT_STARTED
-ATT-001,Attach files links notes test results and artifacts,4,Evidence service,TEST-ATT-001,PENDING,NOT_STARTED
-ATT-002,Sanitize filenames validate size and preserve checksums,4,File service,TEST-ATT-002,PENDING,NOT_STARTED
+ATT-001,Attach files links notes test results and artifacts,4,Evidence service,TEST-ATT-001,app/src/__tests__/att.test.ts (TEST-ATT-001 PASS),PASS
+ATT-002,Sanitize filenames validate size and preserve checksums,4,File service,TEST-ATT-002,app/src/__tests__/att.test.ts (TEST-ATT-002 PASS),PASS
 AUD-001,Record required append-only audit events,2,Activity service,TEST-AUD-001,app/src/__tests__/aud.test.ts (TEST-AUD-001 PASS),PASS
 NFR-001,Application must run locally on Windows 11 and Ubuntu LTS,1,Platform,TEST-NFR-001,app/src/__tests__/nfr001-run.test.ts (build+serve 200),PASS
 NFR-002,All persisted data must survive application restart,8,Persistence,TEST-NFR-002,PENDING,NOT_STARTED
@@ -57,7 +57,7 @@ NFR-010,Every completed requirement must link to passing evidence,8,Traceability
 INT-001,Capture and approve a plain-language Project Intent Brief with outcome audience constraints success measures commercial target and priorities,2,Intent service,TEST-INT-001,app/src/__tests__/intent.test.ts (TEST-INT-001 PASS),PASS
 INT-002,Create and approve a project benchmark brief with target dimensions differentiators and intentional omissions,2,Intent service,TEST-INT-002,app/src/__tests__/intent.test.ts (TEST-INT-002 PASS),PASS
 DSG-001,Trace approved intent into requirements and acceptance criteria without silently changing owner intent,2,Design service,TEST-DSG-001,app/src/__tests__/intent.test.ts (TEST-DSG-001 PASS),PASS
-DSG-002,Map requirements to deliverables dependencies and executable work packets with explicit exclusions and evidence expectations,4,Design service,TEST-DSG-002,PENDING,NOT_STARTED
+DSG-002,Map requirements to deliverables dependencies and executable work packets with explicit exclusions and evidence expectations,4,Design service,TEST-DSG-002,app/src/__tests__/dsg2.test.ts (TEST-DSG-002 PASS),PASS
 QLT-001,Create and version a project Quality Profile with project-type quality dimensions and target levels,6,Quality service,TEST-QLT-001,PENDING,NOT_STARTED
 QLT-002,Evaluate work packet deliverable stage and release quality gates using retained evidence,5,Quality gate service,TEST-QLT-002,PENDING,NOT_STARTED
 QLT-003,Record benchmark gaps and show whether mandatory commercial targets are met or explicitly accepted,7,Quality dashboard,TEST-QLT-003,PENDING,NOT_STARTED

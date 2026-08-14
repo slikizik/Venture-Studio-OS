@@ -48,6 +48,10 @@ model Project {
   evidence             Evidence[]
   attentionEvents      AttentionEvent[]
   acceptanceCriterions AcceptanceCriterion[]
+  attachments          Attachment[]
+  requirements         Requirement[]
+  agentActivities      AgentActivity[]
+  queueItems           ExecutionQueueItem[]
 
   @@index([status])
   @@index([archivedAt])
@@ -105,6 +109,7 @@ model Deliverable {
 
   children           Deliverable[]           @relation("DeliverableHierarchy")
   parent             Deliverable?            @relation("DeliverableHierarchy", fields: [parentId], references: [id])
+  requirementLinks   RequirementLink[]
   dependencies       DeliverableDependency[] @relation("DependsOn")
   dependedOnBy       DeliverableDependency[] @relation("DependedBy")
   acceptanceCriteria AcceptanceCriterion[]
@@ -164,13 +169,20 @@ model WorkPacket {
   submittedAt        DateTime?
   approvedAt         DateTime?
   versionNumber      Int                   @default(1) // >=1
+  versionCreatedAt   DateTime?
+  // AGT-002 execution queue fields
+  queueOrder         Int                   @default(0)
+  queueStatus        String?               // QueueStatus | null when not queued
   createdAt          DateTime              @default(now()) @map("createdAt")
   updatedAt          DateTime              @updatedAt @map("updatedAt")
   project            Project               @relation(fields: [projectId], references: [id], onDelete: Cascade)
   deliverable        Deliverable?          @relation(fields: [deliverableId], references: [id])
   acceptanceCriteria AcceptanceCriterion[]
   evidence           Evidence[]
+  attachments        Attachment[]
   reviews            Review[]
+  queueItem          ExecutionQueueItem?   @relation("QueueItemWorkPacket")
+  requirementLinks   RequirementLink[]
 
   @@index([projectId])
   @@index([deliverableId])
@@ -191,6 +203,7 @@ model Evidence {
   project                Project              @relation(fields: [projectId], references: [id], onDelete: Cascade)
   workPacket             WorkPacket?          @relation(fields: [workPacketId], references: [id])
   acceptanceCriterion    AcceptanceCriterion? @relation(fields: [acceptanceCriterionId], references: [id])
+  attachments            Attachment[]
 
   @@index([projectId])
   @@index([workPacketId])
@@ -420,4 +433,118 @@ model AttentionEvent {
   project         Project   @relation(fields: [projectId], references: [id])
 
   @@index([projectId])
+}
+
+// ATT-001/002 — Evidence attachment: files, links, notes, test results, artifacts.
+// Filename is sanitized on write; checksum + size retained for file artifacts.
+model Attachment {
+  id            String   @id @default(uuid())
+  projectId     String
+  workPacketId  String?
+  evidenceId    String?
+  type          String // EvidenceType
+  title         String // 1..150
+  // sanitized storage filename (or external URL for LINK)
+  fileName      String?
+  originalName  String?
+  location      String? // file path or URL
+  checksum      String? // sha256 hex (files in approved work)
+  sizeBytes     Int?
+  notes         String?
+  createdAt     DateTime @default(now()) @map("createdAt")
+  updatedAt     DateTime @updatedAt @map("updatedAt")
+  project       Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  workPacket     WorkPacket? @relation(fields: [workPacketId], references: [id], onDelete: Cascade)
+  evidence      Evidence?  @relation(fields: [evidenceId], references: [id], onDelete: Cascade)
+
+  @@index([projectId])
+  @@index([workPacketId])
+  @@index([evidenceId])
+}
+
+// DSG-002 — Requirement registry + mapping to deliverables/work packets.
+model Requirement {
+  id            String   @id @default(uuid())
+  projectId     String?
+  code          String // e.g. WPK-001 (unique within product, not per project)
+  title         String // 1..180
+  description   String
+  phase         Int?
+  status        String   @default("ACTIVE") // RequirementStatus
+  createdAt     DateTime @default(now()) @map("createdAt")
+  updatedAt     DateTime @updatedAt @map("updatedAt")
+  project       Project? @relation(fields: [projectId], references: [id])
+  links         RequirementLink[]
+
+  @@unique([code])
+  @@index([projectId])
+}
+
+// DSG-002 — Explicit requirement -> deliverable / work packet / dependency mapping.
+model RequirementLink {
+  id                 String   @id @default(uuid())
+  requirementId      String
+  projectId          String?
+  targetType         String   @default("DELIVERABLE") // LinkTargetType: DELIVERABLE | WORK_PACKET | PROJECT
+  deliverableId      String?
+  workPacketId       String?
+  isExclusion        Boolean  @default(false)
+  dependencyDetail   String? // markdown: why/how this work satisfies the requirement
+  exclusions         String? // markdown: explicit scope exclusions
+  evidenceExpectation String? // markdown: what evidence proves completion
+  createdAt          DateTime @default(now()) @map("createdAt")
+  updatedAt          DateTime @updatedAt @map("updatedAt")
+  requirement        Requirement @relation(fields: [requirementId], references: [id], onDelete: Cascade)
+  deliverable        Deliverable? @relation(fields: [deliverableId], references: [id])
+  workPacket         WorkPacket?  @relation(fields: [workPacketId], references: [id])
+
+  @@index([requirementId])
+  @@index([deliverableId])
+  @@index([workPacketId])
+  @@index([projectId])
+}
+
+// AGT-003 — Append-only agent activity + outcomes.
+model AgentActivity {
+  id            String   @id @default(uuid())
+  projectId     String?
+  agentId       String? // references Agent.id (not enforced FK; agents may be external)
+  agentName     String
+  action        String
+  entityType    String?
+  entityId      String?
+  outcome       String // ActivityOutcome: SUCCESS | FAILURE | BLOCKED | PARTIAL
+  summary       String
+  startedAt     DateTime?
+  endedAt       DateTime?
+  durationMs    Int?
+  metadata      String   @default("{}") // JSON
+  createdAt     DateTime @default(now()) @map("createdAt")
+  project       Project? @relation(fields: [projectId], references: [id])
+
+  @@index([projectId])
+  @@index([agentId])
+  @@index([entityType, entityId])
+}
+
+// AGT-002 — Ordered execution queue with dependencies and evidence.
+model ExecutionQueueItem {
+  id             String   @id @default(uuid())
+  workPacketId   String   @unique
+  projectId      String
+  order          Int      @default(0)
+  queueStatus    String   @default("READY") // QueueStatus
+  dependsOnId    String?  // depends on another queue item
+  blockedReason  String?
+  evidenceNote   String?
+  linkedEvidence  String   @default("[]") // JSON array of evidence record ids
+  createdAt      DateTime @default(now()) @map("createdAt")
+  updatedAt      DateTime @updatedAt @map("updatedAt")
+  workPacket     WorkPacket @relation("QueueItemWorkPacket", fields: [workPacketId], references: [id], onDelete: Cascade)
+  dependsOn      ExecutionQueueItem? @relation("QueueItemDependsOn", fields: [dependsOnId], references: [id])
+  dependedOnBy   ExecutionQueueItem[] @relation("QueueItemDependsOn")
+  project        Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@index([projectId])
+  @@index([dependsOnId])
 }

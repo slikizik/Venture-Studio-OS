@@ -166,3 +166,137 @@ export type DependencyCreateInput = z.infer<typeof dependencyCreateSchema>;
 export type CriteriaCreateInput = z.infer<typeof criteriaCreateSchema>;
 export type CriteriaUpdateInput = z.infer<typeof criteriaUpdateSchema>;
 export type VersionCreateInput = z.infer<typeof versionCreateSchema>;
+
+// ---- Phase 04: Work packets, attachments, agents activity, requirements, queue ----
+
+// WPK-001/002/003
+export const workPacketCreateSchema = z.object({
+  projectId: z.string().min(1),
+  deliverableId: z.string().min(1).optional().nullable(),
+  title: z.string().min(1).max(180),
+  objective: z.string().min(1),
+  scope: z.string().min(1),
+  exclusions: z.string().min(1),
+  inputs: z.array(z.string().min(1).max(300)).default([]),
+  expectedOutputs: z.array(z.string().min(1).max(300)).min(1),
+  status: WorkPacketStatus.default("DRAFT"),
+  assigneeAgentId: z.string().min(1).optional().nullable(),
+  priority: Priority.default("MEDIUM"),
+  dueDate: z.coerce.date().optional().nullable(),
+  versionNumber: z.number().int().min(1).default(1),
+});
+export type WorkPacketCreateInput = z.infer<typeof workPacketCreateSchema>;
+
+export const workPacketUpdateSchema = z.object({
+  title: z.string().min(1).max(180).optional(),
+  objective: z.string().min(1).optional(),
+  scope: z.string().min(1).optional(),
+  exclusions: z.string().min(1).optional(),
+  inputs: z.array(z.string().min(1).max(300)).optional(),
+  expectedOutputs: z.array(z.string().min(1).max(300)).min(1).optional(),
+  status: WorkPacketStatus.optional(),
+  assigneeAgentId: z.string().min(1).optional().nullable(),
+  priority: Priority.optional(),
+  dueDate: z.coerce.date().optional().nullable(),
+});
+export type WorkPacketUpdateInput = z.infer<typeof workPacketUpdateSchema>;
+
+export const workPacketSubmitSchema = z.object({
+  actor: z.string().min(1).max(120).default("SYSTEM"),
+  summary: z.string().min(1).max(2000).optional(),
+});
+export type WorkPacketSubmitInput = z.infer<typeof workPacketSubmitSchema>;
+
+export const workPacketApproveSchema = z.object({
+  actor: z.string().min(1).max(120).default("SYSTEM"),
+});
+
+// ATT-001/002
+export const attachmentCreateSchema = z.object({
+  projectId: z.string().min(1),
+  workPacketId: z.string().min(1).optional().nullable(),
+  evidenceId: z.string().min(1).optional().nullable(),
+  type: EvidenceType,
+  title: z.string().min(1).max(150),
+  fileName: z.string().max(255).optional().nullable(),
+  originalName: z.string().max(255).optional().nullable(),
+  location: z.string().max(1000).optional().nullable(),
+  checksum: z.string().max(128).optional().nullable(),
+  sizeBytes: z.number().int().min(0).optional().nullable(),
+  notes: z.string().optional().nullable(),
+});
+export type AttachmentCreateInput = z.infer<typeof attachmentCreateSchema>;
+
+// AGT-003
+export const agentActivityCreateSchema = z.object({
+  projectId: z.string().min(1).optional().nullable(),
+  agentId: z.string().min(1).optional().nullable(),
+  agentName: z.string().min(1).max(120),
+  action: z.string().min(1).max(120),
+  entityType: z.string().max(40).optional().nullable(),
+  entityId: z.string().min(1).optional().nullable(),
+  outcome: z.enum(["SUCCESS", "FAILURE", "BLOCKED", "PARTIAL"]),
+  summary: z.string().min(1).max(1000),
+  startedAt: z.coerce.date().optional().nullable(),
+  endedAt: z.coerce.date().optional().nullable(),
+  durationMs: z.number().int().min(0).optional().nullable(),
+  metadata: z.record(z.string(), z.unknown()).optional(),
+});
+export type AgentActivityCreateInput = z.infer<typeof agentActivityCreateSchema>;
+
+// DSG-002
+export const requirementCreateSchema = z.object({
+  projectId: z.string().min(1).optional().nullable(),
+  code: z.string().min(1).max(40),
+  title: z.string().min(1).max(180),
+  description: z.string().min(1),
+  phase: z.number().int().min(0).max(12).optional().nullable(),
+  status: z.string().min(1).default("ACTIVE"),
+});
+export type RequirementCreateInput = z.infer<typeof requirementCreateSchema>;
+
+export const requirementLinkCreateSchema = z.object({
+  requirementId: z.string().min(1),
+  projectId: z.string().min(1).optional().nullable(),
+  targetType: z.enum(["DELIVERABLE", "WORK_PACKET", "PROJECT"]).default("DELIVERABLE"),
+  deliverableId: z.string().min(1).optional().nullable(),
+  workPacketId: z.string().min(1).optional().nullable(),
+  isExclusion: z.boolean().optional().default(false),
+  dependencyDetail: z.string().optional().nullable(),
+  exclusions: z.string().optional().nullable(),
+  expectedEvidence: z.string().optional().nullable(),
+  evidenceExpectation: z.string().optional().nullable(),
+}).transform((d) => ({ ...d, evidenceExpectation: d.evidenceExpectation ?? d.expectedEvidence ?? null }));
+export type RequirementLinkCreateInput = z.infer<typeof requirementLinkCreateSchema>;
+
+export const requirementLinkUpdateSchema = z.object({
+  targetType: z.enum(["DELIVERABLE", "WORK_PACKET", "PROJECT"]).optional(),
+  deliverableId: z.string().min(1).optional().nullable(),
+  workPacketId: z.string().min(1).optional().nullable(),
+  isExclusion: z.boolean().optional(),
+  dependencyDetail: z.string().optional().nullable(),
+  exclusions: z.string().optional().nullable(),
+  expectedEvidence: z.string().optional().nullable(),
+  evidenceExpectation: z.string().optional().nullable(),
+}).transform((d) => ({ ...d, evidenceExpectation: d.evidenceExpectation ?? d.expectedEvidence ?? undefined }));
+export type RequirementLinkUpdateInput = z.infer<typeof requirementLinkUpdateSchema>;
+
+// AGT-002 queue
+export const queueItemCreateSchema = z.object({
+  workPacketId: z.string().min(1),
+  order: z.number().int().min(0).default(0),
+  queueStatus: QueueStatus.default("READY"),
+  dependsOnId: z.string().min(1).optional().nullable(),
+  evidenceNote: z.string().optional().nullable(),
+});
+export type QueueItemCreateInput = z.infer<typeof queueItemCreateSchema>;
+
+export const queueItemUpdateSchema = z.object({
+  order: z.number().int().min(0).optional(),
+  queueStatus: QueueStatus.optional(),
+  dependsOnId: z.string().min(1).optional().nullable(),
+  blockedReason: z.string().optional().nullable(),
+  evidenceNote: z.string().optional().nullable(),
+});
+export type QueueItemUpdateInput = z.infer<typeof queueItemUpdateSchema>;
+

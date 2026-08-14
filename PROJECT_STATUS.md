@@ -4,13 +4,13 @@
 | -------------------------- | ------------------------------------------------------------------------------------------------------------ |
 | Specification baseline     | v1.7.0 — Product Alignment Baseline                                                                          |
 | Target application         | v0.1.0                                                                                                       |
-| Current phase              | Phase 03 — Deliverables and Versions (complete)                                                               |
+| Current phase              | Phase 04 — Work Packets and Evidence (complete)                                                              |
 | Phase status               | COMPLETE                                                                                                     |
 | Product alignment          | APPROVED                                                                                                     |
 | Architecture               | FROZEN_FOR_MVP after successful Phase 00                                                                     |
 | SEVL milestone             | Required by end of Phase 05                                                                                  |
-| Implementation code        | Phase 03 Deliverables and Versions complete (deliverables service + hierarchy/dependency cycles, version records + approve/release, criteria); Phase 04 READY |
-| Open blockers              | None — Phase 04 READY                                                                                        |
+| Implementation code        | Phase 04 Work Packets and Evidence complete (work packet service + versioned submit/approve, execution queue + dependency readiness, agent activity log, attachments, requirement→work-packet links, evidence); Phase 05 READY |
+| Open blockers              | None — Phase 05 READY                                                                                        |
 | Primary owner instructions | `docs/OWNER_RUNBOOK.md`                                                                                      |
 | Supporting build guide     | `docs/OWNER_BUILD_GUIDE.md`                                                                                  |
 | Bootstrap prompt           | `09-hermes/prompts/BOOTSTRAP_PROMPT.md`                                                                      |

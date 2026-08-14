@@ -1,0 +1,65 @@
+# Phase Completion Report
+
+- Phase: PHASE_04 — Work Packets and Evidence
+- Status: COMPLETE
+- Requirements completed:
+  - WPK-001 — Create work packet linked to a project and optional deliverable
+  - WPK-002 — Store complete work packet specification evidence status and assignee
+  - WPK-003 — Submit versioned work for review
+  - AGT-002 — Maintain ordered execution queue with dependencies and evidence
+  - AGT-003 — Record append-only agent activity and outcomes
+  - ATT-001 — Attach files links notes test results and artifacts
+  - ATT-002 — Sanitize filenames validate size and preserve checksums
+  - DSG-002 — Map requirements to deliverables dependencies and executable work packets with explicit exclusions and evidence expectations
+- Requirements incomplete: None
+- Files created:
+  - app/src/lib/evidence.ts
+  - app/src/app/projects/[id]/workpackets/page.tsx
+  - app/src/app/projects/[id]/workpackets-client.tsx
+  - app/src/app/projects/[id]/queue/page.tsx
+  - app/src/app/projects/[id]/queue-client.tsx
+  - app/src/app/projects/[id]/requirements/page.tsx
+  - app/src/app/projects/[id]/requirements-client.tsx
+  - app/src/app/api/workpackets/route.ts
+  - app/src/app/api/workpackets/[id]/route.ts
+  - app/src/app/api/workpackets/[id]/submit/route.ts
+  - app/src/app/api/attachments/route.ts
+  - app/src/app/api/queue/route.ts
+  - app/src/app/api/queue/[id]/route.ts
+  - app/src/app/api/activity/route.ts
+  - app/src/app/api/requirements/links/route.ts
+  - app/src/__tests__/wpk.test.ts
+  - app/src/__tests__/agt2.test.ts
+  - app/src/__tests__/att.test.ts
+  - app/src/__tests__/dsg2.test.ts
+  - PHASE_04_REPORT.md
+- Files modified:
+  - app/src/lib/workpackets.ts
+  - app/src/lib/queue.ts
+  - app/src/lib/agents-activity.ts
+  - app/src/lib/attachments.ts
+  - app/src/lib/requirements.ts
+  - app/src/lib/validation.ts
+  - app/prisma/schema.prisma (WorkPacket versionNumber/queueOrder/queueStatus; RequirementLink targetType/isExclusion/expectedEvidence; ExecutionQueueItem linkedEvidence; Evidence model present)
+  - app/src/__tests__/testdb.ts (active-DB registry so parallel runs no longer delete each other's DBs)
+  - app/src/app/projects/[id]/page.tsx (nav links)
+  - BUILD_MANIFEST.yaml, PROJECT_STATUS.md, REQUIREMENTS_TRACEABILITY.csv, EXECUTION_QUEUE.yaml, EXECUTION_STATE.json, HERMES_ACTIVITY_LOG.md, CHANGELOG.md
+- Tests added:
+  - wpk.test.ts — WPK-001/002/003 (create, submit→IN_REVIEW, approve→COMPLETE w/ audit, version bump on revise, draft-lock)
+  - agt2.test.ts — AGT-002 (ordered queue, dependency readiness READY when predecessor COMPLETE), AGT-003 (append-only agent activity)
+  - att.test.ts — ATT-001 (attach file/link/note/artifact), ATT-002 (filename sanitization incl. path traversal, size + checksum preserved)
+  - dsg2.test.ts — DSG-002 (requirement→work-packet link with exclusions + evidence expectations)
+- Tests passed: 79/79 (15 files, incl. 4 new Phase-04 files + NFR-003 strict-TS gate). Run twice for stability — consistent.
+- Tests failed: None
+- Known defects: None. (4 config placeholders PH-002/003/004 remain owner-owned and non-blocking; PH-001 resolved.)
+- Architecture deviations: None. Schema changes applied via `prisma db push --accept-data-loss --skip-generate` then regenerated; dev.db is gitignored.
+- Assumptions made:
+  - `QueueStatus` canonical value is `"COMPLETE"` (validated against validation.ts enum), so dependency readiness compares against `"COMPLETE"`.
+  - `Evidence` model has no `description`/`createdBy` fields; evidence records use `title` + `checksum` + `type`.
+  - `Attachment` stores both `fileName` (sanitized, used as storage key) and `originalName` (also sanitized to satisfy ATT-002 path-traversal expectations).
+- Manual verification steps:
+  1. `cd app && npx tsc --noEmit` → 0 errors.
+  2. `cd app && npx vitest run` → 79/79 PASS.
+  3. `python scripts/preflight.py --phase PHASE_04 --completion` → PREFLIGHT READY: PHASE_04.
+  4. Confirm `prisma generate` succeeds (regenerate client after schema push).
+- Recommended next phase: PHASE_05 — Reviews, Decisions, Risks, and Exceptions (status READY). Includes REV-001/002/003, GOV-001/002, EXC-001..004, LRN-001/002; also the SEVL vertical-slice proof (`TEST-SEVL-001`) is due by end of Phase 05.
