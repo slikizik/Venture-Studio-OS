@@ -7,7 +7,7 @@ REG=ROOT/'09-hermes/PLACEHOLDER_REGISTER.yaml'
 PROD_SUFFIXES={'.py','.ts','.tsx','.js','.jsx','.sql','.prisma','.sh','.ps1'}
 SKIP_PARTS={'.git','node_modules','.next','dist','build','coverage','__pycache__','tests','docs'}
 PATTERNS=[
- ('TODO',re.compile(r'\bTODO\b',re.I)),('FIXME',re.compile(r'\bFIXME\b',re.I)),('NOT_IMPLEMENTED',re.compile(r'not\s+implemented',re.I)),('PLACEHOLDER',re.compile(r'\bplaceholder\b',re.I)),('DUMMY',re.compile(r'\bdummy\b',re.I)),('FAKE',re.compile(r'\bfake\b',re.I)),
+ ('TODO',re.compile(r'\bTODO\b',re.I)),('FIXME',re.compile(r'\bFIXME\b',re.I)),('NOT_IMPLEMENTED',re.compile(r'not\s+implemented',re.I)),('PLACEHOLDER',re.compile(r'\bplaceholder\b(?![\s]*=)',re.I)),('DUMMY',re.compile(r'\bdummy\b',re.I)),('FAKE',re.compile(r'\bfake\b',re.I)),
 ]
 
 def phase_num(v:str)->int|None:

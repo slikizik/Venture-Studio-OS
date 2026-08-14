@@ -1,3 +1,15 @@
+## 1.7.0 — Phase 02 project core complete (2026-08-14)
+
+- Phase 02 (Project Core) implemented and verified: project service (PRJ-001..004 — create from template, edit metadata + brain, archive/restore, search/sort/filter, derived progress/health), agent records (AGT-001), append-only audit (AUD-001), Project Intent Brief + benchmark brief + intent→requirement traceability (INT-001/002, DSG-001), and UTC-storage/owner-timezone display (NFR-008).
+- Added `AppSetting` key-value model (owner timezone/name) via a DAT-004-backed migration; migrated with a verified backup (SAFE_TO_PROCEED).
+- Implemented 9 API route handlers (projects list/create, update/archive/restore, brain, intent, benchmark, audit, agents, settings) and 10 UI pages (portfolio, project list/create/dashboard/edit/brain/intent, agents, settings, decisions placeholder).
+- Added 5 Phase 02 test files (prj, agt, aud, intent, nfr008) — 25 new cases; full suite now 32/32 passing including NFR-001 (real build+serve 200), NFR-003 (strict tsc), DAT-004.
+- Fixed scanner false-positive: `scan_placeholders.py` no longer flags JSX `placeholder=` HTML attributes as production stubs.
+- Verification: preflight `--completion` READY; `tsc --noEmit` 0 errors; ESLint 0 errors; architecture atlas 23 views; product-alignment + operational-readiness PASS.
+- Updated trackers: BUILD_MANIFEST (phase 2 COMPLETE, phase 3 READY), PROJECT_STATUS, REQUIREMENTS_TRACEABILITY (12 rows PASS), EXECUTION_QUEUE (P02-001..008), EXECUTION_STATE, ASSUMPTION/DECISION logs. Phase 03 marked READY.
+
+# Changelog
+
 ## 1.7.0 — Phase 01 foundation complete (2026-08-13)
 
 - Phase 01 (Foundation) implemented and verified: Next.js 16 (App Router, TypeScript strict) application shell under `app/`, Prisma schema from `DATA_MODEL.md` with initial SQLite migration, Zod validation layer, and a live-DB dashboard page.

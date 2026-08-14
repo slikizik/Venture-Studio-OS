@@ -39,3 +39,15 @@ Append significant execution events using this format.
 - **Problems encountered:** Prisma 7.x adapter API not resolvable on local toolchain (down-pinned to 6.19.3); eslint-config-next@16 flat export circular ref (replaced with minimal flat config); next build disrupted inside Vitest worker pool (switched NFR-001 test to detached OS processes); stray app/src/.next build artifact and node_modules JSON tripped placeholder scan / package validator (gitignored .next, validator now skips node_modules/.next).
 - **Recovery performed:** Down-pin Prisma; minimal ESLint flat config; detached-process e2e; removed stray build dir; validator scan exclusions.
 - **Next action:** Await owner review of PHASE_01_REPORT.md; authorize Phase 02 (Project Core) via REUSABLE_PHASE_PROMPT.md.
+## Phase 02 — Project Core
+
+- **Date and time:** 2026-08-14T17:45:00Z
+- **Phase:** PHASE_02
+- **Work item:** Implement project service (PRJ-001..004), agent records (AGT-001), append-only audit (AUD-001), intent + benchmark + traceability (INT-001/002, DSG-001), NFR-008 UTC/timezone, API handlers, UI pages, and Phase 02 tests.
+- **Action:** Implemented service layer (projects, agents, audit, intent, datetime, templates, settings); added AppSetting model + DAT-004-backed migration; implemented 9 API routes and 10 UI pages; added 5 test files (25 cases). Fixed recordAudit-in-transaction FK (tx param), test-harness EBUSY teardown (disconnect + relative DB path), templateId over-validation, placeholder scanner false-positive, and ESLint unused-import/vars.
+- **Result:** Phase 02 PASSED. preflight --completion READY. Full suite 32/32 PASS (incl. NFR-001 build+serve 200, NFR-003 strict tsc, DAT-004). tsc --noEmit 0 errors. ESLint 0 errors. Atlas 23 views + product-alignment + operational-readiness PASS. Phase 03 marked READY.
+- **Files changed:** app/src/lib/* (projects, agents, audit, intent, datetime, templates, settings, prisma, validation), app/prisma/schema.prisma + migration, 9 API routes, 10 UI pages, 5 test files + harness, scripts/scan_placeholders.py, BUILD_MANIFEST.yaml, PROJECT_STATUS.md, REQUIREMENTS_TRACEABILITY.csv, EXECUTION_QUEUE.yaml, EXECUTION_STATE.json, CHANGELOG.md, PHASE_02_REPORT.md
+- **Commands/tests run:** npx vitest run (32 PASS); npx tsc --noEmit; npx eslint .; python scripts/preflight.py --completion; scripts/validate_architecture_atlas.py; npx prisma generate / migrate dev / db push (test harness); npx next build
+- **Problems encountered:** recordAudit committed outside createProject transaction (FK violation) → fixed with tx param; Windows EBUSY on test DB teardown → disconnect + relative path; templateId uuid() rejected template slugs → relaxed; JSX placeholder= flagged as stub → scanner regex refined; unused imports/vars → removed.
+- **Recovery performed:** All recovered in-phase; no scope change.
+- **Next action:** Await owner review of PHASE_02_REPORT.md; authorize Phase 03 (Deliverables and Versions) via REUSABLE_PHASE_PROMPT.md.

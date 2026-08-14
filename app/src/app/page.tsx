@@ -1,75 +1,71 @@
+import Link from "next/link";
+import { searchProjects } from "@/lib/projects";
 import { prisma } from "@/lib/prisma";
+import { listAgents } from "@/lib/agents";
 
-// Portfolio dashboard (minimal Phase 01 shell). Proves the app boots, connects
-// to the local SQLite database, and reads real data — the smallest end-to-end
-// loop required before optional breadth (per SEVL priority).
 export const dynamic = "force-dynamic";
 
-async function getSummary() {
-  const [projectCount, activeCount, blockedCount] = await Promise.all([
-    prisma.project.count(),
-    prisma.project.count({ where: { status: "ACTIVE" } }),
-    prisma.project.count({ where: { health: "BLOCKED" } }),
+export default async function PortfolioPage() {
+  const [projects, pendingReviews, openRisks, recentDecisions, agents] = await Promise.all([
+    searchProjects({ archived: false, sortBy: "updatedAt", sortDir: "desc" }),
+    prisma.review.count({ where: { status: "PENDING" } }),
+    prisma.riskRecord.count({ where: { status: { in: ["OPEN", "MITIGATING"] }, impact: { in: ["HIGH", "CRITICAL"] } } }),
+    prisma.decisionRecord.findMany({ orderBy: { decidedAt: "desc" }, take: 5 }),
+    listAgents(),
   ]);
-  return { projectCount, activeCount, blockedCount };
-}
 
-export default async function HomePage() {
-  let summary = { projectCount: 0, activeCount: 0, blockedCount: 0 };
-  let dbError: string | null = null;
-  try {
-    summary = await getSummary();
-  } catch (e) {
-    dbError = e instanceof Error ? e.message : "unknown database error";
-  }
+  const activeCount = projects.filter((p) => p.status !== "ARCHIVED").length;
+  const blockedCount = projects.filter((p) => p.health === "BLOCKED").length;
+  const activeAgents = agents.filter((a) => a.status === "ACTIVE").length;
 
   return (
-    <main style={{ padding: "var(--vso-space-8)" }}>
-      <h1 style={{ fontSize: 22, marginBottom: "var(--vso-space-2)" }}>Venture Studio OS</h1>
-      <p style={{ color: "var(--vso-text-muted)", marginTop: 0 }}>
-        Phase 01 Foundation — local-first application shell.
-      </p>
-
-      {dbError ? (
-        <div
-          data-testid="db-error"
-          role="alert"
-          style={{ color: "var(--vso-blocked)", marginTop: "var(--vso-space-4)" }}
-        >
-          Database connection error: {dbError}
+    <div>
+      <h1>Portfolio</h1>
+      <div className="grid grid-cols-4" data-testid="portfolio-metrics">
+        <div className="card">
+          <div className="metric" data-testid="metric-active-projects">{activeCount}</div>
+          <div className="muted small">Active projects</div>
+          <Link className="small" href="/projects">View</Link>
         </div>
-      ) : (
-        <section
-          data-testid="portfolio-summary"
-          style={{
-            display: "flex",
-            gap: "var(--vso-space-4)",
-            marginTop: "var(--vso-space-4)",
-          }}
-        >
-          <Card label="Projects" value={summary.projectCount} />
-          <Card label="Active" value={summary.activeCount} />
-          <Card label="Blocked" value={summary.blockedCount} />
-        </section>
-      )}
-    </main>
-  );
-}
+        <div className="card">
+          <div className="metric" data-testid="metric-blocked-projects">{blockedCount}</div>
+          <div className="muted small">Blocked projects</div>
+        </div>
+        <div className="card">
+          <div className="metric" data-testid="metric-pending-reviews">{pendingReviews}</div>
+          <div className="muted small">Pending reviews</div>
+          <Link className="small" href="/reviews">View</Link>
+        </div>
+        <div className="card">
+          <div className="metric" data-testid="metric-open-risks">{openRisks}</div>
+          <div className="muted small">Open high/critical risks</div>
+        </div>
+        <div className="card">
+          <div className="metric" data-testid="metric-active-agents">{activeAgents}</div>
+          <div className="muted small">Active agents</div>
+          <Link className="small" href="/agents">View</Link>
+        </div>
+      </div>
 
-function Card({ label, value }: { label: string; value: number }) {
-  return (
-    <div
-      data-testid={`card-${label.toLowerCase()}`}
-      style={{
-        background: "var(--vso-surface)",
-        border: "1px solid var(--vso-border)",
-        borderRadius: "var(--vso-radius)",
-        padding: "var(--vso-space-4)",
-        minWidth: 120,
-      }}
-    >
-      <div style={{ fontSize: 28, fontWeight: 600 }}>{value}</div>
-      <div style={{ color: "var(--vso-text-muted)", fontSize: 13 }}>{label}</div>
+      <h2>Recent decisions</h2>
+      {recentDecisions.length === 0 ? (
+        <div className="empty">No decisions recorded yet.</div>
+      ) : (
+        <div className="card">
+          <table>
+            <thead><tr><th>Title</th><th>Decided by</th><th>When</th></tr></thead>
+            <tbody>
+              {recentDecisions.map((d) => (
+                <tr key={d.id}>
+                  <td>{d.title}</td>
+                  <td className="muted small">{d.decidedBy}</td>
+                  <td className="muted small">{d.decidedAt.toISOString().slice(0, 10)}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
     </div>
   );
 }

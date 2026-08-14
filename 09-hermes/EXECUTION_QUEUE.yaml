@@ -1,4 +1,4 @@
-activePhase: PHASE_01
+activePhase: PHASE_02
 queue:
 - id: P00-001
   title: Validate required files and paths
@@ -58,8 +58,44 @@ queue:
   status: COMPLETE
   dependencies:
   - P01-004
-- id: P01-006
-  title: Update tracking files + EXECUTION_STATE.json + write PHASE_01_REPORT.md
+- id: P02-001
+  title: Implement project service (PRJ-001..004) — create/edit/archive/restore/search/sort/filter + progress/health
+  status: COMPLETE
+  dependencies: []
+- id: P02-002
+  title: Implement agent records service (AGT-001) + append-only audit (AUD-001)
   status: COMPLETE
   dependencies:
-  - P01-005
+  - P02-001
+- id: P02-003
+  title: Implement intent + benchmark brief + traceability (INT-001/002, DSG-001) + NFR-008 UTC/timezone
+  status: COMPLETE
+  dependencies:
+  - P02-001
+- id: P02-004
+  title: Implement API route handlers (projects, brain, agents, intent, benchmark, audit, settings)
+  status: COMPLETE
+  dependencies:
+  - P02-001
+  - P02-002
+  - P02-003
+- id: P02-005
+  title: Implement UI pages (portfolio, project list, create, dashboard, edit, brain, intent, agents, settings)
+  status: COMPLETE
+  dependencies:
+  - P02-004
+- id: P02-006
+  title: Write Phase 02 tests (PRJ/AGT/AUD/INT/DSG/NFR-008) + run full suite
+  status: COMPLETE
+  dependencies:
+  - P02-005
+- id: P02-007
+  title: Verify preflight --completion, tsc, eslint, package + atlas validators
+  status: COMPLETE
+  dependencies:
+  - P02-006
+- id: P02-008
+  title: Update trackers + EXECUTION_STATE.json + write PHASE_02_REPORT.md
+  status: COMPLETE
+  dependencies:
+  - P02-007

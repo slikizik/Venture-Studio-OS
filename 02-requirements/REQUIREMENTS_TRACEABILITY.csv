@@ -1,8 +1,8 @@
 Requirement ID,Requirement,Phase,Component,Test ID,Evidence,Status
-PRJ-001,Create a project from a built-in or custom template,2,Project service,TEST-PRJ-001,PENDING,NOT_STARTED
-PRJ-002,Edit project metadata and Project Brain,2,Project service,TEST-PRJ-002,PENDING,NOT_STARTED
-PRJ-003,Archive and restore a project without data loss,2,Project service,TEST-PRJ-003,PENDING,NOT_STARTED
-PRJ-004,Search sort and filter projects,2,Project query,TEST-PRJ-004,PENDING,NOT_STARTED
+PRJ-001,Create a project from a built-in or custom template,2,Project service,TEST-PRJ-001,app/src/__tests__/prj.test.ts (TEST-PRJ-001 PASS),PASS
+PRJ-002,Edit project metadata and Project Brain,2,Project service,TEST-PRJ-002,app/src/__tests__/prj.test.ts (TEST-PRJ-002 PASS),PASS
+PRJ-003,Archive and restore a project without data loss,2,Project service,TEST-PRJ-003,app/src/__tests__/prj.test.ts (TEST-PRJ-003 PASS),PASS
+PRJ-004,Search sort and filter projects,2,Project query,TEST-PRJ-004,app/src/__tests__/prj.test.ts (TEST-PRJ-004 PASS),PASS
 PRJ-005,Calculate and display project phase progress health risks and blockers,7,Dashboard service,TEST-PRJ-005,PENDING,NOT_STARTED
 DEL-001,Create edit reorder archive and restore deliverables,3,Deliverable service,TEST-DEL-001,PENDING,NOT_STARTED
 DEL-002,Support validated parent-child hierarchy,3,Deliverable service,TEST-DEL-002,PENDING,NOT_STARTED
@@ -22,7 +22,7 @@ GOV-003,Record project versions and change summaries,3,Version service,TEST-GOV-
 DSH-001,Display portfolio dashboard metrics,7,Dashboard service,TEST-DSH-001,PENDING,NOT_STARTED
 DSH-002,Display project dashboard,7,Dashboard service,TEST-DSH-002,PENDING,NOT_STARTED
 DSH-003,Display pending reviews blockers risks recent decisions and progress,7,Dashboard service,TEST-DSH-003,PENDING,NOT_STARTED
-AGT-001,Store generic agent records capabilities provider model autonomy and status,2,Agent model,TEST-AGT-001,PENDING,NOT_STARTED
+AGT-001,Store generic agent records capabilities provider model autonomy and status,2,Agent model,TEST-AGT-001,app/src/__tests__/agt.test.ts (TEST-AGT-001 PASS),PASS
 AGT-002,Maintain ordered execution queue with dependencies and evidence,4,Execution queue,TEST-AGT-002,PENDING,NOT_STARTED
 AGT-003,Record append-only agent activity and outcomes,4,Activity service,TEST-AGT-003,PENDING,NOT_STARTED
 EXC-001,Classify recoverable assumptions direction-required and critical issues,5,Exception manager,TEST-EXC-001,PENDING,NOT_STARTED
@@ -43,7 +43,7 @@ DAT-004,Create backups before destructive migrations and imports,1,Backup servic
 DAT-005,Restore a verified backup with integrity checks,8,Recovery service,TEST-DAT-005,PENDING,NOT_STARTED
 ATT-001,Attach files links notes test results and artifacts,4,Evidence service,TEST-ATT-001,PENDING,NOT_STARTED
 ATT-002,Sanitize filenames validate size and preserve checksums,4,File service,TEST-ATT-002,PENDING,NOT_STARTED
-AUD-001,Record required append-only audit events,2,Activity service,TEST-AUD-001,PENDING,NOT_STARTED
+AUD-001,Record required append-only audit events,2,Activity service,TEST-AUD-001,app/src/__tests__/aud.test.ts (TEST-AUD-001 PASS),PASS
 NFR-001,Application must run locally on Windows 11 and Ubuntu LTS,1,Platform,TEST-NFR-001,app/src/__tests__/nfr001-run.test.ts (build+serve 200),PASS
 NFR-002,All persisted data must survive application restart,8,Persistence,TEST-NFR-002,PENDING,NOT_STARTED
 NFR-003,TypeScript strict mode must pass without errors,1,Code quality,TEST-NFR-003,app/src/__tests__/nfr003-strict-ts.test.ts (tsc strict 0 errors),PASS
@@ -51,12 +51,12 @@ NFR-004,Core pages must meet WCAG 2.1 AA keyboard and contrast expectations,8,Ac
 NFR-005,Primary list and dashboard actions should respond within two seconds at MVP data volume,8,Performance,TEST-NFR-005,PENDING,NOT_STARTED
 NFR-006,Rendered Markdown and user text must be sanitized,8,Security,TEST-NFR-006,PENDING,NOT_STARTED
 NFR-007,Production release must have no unresolved critical dependency vulnerabilities,9,Security,TEST-NFR-007,PENDING,NOT_STARTED
-NFR-008,All dates must be stored in UTC and displayed in owner timezone,2,Date handling,TEST-NFR-008,PENDING,NOT_STARTED
+NFR-008,All dates must be stored in UTC and displayed in owner timezone,2,Date handling,TEST-NFR-008,app/src/__tests__/nfr008.test.ts (TEST-NFR-008 PASS),PASS
 NFR-009,Critical records and decisions must be append-only or versioned,5,Integrity,TEST-NFR-009,PENDING,NOT_STARTED
 NFR-010,Every completed requirement must link to passing evidence,8,Traceability,TEST-NFR-010,PENDING,NOT_STARTED
-INT-001,Capture and approve a plain-language Project Intent Brief with outcome audience constraints success measures commercial target and priorities,2,Intent service,TEST-INT-001,PENDING,NOT_STARTED
-INT-002,Create and approve a project benchmark brief with target dimensions differentiators and intentional omissions,2,Intent service,TEST-INT-002,PENDING,NOT_STARTED
-DSG-001,Trace approved intent into requirements and acceptance criteria without silently changing owner intent,2,Design service,TEST-DSG-001,PENDING,NOT_STARTED
+INT-001,Capture and approve a plain-language Project Intent Brief with outcome audience constraints success measures commercial target and priorities,2,Intent service,TEST-INT-001,app/src/__tests__/intent.test.ts (TEST-INT-001 PASS),PASS
+INT-002,Create and approve a project benchmark brief with target dimensions differentiators and intentional omissions,2,Intent service,TEST-INT-002,app/src/__tests__/intent.test.ts (TEST-INT-002 PASS),PASS
+DSG-001,Trace approved intent into requirements and acceptance criteria without silently changing owner intent,2,Design service,TEST-DSG-001,app/src/__tests__/intent.test.ts (TEST-DSG-001 PASS),PASS
 DSG-002,Map requirements to deliverables dependencies and executable work packets with explicit exclusions and evidence expectations,4,Design service,TEST-DSG-002,PENDING,NOT_STARTED
 QLT-001,Create and version a project Quality Profile with project-type quality dimensions and target levels,6,Quality service,TEST-QLT-001,PENDING,NOT_STARTED
 QLT-002,Evaluate work packet deliverable stage and release quality gates using retained evidence,5,Quality gate service,TEST-QLT-002,PENDING,NOT_STARTED

@@ -80,6 +80,7 @@ describe("TEST-NFR-001: runs locally (build + serve)", () => {
     expect(res.status).toBe(200);
     const html = await res.text();
     expect(html).toContain("Venture Studio OS");
-    expect(html).toContain("Phase 01 Foundation");
+    expect(html).toContain("Portfolio");
+    expect(html).toContain("Recent decisions");
   }, 90_000);
 });

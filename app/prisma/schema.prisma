@@ -400,6 +400,13 @@ model LearningRecord {
   @@index([projectId])
 }
 
+model AppSetting {
+  key       String   @id
+  value     String
+  updatedAt DateTime @updatedAt @map("updatedAt")
+  updatedBy String?
+}
+
 model AttentionEvent {
   id              String    @id @default(uuid())
   projectId       String

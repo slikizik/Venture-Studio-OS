@@ -63,7 +63,7 @@ export const projectCreateSchema = z.object({
   summary: z.string().max(500).optional().default(""),
   status: ProjectStatus.default("DRAFT"),
   health: ProjectHealth.default("HEALTHY"),
-  templateId: z.string().uuid().optional().nullable(),
+  templateId: z.string().min(1).max(80).optional().nullable(),
   templateVersion: z.string().optional().nullable(),
   ownerName: z.string().min(1).max(120),
   startedAt: z.coerce.date().optional().nullable(),
