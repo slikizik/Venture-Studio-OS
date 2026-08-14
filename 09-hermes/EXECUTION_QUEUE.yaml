@@ -1,4 +1,4 @@
-activePhase: PHASE_02
+activePhase: PHASE_03
 queue:
 - id: P00-001
   title: Validate required files and paths
@@ -99,3 +99,42 @@ queue:
   status: COMPLETE
   dependencies:
   - P02-007
+- id: P03-001
+  title: Implement deliverable service (DEL-001..003) — create/edit/reorder/archive/restore, validated parent-child + dependency cycles, criteria
+  status: COMPLETE
+  dependencies: []
+- id: P03-002
+  title: Implement version service (GOV-003, VER-001/002) — record versions + change summaries, approve/release, seed baseline on project create
+  status: COMPLETE
+  dependencies:
+  - P03-001
+- id: P03-003
+  title: Add validation schemas (deliverable/dependency/criteria/version)
+  status: COMPLETE
+  dependencies: []
+- id: P03-004
+  title: Implement API routes (deliverables, deliverable/[id], dependencies, criteria, versions)
+  status: COMPLETE
+  dependencies:
+  - P03-001
+  - P03-002
+- id: P03-005
+  title: Implement UI (deliverables tree + client, versions page + client, dashboard links)
+  status: COMPLETE
+  dependencies:
+  - P03-004
+- id: P03-006
+  title: Write Phase 03 tests (del/gov/ver) + run full suite
+  status: COMPLETE
+  dependencies:
+  - P03-005
+- id: P03-007
+  title: Verify preflight --completion, tsc, eslint, package + atlas validators
+  status: COMPLETE
+  dependencies:
+  - P03-006
+- id: P03-008
+  title: Update trackers + EXECUTION_STATE.json + write PHASE_03_REPORT.md
+  status: COMPLETE
+  dependencies:
+  - P03-007

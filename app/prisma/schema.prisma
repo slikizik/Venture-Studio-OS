@@ -110,7 +110,7 @@ model Deliverable {
   acceptanceCriteria AcceptanceCriterion[]
   workPackets        WorkPacket[]
 
-  @@unique([projectId, order])
+  @@unique([parentId, order])
   @@index([projectId])
   @@index([parentId])
 }

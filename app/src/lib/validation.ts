@@ -86,3 +86,83 @@ export const backupRequestSchema = z.object({
 });
 
 export type BackupRequest = z.infer<typeof backupRequestSchema>;
+
+// ---- Deliverable ----
+export const deliverableCreateSchema = z.object({
+  projectId: z.string().min(1),
+  parentId: z.string().min(1).optional().nullable(),
+  stageId: z.string().min(1).optional().nullable(),
+  title: z.string().min(1).max(180),
+  description: z.string().optional().nullable(),
+  type: z.string().min(1).max(80),
+  status: DeliverableStatus.default("PLANNED"),
+  priority: Priority.default("MEDIUM"),
+  ownerAgentId: z.string().min(1).optional().nullable(),
+  dueDate: z.coerce.date().optional().nullable(),
+  order: z.number().int().min(0),
+  weight: z.number().min(0).max(100).default(1),
+});
+
+export const deliverableUpdateSchema = z.object({
+  title: z.string().min(1).max(180).optional(),
+  description: z.string().optional().nullable(),
+  parentId: z.string().min(1).optional().nullable(),
+  stageId: z.string().min(1).optional().nullable(),
+  type: z.string().min(1).max(80).optional(),
+  status: DeliverableStatus.optional(),
+  priority: Priority.optional(),
+  ownerAgentId: z.string().min(1).optional().nullable(),
+  dueDate: z.coerce.date().optional().nullable(),
+  order: z.number().int().min(0).optional(),
+  weight: z.number().min(0).max(100).optional(),
+}).refine((v) => Object.keys(v).length > 0, { message: "no fields to update" });
+
+export const dependencyCreateSchema = z.object({
+  deliverableId: z.string().min(1),
+  dependsOnDeliverableId: z.string().min(1),
+}).superRefine((val, ctx) => {
+  if (val.deliverableId === val.dependsOnDeliverableId) {
+    ctx.addIssue({ code: z.ZodIssueCode.custom, message: "a deliverable cannot depend on itself", path: ["dependsOnDeliverableId"] });
+  }
+});
+
+export const criteriaCreateSchema = z.object({
+  projectId: z.string().min(1),
+  deliverableId: z.string().min(1).optional().nullable(),
+  workPacketId: z.string().min(1).optional().nullable(),
+  statement: z.string().min(1).max(500),
+  status: CriterionStatus.default("NOT_VERIFIED"),
+  verificationMethod: VerificationMethod.default("MANUAL_CHECK"),
+  evidenceRequired: z.boolean().default(true),
+}).superRefine((val, ctx) => {
+  if (!val.deliverableId && !val.workPacketId) {
+    ctx.addIssue({ code: z.ZodIssueCode.custom, message: "exactly one of deliverableId/workPacketId required", path: ["deliverableId"] });
+  }
+});
+
+export const criteriaUpdateSchema = z.object({
+  statement: z.string().min(1).max(500).optional(),
+  status: CriterionStatus.optional(),
+  verificationMethod: VerificationMethod.optional(),
+  evidenceRequired: z.boolean().optional(),
+});
+
+// ---- Version record (GOV-003 / VER-001 / VER-002) ----
+export const versionCreateSchema = z.object({
+  projectId: z.string().min(1),
+  versionLabel: z.string().min(1).max(80),
+  versionType: VersionType,
+  sourceReference: z.string().optional().nullable(),
+  changeSummary: z.string().optional().nullable(),
+  status: z.string().min(1).default("DRAFT"),
+  createdBy: z.string().min(1),
+  approvedAt: z.coerce.date().optional().nullable(),
+  releasedAt: z.coerce.date().optional().nullable(),
+});
+
+export type DeliverableCreateInput = z.infer<typeof deliverableCreateSchema>;
+export type DeliverableUpdateInput = z.infer<typeof deliverableUpdateSchema>;
+export type DependencyCreateInput = z.infer<typeof dependencyCreateSchema>;
+export type CriteriaCreateInput = z.infer<typeof criteriaCreateSchema>;
+export type CriteriaUpdateInput = z.infer<typeof criteriaUpdateSchema>;
+export type VersionCreateInput = z.infer<typeof versionCreateSchema>;

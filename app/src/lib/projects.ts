@@ -6,6 +6,7 @@
 import { prisma } from "./prisma";
 import { recordAudit } from "./audit";
 import { getBuiltInTemplate } from "./templates";
+import { seedInitialVersion } from "./versions";
 import {
   projectCreateSchema,
   ProjectStatus,
@@ -109,6 +110,7 @@ export async function createProject(input: unknown, actor = ACTOR) {
       },
       tx,
     );
+    await seedInitialVersion(project.id, actor, tx);
     return project;
   });
 }

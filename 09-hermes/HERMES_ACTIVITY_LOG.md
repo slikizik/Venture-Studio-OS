@@ -51,3 +51,15 @@ Append significant execution events using this format.
 - **Problems encountered:** recordAudit committed outside createProject transaction (FK violation) → fixed with tx param; Windows EBUSY on test DB teardown → disconnect + relative path; templateId uuid() rejected template slugs → relaxed; JSX placeholder= flagged as stub → scanner regex refined; unused imports/vars → removed.
 - **Recovery performed:** All recovered in-phase; no scope change.
 - **Next action:** Await owner review of PHASE_02_REPORT.md; authorize Phase 03 (Deliverables and Versions) via REUSABLE_PHASE_PROMPT.md.
+## Phase 03 — Deliverables and Versions
+
+- **Date and time:** 2026-08-14T19:00:00Z
+- **Phase:** PHASE_03
+- **Work item:** Implement deliverable service (DEL-001..003), version service (GOV-003, VER-001/002), validation schemas, 5 API routes, UI (deliverables tree + versions), Phase 03 tests.
+- **Action:** Implemented deliverables.ts (create/edit/reorder/archive/restore/delete, parent-child + dependency cycle validation, acceptance criteria) and versions.ts (record/approve/release, baseline DEVELOPMENT version seeded on project create). Fixed inverted cycle check in updateDeliverable; relaxed Deliverable order uniqueness (projectId,order) -> (parentId,order) to support tree reordering; applied via prisma db push.
+- **Result:** Phase 03 PASSED. Full suite 57/57 PASS; tsc --noEmit 0 errors; eslint 0 errors; preflight --completion READY. Phase 04 marked READY.
+- **Files changed:** app/src/lib/deliverables.ts, app/src/lib/versions.ts, app/src/lib/validation.ts, app/src/lib/projects.ts, 5 API routes, 4 UI views, app/prisma/schema.prisma + dev.db sync, 3 test files, BUILD_MANIFEST.yaml, PROJECT_STATUS.md, REQUIREMENTS_TRACEABILITY.csv, EXECUTION_QUEUE.yaml, EXECUTION_STATE.json, CHANGELOG.md, PHASE_03_REPORT.md
+- **Commands/tests run:** npx vitest run (57 PASS); npx tsc --noEmit; npx eslint .; python scripts/preflight.py --completion; npx prisma db push
+- **Problems encountered:** (1) updateDeliverable cycle check inverted -> moved-under-descendant not rejected -> fixed direction of isAncestor args; (2) schema (projectId,order) unique broke tree reordering + cross-branch duplicates -> relaxed to (parentId,order).
+- **Recovery performed:** Both fixed in-phase; no scope change.
+- **Next action:** Await owner review of PHASE_03_REPORT.md; authorize Phase 04 (Work Packets and Evidence) via REUSABLE_PHASE_PROMPT.md.

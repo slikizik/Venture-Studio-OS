@@ -108,6 +108,8 @@ export default async function ProjectDashboard({ params }: { params: Promise<{ i
 
       <div style={{ marginTop: 16 }}>
         <Link className="btn btn-secondary" href={`/projects/${id}/intent`}>Intent &amp; Benchmark</Link>
+        <Link className="btn btn-secondary" style={{ marginLeft: 8 }} href={`/projects/${id}/deliverables`}>Deliverables</Link>
+        <Link className="btn btn-secondary" style={{ marginLeft: 8 }} href={`/projects/${id}/versions`}>Versions</Link>
       </div>
     </div>
   );

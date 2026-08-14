@@ -4,9 +4,9 @@ PRJ-002,Edit project metadata and Project Brain,2,Project service,TEST-PRJ-002,a
 PRJ-003,Archive and restore a project without data loss,2,Project service,TEST-PRJ-003,app/src/__tests__/prj.test.ts (TEST-PRJ-003 PASS),PASS
 PRJ-004,Search sort and filter projects,2,Project query,TEST-PRJ-004,app/src/__tests__/prj.test.ts (TEST-PRJ-004 PASS),PASS
 PRJ-005,Calculate and display project phase progress health risks and blockers,7,Dashboard service,TEST-PRJ-005,PENDING,NOT_STARTED
-DEL-001,Create edit reorder archive and restore deliverables,3,Deliverable service,TEST-DEL-001,PENDING,NOT_STARTED
-DEL-002,Support validated parent-child hierarchy,3,Deliverable service,TEST-DEL-002,PENDING,NOT_STARTED
-DEL-003,Store status owner due date dependencies criteria and versions,3,Deliverable service,TEST-DEL-003,PENDING,NOT_STARTED
+DEL-001,Create edit reorder archive and restore deliverables,3,Deliverable service,TEST-DEL-001,app/src/__tests__/del.test.ts (TEST-DEL-001 PASS),PASS
+DEL-002,Support validated parent-child hierarchy,3,Deliverable service,TEST-DEL-002,app/src/__tests__/del.test.ts (TEST-DEL-002 PASS),PASS
+DEL-003,Store status owner due date dependencies criteria and versions,3,Deliverable service,TEST-DEL-003,app/src/__tests__/del.test.ts (TEST-DEL-003 PASS),PASS
 WPK-001,Create work packet linked to a project and optional deliverable,4,Work packet service,TEST-WPK-001,PENDING,NOT_STARTED
 WPK-002,Store complete work packet specification evidence status and assignee,4,Work packet service,TEST-WPK-002,PENDING,NOT_STARTED
 WPK-003,Submit versioned work for review,4,Work packet workflow,TEST-WPK-003,PENDING,NOT_STARTED
@@ -18,7 +18,7 @@ TPL-002,Create stages deliverables brain sections and gates from a template,6,Te
 TPL-003,Create and version custom templates,6,Template engine,TEST-TPL-003,PENDING,NOT_STARTED
 GOV-001,Create immutable decision records,5,Decision service,TEST-GOV-001,PENDING,NOT_STARTED
 GOV-002,Record and manage risks,5,Risk service,TEST-GOV-002,PENDING,NOT_STARTED
-GOV-003,Record project versions and change summaries,3,Version service,TEST-GOV-003,PENDING,NOT_STARTED
+GOV-003,Record project versions and change summaries,3,Version service,TEST-GOV-003,app/src/__tests__/gov.test.ts (TEST-GOV-003 PASS),PASS
 DSH-001,Display portfolio dashboard metrics,7,Dashboard service,TEST-DSH-001,PENDING,NOT_STARTED
 DSH-002,Display project dashboard,7,Dashboard service,TEST-DSH-002,PENDING,NOT_STARTED
 DSH-003,Display pending reviews blockers risks recent decisions and progress,7,Dashboard service,TEST-DSH-003,PENDING,NOT_STARTED
@@ -29,8 +29,8 @@ EXC-001,Classify recoverable assumptions direction-required and critical issues,
 EXC-002,Create formal direction requests,5,Direction service,TEST-EXC-002,PENDING,NOT_STARTED
 EXC-003,Continue unaffected work while an item is blocked,5,Execution coordinator,TEST-EXC-003,PENDING,NOT_STARTED
 EXC-004,Record owner decisions and resume blocked work,5,Decision service,TEST-EXC-004,PENDING,NOT_STARTED
-VER-001,Present understandable project version labels,3,Version manager,TEST-VER-001,PENDING,NOT_STARTED
-VER-002,Record official development test and released versions,3,Version manager,TEST-VER-002,PENDING,NOT_STARTED
+VER-001,Present understandable project version labels,3,Version manager,TEST-VER-001,app/src/__tests__/ver.test.ts (TEST-VER-001 PASS),PASS
+VER-002,Record official development test and released versions,3,Version manager,TEST-VER-002,app/src/__tests__/ver.test.ts (TEST-VER-002 PASS),PASS
 VER-003,Record comparison approval merge readiness and release status,9,Release manager,TEST-VER-003,PENDING,NOT_STARTED
 ENV-001,Register isolated software development environments,9,Environment manager,TEST-ENV-001,PENDING,NOT_STARTED
 ENV-002,Record branch worktree port database storage logs and status,9,Environment manager,TEST-ENV-002,PENDING,NOT_STARTED

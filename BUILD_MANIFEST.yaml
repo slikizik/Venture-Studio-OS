@@ -1,7 +1,7 @@
 product: Venture Studio OS
 specificationBaseline: 1.7.0
 targetVersion: 0.1.0
-currentPhase: 2
+currentPhase: 3
 phases:
 - id: 0
   name: Validation
@@ -17,11 +17,11 @@ phases:
   specification: 07-build-phases/PHASE_02_PROJECT_CORE.md
 - id: 3
   name: Deliverables and Versions
-  status: READY
+  status: COMPLETE
   specification: 07-build-phases/PHASE_03_DELIVERABLES.md
 - id: 4
   name: Work Packets and Evidence
-  status: NOT_STARTED
+  status: READY
   specification: 07-build-phases/PHASE_04_WORK_PACKETS.md
 - id: 5
   name: Reviews, Decisions, Risks, and Exceptions

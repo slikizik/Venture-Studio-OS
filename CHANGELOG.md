@@ -1,4 +1,9 @@
-## 1.7.0 — Phase 02 project core complete (2026-08-14)
+## 1.7.0 — Phase 03 deliverables and versions complete (2026-08-14)
+
+- Phase 03 (Deliverables and Versions) implemented and verified: deliverable service (DEL-001..003 — create/edit/reorder/archive/restore, validated parent-child hierarchy with cycle rejection, dependency cycles rejected, status/owner/dueDate/criteria/versions storage), version service (GOV-003 record versions + change summaries with audit, VER-001 presentable version labels, VER-002 official/development/test/released with approve/release transitions; baseline DEVELOPMENT version seeded on project create).
+- Schema change: relaxed `Deliverable` order uniqueness from global `(projectId, order)` to per-parent `(parentId, order)` (null parent treated distinct in SQLite) so tree reordering works; applied to dev.db via `prisma db push`.
+- Added 5 API routes (deliverables, deliverable/[id], dependencies, criteria, versions) and 4 UI views (deliverables tree + client, versions page + client, dashboard links).
+- 17 new tests (del/gov/ver) — full suite now 57/57 pass; tsc strict 0, eslint 0, preflight --completion READY.
 
 - Phase 02 (Project Core) implemented and verified: project service (PRJ-001..004 — create from template, edit metadata + brain, archive/restore, search/sort/filter, derived progress/health), agent records (AGT-001), append-only audit (AUD-001), Project Intent Brief + benchmark brief + intent→requirement traceability (INT-001/002, DSG-001), and UTC-storage/owner-timezone display (NFR-008).
 - Added `AppSetting` key-value model (owner timezone/name) via a DAT-004-backed migration; migrated with a verified backup (SAFE_TO_PROCEED).
