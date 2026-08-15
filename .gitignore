@@ -33,3 +33,7 @@ app/coverage/
 
 # Keep the example env template
 !app/.env.example
+
+# Local/tooling noise (machine-local, not source)
+.obsidian/workspace.json
+app/.nfr001-npx.log
