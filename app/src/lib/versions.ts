@@ -94,8 +94,8 @@ export async function listVersions(projectId: string) {
 }
 
 /** Seed an initial DEVELOPMENT version when a project is created (GOV-003 baseline). */
-export async function seedInitialVersion(projectId: string, createdBy: string, tx: import("@prisma/client").Prisma.TransactionClient) {
-  return tx.versionRecord.create({
+export async function seedInitialVersion(projectId: string, createdBy: string) {
+  return prisma.versionRecord.create({
     data: {
       projectId,
       versionLabel: "v0.1.0-dev",

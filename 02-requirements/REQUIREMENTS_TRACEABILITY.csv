@@ -13,9 +13,9 @@ WPK-003,Submit versioned work for review,4,Work packet workflow,TEST-WPK-003,app
 REV-001,Create criterion-based review records,5,Review service,TEST-REV-001,app/src/__tests__/rev.test.ts (TEST-REV-001 PASS),PASS
 REV-002,Approve reject or request revision under transition rules,5,Review service,TEST-REV-002,app/src/__tests__/rev.test.ts (TEST-REV-002 PASS),PASS
 REV-003,Preserve immutable review comments and history,5,Review service,TEST-REV-003,app/src/__tests__/rev.test.ts (TEST-REV-003 PASS),PASS
-TPL-001,Load and validate built-in project templates,6,Template engine,TEST-TPL-001,PENDING,NOT_STARTED
-TPL-002,Create stages deliverables brain sections and gates from a template,6,Template engine,TEST-TPL-002,PENDING,NOT_STARTED
-TPL-003,Create and version custom templates,6,Template engine,TEST-TPL-003,PENDING,NOT_STARTED
+TPL-001,Load and validate built-in project templates,6,Template engine,TEST-TPL-001,COMPLETE,TEST-TPL-001 PASS — app/src/__tests__/tpl.test.ts (6/6 PASS)
+TPL-002,Create stages deliverables brain sections and gates from a template,6,Template engine,TEST-TPL-002,COMPLETE,TEST-TPL-002 PASS — app/src/__tests__/tpl.test.ts (built-in + custom instantiation, deliverables/gates/brain/quality-profile seeded)
+TPL-003,Create and version custom templates,6,Template engine,TEST-TPL-003,COMPLETE,TEST-TPL-003 PASS — app/src/__tests__/tpl.test.ts (create/version/resolve custom template)
 GOV-001,Create immutable decision records,5,Decision service,TEST-GOV-001,app/src/__tests__/gov.test.ts (TEST-GOV-001 PASS),PASS
 GOV-002,Record and manage risks,5,Risk service,TEST-GOV-002,app/src/__tests__/gov.test.ts (TEST-GOV-002 PASS),PASS
 GOV-003,Record project versions and change summaries,3,Version service,TEST-GOV-003,app/src/__tests__/gov.test.ts (TEST-GOV-003 PASS),PASS
@@ -58,7 +58,7 @@ INT-001,Capture and approve a plain-language Project Intent Brief with outcome a
 INT-002,Create and approve a project benchmark brief with target dimensions differentiators and intentional omissions,2,Intent service,TEST-INT-002,app/src/__tests__/intent.test.ts (TEST-INT-002 PASS),PASS
 DSG-001,Trace approved intent into requirements and acceptance criteria without silently changing owner intent,2,Design service,TEST-DSG-001,app/src/__tests__/intent.test.ts (TEST-DSG-001 PASS),PASS
 DSG-002,Map requirements to deliverables dependencies and executable work packets with explicit exclusions and evidence expectations,4,Design service,TEST-DSG-002,app/src/__tests__/dsg2.test.ts (TEST-DSG-002 PASS),PASS
-QLT-001,Create and version a project Quality Profile with project-type quality dimensions and target levels,6,Quality service,TEST-QLT-001,PENDING,NOT_STARTED
+QLT-001,Create and version a project Quality Profile with project-type quality dimensions and target levels,6,Quality service,TEST-QLT-001,COMPLETE,TEST-QLT-001 PASS — app/src/__tests__/qlt.test.ts (create/version/list/update/delete 6/6 PASS)
 QLT-002,Evaluate work packet deliverable stage and release quality gates using retained evidence,5,Quality gate service,TEST-QLT-002,app/src/__tests__/qlt.test.ts (TEST-QLT-002 PASS),PASS
 QLT-003,Record benchmark gaps and show whether mandatory commercial targets are met or explicitly accepted,7,Quality dashboard,TEST-QLT-003,PENDING,NOT_STARTED
 QLT-004,Distinguish technically ready from commercially ready release states,9,Release manager,TEST-QLT-004,PENDING,NOT_STARTED

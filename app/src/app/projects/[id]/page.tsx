@@ -111,6 +111,7 @@ export default async function ProjectDashboard({ params }: { params: Promise<{ i
         <Link className="btn btn-secondary" style={{ marginLeft: 8 }} href={`/projects/${id}/deliverables`}>Deliverables</Link>
         <Link className="btn btn-secondary" style={{ marginLeft: 8 }} href={`/projects/${id}/workpackets`}>Work Packets</Link>
         <Link className="btn btn-secondary" style={{ marginLeft: 8 }} href={`/projects/${id}/queue`}>Execution Queue</Link>
+        <Link className="btn btn-secondary" style={{ marginLeft: 8 }} href={`/quality-profiles?projectId=${id}`}>Quality Profile</Link>
       </div>
     </div>
   );

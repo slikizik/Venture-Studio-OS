@@ -19,7 +19,7 @@ model Project {
   summary          String? // 0..500
   status           String    @default("DRAFT") // ProjectStatus
   health           String    @default("HEALTHY") // ProjectHealth (derived)
-  templateId       String?
+  templateId       String? // built-in id or custom ProjectTemplate id
   templateVersion  String?
   currentStageId   String?
   ownerName        String // 1..120
@@ -54,6 +54,7 @@ model Project {
   queueItems           ExecutionQueueItem[]
   directionRequests    DirectionRequest[]
   exceptions           Exception[]
+  projectTemplates     ProjectTemplate[] // custom templates authored for this project (TPL-003)
 
   @@index([status])
   @@index([archivedAt])
@@ -370,7 +371,10 @@ model BenchmarkBrief {
 model QualityProfile {
   id                  String   @id @default(uuid())
   projectId           String
+  version             String   @default("1.0.0")
+  isLatest            Boolean  @default(true)
   name                String
+  projectTypeId       String
   dimensions          String   @default("[]") // JSON
   mandatoryDimensions String   @default("[]") // JSON
   targetLevels        String   @default("[]") // JSON (QualityLevel)
@@ -379,7 +383,9 @@ model QualityProfile {
   updatedAt           DateTime @updatedAt @map("updatedAt")
   project             Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
 
+  @@unique([projectId, version])
   @@index([projectId])
+  @@index([isLatest])
 }
 
 model QualityGateResult {
@@ -593,3 +599,101 @@ model Exception {
   @@index([classification])
   @@index([status])
 }
+
+// TPL-003 — Custom project templates with versioning.
+// A template is a reusable definition of stages, deliverables, gates,
+// brain sections, and a default quality profile. Versions are immutable
+// snapshots; a new save supersedes rather than overwrites.
+model ProjectTemplate {
+  id            String   @id @default(uuid())
+  projectId     String? // owning project; null for global/library templates
+  key           String // stable identifier within the owning scope (e.g. "my-build-v1")
+  name          String // 1..150
+  description   String? // markdown
+  version        String // semantic-ish version label, e.g. "1.0.0"
+  isLatest       Boolean  @default(true)
+  projectTypeId  String // drives default Quality Profile dimensions (QLT-001)
+  stages         TemplateStage[]
+  deliverables   TemplateDeliverable[]
+  gates          TemplateGate[]
+  brainSections  TemplateBrainSection[]
+  qualityProfile TemplateQualityProfile?
+  createdAt     DateTime @default(now()) @map("createdAt")
+  updatedAt     DateTime @updatedAt @map("updatedAt")
+  project       Project? @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@unique([projectId, key, version])
+  @@index([projectId])
+  @@index([key])
+}
+
+model TemplateStage {
+  id            String   @id @default(uuid())
+  templateId    String
+  name          String // 1..120
+  order         Int // >=0 unique within template
+  entryCriteria String   @default("[]") // JSON array
+  exitCriteria  String   @default("[]") // JSON array
+  template      ProjectTemplate @relation(fields: [templateId], references: [id], onDelete: Cascade)
+
+  @@unique([templateId, order])
+  @@index([templateId])
+}
+
+model TemplateDeliverable {
+  id          String   @id @default(uuid())
+  templateId  String
+  parentKey   String? // references another TemplateDeliverable.key within same template
+  stageKey    String? // references a TemplateStage by name for stage assignment
+  key         String // stable id within template (for hierarchy + dependency resolution)
+  title       String // 1..180
+  description String? // markdown
+  type        String // 1..80
+  priority    String   @default("MEDIUM") // Priority
+  order       Int // >=0 unique among siblings
+  weight      Float    @default(1)
+  dependsOn   String   @default("[]") // JSON array of TemplateDeliverable.key
+  template    ProjectTemplate @relation(fields: [templateId], references: [id], onDelete: Cascade)
+
+  @@unique([templateId, key])
+  @@index([templateId])
+}
+
+model TemplateGate {
+  id          String   @id @default(uuid())
+  templateId  String
+  level       String // GateLevel
+  name        String // 1..150
+  criteria    String   @default("[]") // JSON array of criterion statements
+  order       Int // >=0 unique within template+level
+  template    ProjectTemplate @relation(fields: [templateId], references: [id], onDelete: Cascade)
+
+  @@unique([templateId, level, order])
+  @@index([templateId])
+}
+
+model TemplateBrainSection {
+  id         String   @id @default(uuid())
+  templateId String
+  section    String // BrainSection enum
+  title      String // 1..150
+  content    String // markdown
+  order      Int // >=0 unique within template+section
+  template   ProjectTemplate @relation(fields: [templateId], references: [id], onDelete: Cascade)
+
+  @@unique([templateId, section, order])
+  @@index([templateId])
+}
+
+// TPL-003 / QLT-001 — Default quality profile seeded when instantiating a template.
+model TemplateQualityProfile {
+  id                  String   @id @default(uuid())
+  templateId          String   @unique
+  name                String
+  projectTypeId       String
+  dimensions          String   @default("[]") // JSON
+  mandatoryDimensions String   @default("[]") // JSON
+  targetLevels        String   @default("[]") // JSON (QualityLevel)
+  template            ProjectTemplate @relation(fields: [templateId], references: [id], onDelete: Cascade)
+}
+

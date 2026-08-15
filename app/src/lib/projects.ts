@@ -6,6 +6,8 @@
 import { prisma } from "./prisma";
 import { recordAudit } from "./audit";
 import { getBuiltInTemplate } from "./templates";
+import { resolveTemplate } from "./customTemplates";
+import { instantiateTemplate } from "./templateEngine";
 import { seedInitialVersion } from "./versions";
 import {
   projectCreateSchema,
@@ -54,65 +56,43 @@ const ACTOR = "SYSTEM"; // service-level actor; UI passes owner name where relev
 /** PRJ-001: Create a project, optionally from a built-in or custom template. */
 export async function createProject(input: unknown, actor = ACTOR) {
   const data = projectCreateSchema.parse(input);
-  return prisma.$transaction(async (tx) => {
-    const project = await tx.project.create({
-      data: {
-        name: data.name,
-        summary: data.summary ?? null,
-        status: data.status,
-        health: data.health,
-        templateId: data.templateId ?? null,
-        templateVersion: data.templateVersion ?? null,
-        ownerName: data.ownerName,
-        startedAt: data.startedAt ?? null,
-        targetDate: data.targetDate ?? null,
-        progressPercent: 0,
-      },
-    });
-
-    const tpl = data.templateId ? getBuiltInTemplate(data.templateId) : undefined;
-    if (tpl) {
-      await tx.projectStage.createMany({
-        data: tpl.stages.map((s) => ({
-          projectId: project.id,
-          name: s.name,
-          order: s.order,
-          status: "NOT_STARTED",
-          entryCriteria: JSON.stringify(s.entryCriteria ?? []),
-          exitCriteria: JSON.stringify(s.exitCriteria ?? []),
-        })),
-      });
-      if (tpl.brainSections.length > 0) {
-        await tx.projectBrainEntry.createMany({
-          data: tpl.brainSections.map((b) => ({
-            projectId: project.id,
-            section: b.section,
-            title: b.title,
-            content: b.content,
-            order: b.order,
-          })),
-        });
-      }
-    } else {
-      await tx.projectStage.create({
-        data: { projectId: project.id, name: "Draft", order: 0, status: "NOT_STARTED" },
-      });
-    }
-
-    await recordAudit(
-      {
-        actor,
-        action: "PROJECT_CREATED",
-        entityType: "PROJECT",
-        entityId: project.id,
-        projectId: project.id,
-        summary: `Project created: ${project.name} (template: ${data.templateId ?? "none"})`,
-      },
-      tx,
-    );
-    await seedInitialVersion(project.id, actor, tx);
-    return project;
+  // Only the row insert runs inside a transaction; template instantiation and
+  // downstream seeded rows use the global client (SQLite's single connection
+  // deadlocks if a global-client query is issued inside an active tx).
+  const project = await prisma.project.create({
+    data: {
+      name: data.name,
+      summary: data.summary ?? null,
+      status: data.status,
+      health: data.health,
+      templateId: data.templateId ?? null,
+      templateVersion: data.templateVersion ?? null,
+      ownerName: data.ownerName,
+      startedAt: data.startedAt ?? null,
+      targetDate: data.targetDate ?? null,
+      progressPercent: 0,
+    },
   });
+
+  const tplId = data.templateId ?? null;
+  if (tplId) {
+    await instantiateTemplate(project.id, tplId);
+  } else {
+    await prisma.projectStage.create({
+      data: { projectId: project.id, name: "Draft", order: 0, status: "NOT_STARTED" },
+    });
+  }
+
+  await recordAudit({
+    actor,
+    action: "PROJECT_CREATED",
+    entityType: "PROJECT",
+    entityId: project.id,
+    projectId: project.id,
+    summary: `Project created: ${project.name} (template: ${data.templateId ?? "none"})`,
+  });
+  await seedInitialVersion(project.id, actor);
+  return project;
 }
 
 /** PRJ-002: Edit project metadata. */

@@ -455,3 +455,135 @@ export const qualityGateCreateSchema = z.object({
 });
 export type QualityGateCreateInput = z.infer<typeof qualityGateCreateSchema>;
 
+// ---- Phase 06: Templates (TPL-001/002/003) and Quality Profile (QLT-001) ----
+
+export const ProjectTypeId = z.enum([
+  "BLANK", "STANDARD_VENTURE", "PRODUCT_RELEASE", "RESEARCH", "SERVICE", "INTERNAL_TOOL",
+]);
+export type ProjectTypeIdType = z.infer<typeof ProjectTypeId>;
+
+// TPL-001 — validate a built-in/custom template definition before use.
+export const templateStageDefSchema = z.object({
+  name: z.string().min(1).max(100),
+  order: z.number().int().min(0),
+  entryCriteria: z.array(z.string()).default([]),
+  exitCriteria: z.array(z.string()).default([]),
+});
+export type TemplateStageDef = z.infer<typeof templateStageDefSchema>;
+
+export const templateDeliverableDefSchema = z.object({
+  key: z.string().min(1),
+  parentKey: z.string().min(1).optional().nullable(),
+  stageKey: z.string().min(1).optional().nullable(),
+  title: z.string().min(1).max(180),
+  description: z.string().max(2000).optional().nullable(),
+  type: z.string().min(1).max(80),
+  priority: Priority.default("MEDIUM"),
+  order: z.number().int().min(0),
+  weight: z.number().min(0).max(100).optional().default(1),
+  dependsOn: z.array(z.string().min(1)).optional().default([]),
+});
+export type TemplateDeliverableDef = z.infer<typeof templateDeliverableDefSchema>;
+
+export const templateGateDefSchema = z.object({
+  level: GateLevel,
+  name: z.string().min(1).max(150),
+  criteria: z.array(z.string().min(1)).default([]),
+  order: z.number().int().min(0),
+});
+export type TemplateGateDef = z.infer<typeof templateGateDefSchema>;
+
+export const templateBrainSectionDefSchema = z.object({
+  section: BrainSection,
+  title: z.string().min(1).max(150),
+  content: z.string(),
+  order: z.number().int().min(0),
+});
+export type TemplateBrainSectionDef = z.infer<typeof templateBrainSectionDefSchema>;
+
+// TPL-001/003 — a complete template definition (built-in or custom payload).
+export const templateDefSchema = z.object({
+  key: z.string().min(1).max(80),
+  name: z.string().min(1).max(150),
+  description: z.string().max(2000).optional().nullable(),
+  projectTypeId: ProjectTypeId,
+  stages: z.array(templateStageDefSchema).min(1, "at least one stage is required"),
+  deliverables: z.array(templateDeliverableDefSchema).default([]),
+  gates: z.array(templateGateDefSchema).default([]),
+  brainSections: z.array(templateBrainSectionDefSchema).default([]),
+  qualityProfile: z.object({
+    name: z.string().min(1).max(150),
+    projectTypeId: ProjectTypeId,
+    dimensions: z.array(z.string().min(1)).default([]),
+    mandatoryDimensions: z.array(z.string().min(1)).default([]),
+    targetLevels: z.array(QualityLevel).default([]),
+  }).optional(),
+}).superRefine((val, ctx) => {
+  // stage keys referenced by gates/deliverables must exist
+  const stageNames = new Set(val.stages.map((s) => s.name));
+  for (const d of val.deliverables) {
+    if (d.stageKey && !stageNames.has(d.stageKey)) {
+      ctx.addIssue({ code: z.ZodIssueCode.custom, message: `deliverable ${d.key} references unknown stage ${d.stageKey}`, path: ["deliverables"] });
+    }
+  }
+  // deliverable keys referenced by parent/dependsOn must exist
+  const dKeys = new Set(val.deliverables.map((d) => d.key));
+  for (const d of val.deliverables) {
+    if (d.parentKey && !dKeys.has(d.parentKey)) {
+      ctx.addIssue({ code: z.ZodIssueCode.custom, message: `deliverable ${d.key} references unknown parent ${d.parentKey}`, path: ["deliverables"] });
+    }
+    for (const dep of d.dependsOn) {
+      if (!dKeys.has(dep)) {
+        ctx.addIssue({ code: z.ZodIssueCode.custom, message: `deliverable ${d.key} depends on unknown ${dep}`, path: ["deliverables"] });
+      }
+    }
+  }
+  // unique deliverable keys
+  if (dKeys.size !== val.deliverables.length) {
+    ctx.addIssue({ code: z.ZodIssueCode.custom, message: "deliverable keys must be unique", path: ["deliverables"] });
+  }
+  // unique stage order
+  const stageOrders = val.stages.map((s) => s.order);
+  if (new Set(stageOrders).size !== stageOrders.length) {
+    ctx.addIssue({ code: z.ZodIssueCode.custom, message: "stage orders must be unique", path: ["stages"] });
+  }
+});
+export type TemplateDef = z.infer<typeof templateDefSchema>;
+
+// TPL-003 — create a custom template (persisted, versioned).
+export const customTemplateCreateSchema = z.object({
+  projectId: z.string().min(1).optional().nullable(),
+  version: z.string().min(1).max(40).optional().default("1.0.0"),
+  definition: templateDefSchema,
+});
+export type CustomTemplateCreateInput = z.infer<typeof customTemplateCreateSchema>;
+
+// QLT-001 — create/version a project Quality Profile.
+export const qualityProfileCreateSchema = z.object({
+  projectId: z.string().min(1).optional(),
+  name: z.string().min(1).max(150),
+  projectTypeId: ProjectTypeId,
+  dimensions: z.array(z.object({
+    id: z.string().min(1),
+    name: z.string().min(1).max(150),
+    description: z.string().max(2000).optional().nullable(),
+  })).default([]),
+  mandatoryDimensions: z.array(z.string().min(1)).default([]),
+  targetLevels: z.array(QualityLevel).default([]),
+  status: ProfileStatus.default("DRAFT"),
+});
+export type QualityProfileCreateInput = z.infer<typeof qualityProfileCreateSchema>;
+
+export const qualityProfileUpdateSchema = z.object({
+  name: z.string().min(1).max(150).optional(),
+  projectTypeId: ProjectTypeId.optional(),
+  dimensions: z.array(z.object({
+    id: z.string().min(1),
+    name: z.string().min(1).max(150),
+    description: z.string().max(2000).optional().nullable(),
+  })).optional(),
+  mandatoryDimensions: z.array(z.string().min(1)).optional(),
+  targetLevels: z.array(QualityLevel).optional(),
+  status: ProfileStatus.optional(),
+}).refine((v) => Object.keys(v).length > 0, { message: "no fields to update" });
+export type QualityProfileUpdateInput = z.infer<typeof qualityProfileUpdateSchema>;

@@ -1,4 +1,4 @@
-activePhase: PHASE_05
+activePhase: PHASE_06
 queue:
 - id: P00-001
   title: Validate required files and paths
@@ -231,3 +231,44 @@ queue:
   status: COMPLETE
   dependencies:
   - P05-008
+- id: P06-001
+  title: Extend Prisma schema with ProjectTemplate + children (stage/deliverable/gate/brain/qualityProfile) and Project back-relation; QualityProfile version/isLatest columns
+  status: COMPLETE
+  dependencies: []
+- id: P06-002
+  title: Implement template engine (TPL-001/002) — 6 built-in templates, validateTemplate, instantiateTemplate seeds stages/deliverables/gates/brain/quality-profile on createProject
+  status: COMPLETE
+  dependencies:
+  - P06-001
+- id: P06-003
+  title: Implement Quality Profile service (QLT-001) — create/version/list/update/delete with immutable versioning
+  status: COMPLETE
+  dependencies:
+  - P06-001
+- id: P06-004
+  title: Implement custom template service (TPL-003) — create/version/resolve/list with immutable versioning
+  status: COMPLETE
+  dependencies:
+  - P06-001
+- id: P06-005
+  title: Implement API routes (templates, quality-profiles, custom templates, custom/[id], quality-profiles/[id] DELETE)
+  status: COMPLETE
+  dependencies:
+  - P06-002
+  - P06-003
+  - P06-004
+- id: P06-006
+  title: Implement UI (templates list, new custom template, quality profiles pages + clients; nav + project dashboard links)
+  status: COMPLETE
+  dependencies:
+  - P06-005
+- id: P06-007
+  title: Write Phase 06 tests (tpl.test.ts TPL-001/002/003, qlt.test.ts QLT-001) + run full suite
+  status: COMPLETE
+  dependencies:
+  - P06-006
+- id: P06-008
+  title: Verify preflight --completion, tsc, next build; update trackers + EXECUTION_STATE + write PHASE_06_REPORT.md
+  status: COMPLETE
+  dependencies:
+  - P06-007
