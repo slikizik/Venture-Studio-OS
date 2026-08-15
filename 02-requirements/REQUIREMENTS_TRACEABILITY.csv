@@ -3,7 +3,7 @@ PRJ-001,Create a project from a built-in or custom template,2,Project service,TE
 PRJ-002,Edit project metadata and Project Brain,2,Project service,TEST-PRJ-002,app/src/__tests__/prj.test.ts (TEST-PRJ-002 PASS),PASS
 PRJ-003,Archive and restore a project without data loss,2,Project service,TEST-PRJ-003,app/src/__tests__/prj.test.ts (TEST-PRJ-003 PASS),PASS
 PRJ-004,Search sort and filter projects,2,Project query,TEST-PRJ-004,app/src/__tests__/prj.test.ts (TEST-PRJ-004 PASS),PASS
-PRJ-005,Calculate and display project phase progress health risks and blockers,7,Dashboard service,TEST-PRJ-005,PENDING,NOT_STARTED
+PRJ-005,Calculate and display project phase progress health risks and blockers,7,Dashboard service,TEST-PRJ-005,app/src/__tests__/dsh.test.ts (TEST-DSH-002 PASS),PASS
 DEL-001,Create edit reorder archive and restore deliverables,3,Deliverable service,TEST-DEL-001,app/src/__tests__/del.test.ts (TEST-DEL-001 PASS),PASS
 DEL-002,Support validated parent-child hierarchy,3,Deliverable service,TEST-DEL-002,app/src/__tests__/del.test.ts (TEST-DEL-002 PASS),PASS
 DEL-003,Store status owner due date dependencies criteria and versions,3,Deliverable service,TEST-DEL-003,app/src/__tests__/del.test.ts (TEST-DEL-003 PASS),PASS
@@ -19,9 +19,9 @@ TPL-003,Create and version custom templates,6,Template engine,TEST-TPL-003,COMPL
 GOV-001,Create immutable decision records,5,Decision service,TEST-GOV-001,app/src/__tests__/gov.test.ts (TEST-GOV-001 PASS),PASS
 GOV-002,Record and manage risks,5,Risk service,TEST-GOV-002,app/src/__tests__/gov.test.ts (TEST-GOV-002 PASS),PASS
 GOV-003,Record project versions and change summaries,3,Version service,TEST-GOV-003,app/src/__tests__/gov.test.ts (TEST-GOV-003 PASS),PASS
-DSH-001,Display portfolio dashboard metrics,7,Dashboard service,TEST-DSH-001,PENDING,NOT_STARTED
-DSH-002,Display project dashboard,7,Dashboard service,TEST-DSH-002,PENDING,NOT_STARTED
-DSH-003,Display pending reviews blockers risks recent decisions and progress,7,Dashboard service,TEST-DSH-003,PENDING,NOT_STARTED
+DSH-001,Display portfolio dashboard metrics,7,Dashboard service,TEST-DSH-001,app/src/__tests__/dsh.test.ts (TEST-DSH-001 PASS),PASS
+DSH-002,Display project dashboard,7,Dashboard service,TEST-DSH-002,app/src/__tests__/dsh.test.ts (TEST-DSH-002 PASS),PASS
+DSH-003,Display pending reviews blockers risks recent decisions and progress,7,Dashboard service,TEST-DSH-003,app/src/__tests__/dsh.test.ts (TEST-DSH-003 PASS),PASS
 AGT-001,Store generic agent records capabilities provider model autonomy and status,2,Agent model,TEST-AGT-001,app/src/__tests__/agt.test.ts (TEST-AGT-001 PASS),PASS
 AGT-002,Maintain ordered execution queue with dependencies and evidence,4,Execution queue,TEST-AGT-002,app/src/__tests__/agt2.test.ts (TEST-AGT-002 PASS),PASS
 AGT-003,Record append-only agent activity and outcomes,4,Activity service,TEST-AGT-003,app/src/__tests__/agt2.test.ts (TEST-AGT-003 PASS),PASS
@@ -35,7 +35,7 @@ VER-003,Record comparison approval merge readiness and release status,9,Release 
 ENV-001,Register isolated software development environments,9,Environment manager,TEST-ENV-001,PENDING,NOT_STARTED
 ENV-002,Record branch worktree port database storage logs and status,9,Environment manager,TEST-ENV-002,PENDING,NOT_STARTED
 ENV-003,Prevent runtime data sharing between isolated environments,8,Environment isolation,TEST-ENV-003,PENDING,NOT_STARTED
-ENV-004,Display visible environment identity in non-production builds,7,Application shell,TEST-ENV-004,PENDING,NOT_STARTED
+ENV-004,Display visible environment identity in non-production builds,7,Application shell,TEST-ENV-004,app/src/app/layout.tsx (VSO_ENV banner rendered),PASS
 DAT-001,Export a complete project as a versioned package,8,Import export service,TEST-DAT-001,PENDING,NOT_STARTED
 DAT-002,Import a compatible project package transactionally,8,Import export service,TEST-DAT-002,PENDING,NOT_STARTED
 DAT-003,Reject invalid or unsupported import packages safely,8,Import export service,TEST-DAT-003,PENDING,NOT_STARTED
@@ -60,12 +60,12 @@ DSG-001,Trace approved intent into requirements and acceptance criteria without 
 DSG-002,Map requirements to deliverables dependencies and executable work packets with explicit exclusions and evidence expectations,4,Design service,TEST-DSG-002,app/src/__tests__/dsg2.test.ts (TEST-DSG-002 PASS),PASS
 QLT-001,Create and version a project Quality Profile with project-type quality dimensions and target levels,6,Quality service,TEST-QLT-001,COMPLETE,TEST-QLT-001 PASS — app/src/__tests__/qlt.test.ts (create/version/list/update/delete 6/6 PASS)
 QLT-002,Evaluate work packet deliverable stage and release quality gates using retained evidence,5,Quality gate service,TEST-QLT-002,app/src/__tests__/qlt.test.ts (TEST-QLT-002 PASS),PASS
-QLT-003,Record benchmark gaps and show whether mandatory commercial targets are met or explicitly accepted,7,Quality dashboard,TEST-QLT-003,PENDING,NOT_STARTED
+QLT-003,Record benchmark gaps and show whether mandatory commercial targets are met or explicitly accepted,7,Quality dashboard,TEST-QLT-003,app/src/__tests__/qltdash.test.ts (TEST-QLT-003 PASS),PASS
 QLT-004,Distinguish technically ready from commercially ready release states,9,Release manager,TEST-QLT-004,PENDING,NOT_STARTED
 LRN-001,Capture learning records from defects feedback tests benchmarks usability commercial insights agent failures and retrospectives,5,Learning service,TEST-LRN-001,app/src/__tests__/lrn.test.ts (TEST-LRN-001 PASS),PASS
 LRN-002,Convert assessed learning into controlled change requests requirements or backlog without silently expanding scope,5,Learning service,TEST-LRN-002,app/src/__tests__/lrn.test.ts (TEST-LRN-002 PASS),PASS
-AUT-001,Calculate autonomy rate and first-pass acceptance from auditable execution and review records,7,Metrics service,TEST-AUT-001,PENDING,NOT_STARTED
-AUT-002,Record and display owner attention time without suppressing required escalations,7,Metrics service,TEST-AUT-002,PENDING,NOT_STARTED
-AUT-003,Record escalation quality and identify unnecessary escalation events,7,Metrics service,TEST-AUT-003,PENDING,NOT_STARTED
-AUT-004,Calculate autonomous recovery rate from classified recoverable execution incidents,7,Metrics service,TEST-AUT-004,PENDING,NOT_STARTED
+AUT-001,Calculate autonomy rate and first-pass acceptance from auditable execution and review records,7,Metrics service,TEST-AUT-001,app/src/__tests__/aut.test.ts (TEST-AUT-001 PASS),PASS
+AUT-002,Record and display owner attention time without suppressing required escalations,7,Metrics service,TEST-AUT-002,app/src/__tests__/aut.test.ts (TEST-AUT-002 PASS),PASS
+AUT-003,Record escalation quality and identify unnecessary escalation events,7,Metrics service,TEST-AUT-003,app/src/__tests__/aut.test.ts (TEST-AUT-003 PASS),PASS
+AUT-004,Calculate autonomous recovery rate from classified recoverable execution incidents,7,Metrics service,TEST-AUT-004,app/src/__tests__/aut.test.ts (TEST-AUT-004 PASS),PASS
 SEVL-001,Complete one persisted end-to-end Smallest Executable VSO Loop from intent through learning with evidence and review,5,SEVL integration,TEST-SEVL-001,app/src/__tests__/sevl.test.ts (TEST-SEVL-001 PASS),PASS

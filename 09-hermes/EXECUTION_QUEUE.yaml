@@ -272,3 +272,34 @@ queue:
   status: COMPLETE
   dependencies:
   - P06-007
+- id: P07-001
+  title: Implement metrics service (PRJ-005, DSH-001/002/003, QLT-003, AUT-001..004) in app/src/lib/metrics.ts
+  status: COMPLETE
+  dependencies:
+  - P06-008
+- id: P07-002
+  title: Enhance portfolio dashboard (app/src/app/page.tsx) with metrics, needs-attention, recent decisions (DSH-001/003)
+  status: COMPLETE
+  dependencies:
+  - P07-001
+- id: P07-003
+  title: Enhance project dashboard (app/src/app/projects/[id]/page.tsx) with blockers + owner-attention/autonomy panel (DSH-002/PRJ-005/AUT)
+  status: COMPLETE
+  dependencies:
+  - P07-001
+- id: P07-004
+  title: Confirm ENV-004 environment banner present in app/src/app/layout.tsx
+  status: COMPLETE
+  dependencies:
+  - P06-008
+- id: P07-005
+  title: Write Phase 07 tests (dsh.test.ts, aut.test.ts, qltdash.test.ts) + run full suite
+  status: COMPLETE
+  dependencies:
+  - P07-002
+  - P07-003
+- id: P07-006
+  title: Verify preflight --completion, tsc, next build; update trackers + EXECUTION_STATE + write PHASE_07_REPORT.md
+  status: COMPLETE
+  dependencies:
+  - P07-005

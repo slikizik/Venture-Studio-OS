@@ -1,3 +1,10 @@
+## 1.7.0 — Phase 07 dashboards and environment identity complete (2026-08-15)
+
+- Phase 07 (Dashboards and Environment Identity) implemented and verified: auditable metrics service (`app/src/lib/metrics.ts`) covering PRJ-005, DSH-001/002/003, QLT-003, AUT-001..004; portfolio dashboard (`app/src/app/page.tsx`) with portfolio metrics, needs-attention, recent decisions; project dashboard (`app/src/app/projects/[id]/page.tsx`) with blockers card + owner-attention/autonomy panel. ENV-004 environment banner already present in `app/src/app/layout.tsx`.
+- Metrics derive from stored, auditable records only (Project/Stage/Risk/DirectionRequest/Review/Exception/AttentionEvent/QualityProfile/QualityGateResult/DecisionRecord). Owner-attention never suppresses escalations (`attentionSuppressed:false` by construction); benchmark gaps report only what retained evidence supports (never invents a pass) — consistent with product doctrine.
+- Added 3 Phase 07 test files (dsh, aut, qltdash) — 11 new cases; full suite now **128/128 PASS**, including TEST-DSH-001/002/003, TEST-PRJ-005, TEST-QLT-003, TEST-AUT-001..004, and NFR-003 strict tsc (no `any`). tsc --noEmit 0 errors; `next build` compiles. preflight --completion READY.
+- Updated trackers: BUILD_MANIFEST (phase 7 COMPLETE, phase 8 READY), PROJECT_STATUS, REQUIREMENTS_TRACEABILITY (10 Phase-07 rows PASS), EXECUTION_QUEUE (P07-001..006), EXECUTION_STATE, HERMES_ACTIVITY_LOG. Phase 08 (Testing, Data Portability, and Hardening) marked READY.
+
 ## 1.7.0 — Phase 06 templates complete (2026-08-15)
 
 - Phase 06 (Templates) implemented and verified: template engine (TPL-001 validate built-in templates via `validateTemplate`/`TemplateDef`; TPL-002 instantiateTemplate seeds ProjectStage/Deliverable/Gate/BrainSection/QualityProfile on project create), custom template service (TPL-003 create/version/resolve/list with immutable versioning), and Quality Profile service (QLT-001 create/version/list/update/delete with immutable `version`/`isLatest` snapshots).

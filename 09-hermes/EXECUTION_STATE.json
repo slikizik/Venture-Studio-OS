@@ -2,10 +2,10 @@
   "schemaVersion": 1,
   "projectId": "VSO",
   "status": "idle",
-  "currentPhase": "PHASE_06",
+  "currentPhase": "PHASE_07",
   "currentWorkPacket": null,
   "lastCheckpointAt": null,
-  "lastSuccessfulAction": "Phase 06 Templates complete (spec baseline 1.7.0) — TPL-001/002/003 template engine + custom templates, QLT-001 Quality Profile service implemented and verified (115 tests pass, NFR-003 strict tsc 0 errors). Phase 07 READY.",
+  "lastSuccessfulAction": "Phase 07 Dashboards and Environment Identity complete (spec baseline 1.7.0) — metrics service (PRJ-005/DSH-001/002/003/QLT-003/AUT-001..004) + portfolio/project dashboards + owner-attention/autonomy panel implemented and verified (128 tests pass, NFR-003 strict tsc 0 errors, next build clean, preflight READY). ENV-004 banner present in layout. Phase 08 READY.",
   "phaseStatus": {
     "PHASE_00": "COMPLETE",
     "PHASE_01": "COMPLETE",
@@ -14,6 +14,6 @@
     "PHASE_04": "COMPLETE",
     "PHASE_05": "COMPLETE",
     "PHASE_06": "COMPLETE",
-    "PHASE_07": "READY"
+    "PHASE_07": "COMPLETE"
   }
 }

@@ -2,60 +2,76 @@ import Link from "next/link";
 import { searchProjects } from "@/lib/projects";
 import { prisma } from "@/lib/prisma";
 import { listAgents } from "@/lib/agents";
+import { calculatePortfolioMetrics, calculatePortfolioDigest } from "@/lib/metrics";
 
 export const dynamic = "force-dynamic";
 
 export default async function PortfolioPage() {
-  const [projects, pendingReviews, openRisks, recentDecisions, agents] = await Promise.all([
+  const [projects, metrics, digest] = await Promise.all([
     searchProjects({ archived: false, sortBy: "updatedAt", sortDir: "desc" }),
-    prisma.review.count({ where: { status: "PENDING" } }),
-    prisma.riskRecord.count({ where: { status: { in: ["OPEN", "MITIGATING"] }, impact: { in: ["HIGH", "CRITICAL"] } } }),
-    prisma.decisionRecord.findMany({ orderBy: { decidedAt: "desc" }, take: 5 }),
-    listAgents(),
+    calculatePortfolioMetrics(),
+    calculatePortfolioDigest(),
   ]);
 
-  const activeCount = projects.filter((p) => p.status !== "ARCHIVED").length;
-  const blockedCount = projects.filter((p) => p.health === "BLOCKED").length;
-  const activeAgents = agents.filter((a) => a.status === "ACTIVE").length;
-
   return (
-    <div>
+    <div data-testid="portfolio-dashboard">
       <h1>Portfolio</h1>
       <div className="grid grid-cols-4" data-testid="portfolio-metrics">
         <div className="card">
-          <div className="metric" data-testid="metric-active-projects">{activeCount}</div>
+          <div className="metric" data-testid="metric-active-projects">{metrics.activeProjects}</div>
           <div className="muted small">Active projects</div>
           <Link className="small" href="/projects">View</Link>
         </div>
         <div className="card">
-          <div className="metric" data-testid="metric-blocked-projects">{blockedCount}</div>
+          <div className="metric" data-testid="metric-blocked-projects">{metrics.blockedProjects}</div>
           <div className="muted small">Blocked projects</div>
         </div>
         <div className="card">
-          <div className="metric" data-testid="metric-pending-reviews">{pendingReviews}</div>
+          <div className="metric" data-testid="metric-pending-reviews">{metrics.pendingReviews}</div>
           <div className="muted small">Pending reviews</div>
           <Link className="small" href="/reviews">View</Link>
         </div>
         <div className="card">
-          <div className="metric" data-testid="metric-open-risks">{openRisks}</div>
+          <div className="metric" data-testid="metric-open-risks">{metrics.openHighCriticalRisks}</div>
           <div className="muted small">Open high/critical risks</div>
         </div>
         <div className="card">
-          <div className="metric" data-testid="metric-active-agents">{activeAgents}</div>
+          <div className="metric" data-testid="metric-active-agents">{metrics.activeAgents}</div>
           <div className="muted small">Active agents</div>
           <Link className="small" href="/agents">View</Link>
         </div>
+        <div className="card">
+          <div className="metric" data-testid="metric-open-direction-requests">{metrics.openDirectionRequests}</div>
+          <div className="muted small">Open owner escalations</div>
+        </div>
       </div>
 
+      {(digest.pendingReviews.length > 0 || digest.openDirectionRequests.length > 0 || digest.blockedProjects.length > 0) && (
+        <div className="card" data-testid="portfolio-blockers" style={{ marginTop: 16 }}>
+          <h2>Needs attention</h2>
+          {digest.openDirectionRequests.length > 0 && (
+            <p className="small">
+              <strong>{digest.openDirectionRequests.length}</strong> open owner decision{digest.openDirectionRequests.length === 1 ? "" : "s"} awaiting direction.
+            </p>
+          )}
+          {digest.blockedProjects.length > 0 && (
+            <p className="small">
+              <strong>{digest.blockedProjects.length}</strong> blocked project{digest.blockedProjects.length === 1 ? "" : "s"}:{" "}
+              {digest.blockedProjects.map((b) => b.name).join(", ")}
+            </p>
+          )}
+        </div>
+      )}
+
       <h2>Recent decisions</h2>
-      {recentDecisions.length === 0 ? (
+      {digest.recentDecisions.length === 0 ? (
         <div className="empty">No decisions recorded yet.</div>
       ) : (
         <div className="card">
           <table>
             <thead><tr><th>Title</th><th>Decided by</th><th>When</th></tr></thead>
             <tbody>
-              {recentDecisions.map((d) => (
+              {digest.recentDecisions.map((d) => (
                 <tr key={d.id}>
                   <td>{d.title}</td>
                   <td className="muted small">{d.decidedBy}</td>

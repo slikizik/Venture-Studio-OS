@@ -3,6 +3,13 @@ import { notFound } from "next/navigation";
 import { getProjectOrThrow, calculateProgress, calculateHealth } from "@/lib/projects";
 import { listAuditForProject } from "@/lib/audit";
 import { formatInTimeZone } from "@/lib/datetime";
+import {
+  calculateProjectDashboard,
+  calculateAutonomyMetrics,
+  calculateOwnerAttention,
+  calculateEscalationQuality,
+  calculateRecoveryMetrics,
+} from "@/lib/metrics";
 import EditProjectClient from "./edit-client";
 
 export const dynamic = "force-dynamic";
@@ -15,10 +22,15 @@ export default async function ProjectDashboard({ params }: { params: Promise<{ i
   } catch {
     notFound();
   }
-  const [progress, health, audit] = await Promise.all([
+  const [progress, health, audit, dash, autonomy, attention, escalation, recovery] = await Promise.all([
     calculateProgress(id),
     calculateHealth(id),
     listAuditForProject(id, 10),
+    calculateProjectDashboard(id),
+    calculateAutonomyMetrics(id),
+    calculateOwnerAttention(id),
+    calculateEscalationQuality(id),
+    calculateRecoveryMetrics(id),
   ]);
   const tz = "UTC"; // display tz resolved client-side where needed
 
@@ -32,7 +44,7 @@ export default async function ProjectDashboard({ params }: { params: Promise<{ i
         <span className={`badge badge-${project.status.toLowerCase()}`}>{project.status}</span>
       </div>
 
-      <div className="grid grid-cols-3">
+      <div className="grid grid-cols-4">
         <div className="card">
           <div className="muted small">Progress</div>
           <div className="metric" data-testid="project-progress">{progress.progressPercent}%</div>
@@ -43,10 +55,43 @@ export default async function ProjectDashboard({ params }: { params: Promise<{ i
           <div className="metric" data-testid="project-health">{health}</div>
         </div>
         <div className="card">
+          <div className="muted small">Blockers</div>
+          <div className="metric" data-testid="project-blockers">{dash.blockers}</div>
+          <div className="muted small">{dash.blockedStages} blocked stage(s) · {dash.openHighCriticalRisks} open high/critical risk(s) · {dash.pendingReviews} pending review(s)</div>
+        </div>
+        <div className="card">
           <div className="muted small">Owner / Target</div>
           <div>{project.ownerName}</div>
           <div className="muted small">{project.targetDate ? formatInTimeZone(project.targetDate, tz) : "—"}</div>
         </div>
+      </div>
+
+      <h2>Autonomy &amp; owner attention</h2>
+      <div className="card" data-testid="autonomy-panel">
+        <div className="grid grid-cols-4">
+          <div>
+            <div className="metric" data-testid="metric-autonomy-rate">{(autonomy.autonomyRate * 100).toFixed(0)}%</div>
+            <div className="muted small">Autonomy rate</div>
+          </div>
+          <div>
+            <div className="metric" data-testid="metric-first-pass">{autonomy.decidedReviews === 0 ? "—" : `${(autonomy.firstPassAcceptanceRate * 100).toFixed(0)}%`}</div>
+            <div className="muted small">First-pass acceptance</div>
+          </div>
+          <div>
+            <div className="metric" data-testid="metric-attention">{Math.round(attention.totalAttentionSeconds / 60)}m</div>
+            <div className="muted small">Owner attention</div>
+          </div>
+          <div>
+            <div className="metric" data-testid="metric-open-escalations">{attention.openEscalations}</div>
+            <div className="muted small">Open escalations</div>
+          </div>
+        </div>
+        <p className="muted small" style={{ marginTop: 8 }}>
+          Recovery {recovery.autonomousRecoveryRate * 100 === 0 && recovery.recoverableIncidents === 0 ? "n/a" : `${(recovery.autonomousRecoveryRate * 100).toFixed(0)}%`} of {recovery.recoverableIncidents} recoverable incident(s) · {escalation.unnecessaryEscalations} escalations flagged avoidable (recoverable class).
+        </p>
+        {attention.openEscalations > 0 && (
+          <p className="small" data-testid="escalation-warning"><strong>Required owner decision pending — not hidden by metrics.</strong></p>
+        )}
       </div>
 
       <div className="row">
