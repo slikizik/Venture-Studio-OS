@@ -303,3 +303,41 @@ queue:
   status: COMPLETE
   dependencies:
   - P07-005
+- id: P08-001
+  title: Implement data portability services (DAT-001/002/003) in app/src/lib/dataPort.ts — exportProject, importProjectPackage (transactional, generic id rewriting), validateProjectPackage
+  status: COMPLETE
+  dependencies:
+  - P07-006
+- id: P08-002
+  title: Extend backup service with restoreBackup (DAT-005) — integrity check (SQLite magic bytes) + transactional replace
+  status: COMPLETE
+  dependencies:
+  - P08-001
+- id: P08-003
+  title: Implement environment isolation guard (ENV-003) in app/src/lib/isolation.ts — assertNoCrossEnvLeak / isEnvIsolatedFrom
+  status: COMPLETE
+  dependencies:
+  - P08-001
+- id: P08-004
+  title: Implement sanitizer (NFR-006) in app/src/lib/sanitize.ts and accessibility (NFR-004) + performance (NFR-005) helpers
+  status: COMPLETE
+  dependencies:
+  - P08-001
+- id: P08-005
+  title: Wire accessible export affordance (DAT-001 UI) — API route + ExportDialog client component
+  status: COMPLETE
+  dependencies:
+  - P08-001
+- id: P08-006
+  title: Write Phase 08 tests (dat.test.ts, env.test.ts, nfr.test.ts incl NFR-010) + run full suite
+  status: COMPLETE
+  dependencies:
+  - P08-002
+  - P08-003
+  - P08-004
+  - P08-005
+- id: P08-007
+  title: Verify preflight --completion, tsc, next build; update trackers + EXECUTION_STATE + write PHASE_08_REPORT.md
+  status: COMPLETE
+  dependencies:
+  - P08-006

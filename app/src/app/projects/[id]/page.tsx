@@ -11,6 +11,7 @@ import {
   calculateRecoveryMetrics,
 } from "@/lib/metrics";
 import EditProjectClient from "./edit-client";
+import ExportDialog from "./export-dialog";
 
 export const dynamic = "force-dynamic";
 
@@ -134,6 +135,8 @@ export default async function ProjectDashboard({ params }: { params: Promise<{ i
         initialOwner={project.ownerName}
         initialTargetDate={project.targetDate ? project.targetDate.toISOString().slice(0, 10) : ""}
       />
+
+      <ExportDialog projectId={id} projectName={project.name} />
 
       <h2>Recent activity (audit)</h2>
       <div className="card" data-testid="audit-trail">

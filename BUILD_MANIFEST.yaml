@@ -37,7 +37,7 @@ phases:
   specification: 07-build-phases/PHASE_07_DASHBOARD.md
 - id: 8
   name: Testing, Data Portability, and Hardening
-  status: READY
+  status: COMPLETE
   specification: 07-build-phases/PHASE_08_TESTING.md
 - id: 9
   name: Packaging and Release
