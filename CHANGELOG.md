@@ -1,3 +1,7 @@
+## 1.7.0 — Phase 09 follow-up: commercial sign-off gate (2026-08-15)
+
+- Added `signOffCommercial` to `app/src/lib/release.ts` (QLT-004): an explicit, audited owner gate that can ONLY transition a readiness record from `COMMERCIAL_REVIEW` to `RELEASED`. It requires a named approver + `releasedVersion`, and rejects any attempt to sign off from `TECHNICALLY_READY` or below — so technical readiness can never silently become a commercial release. Covered by two new `p9.test.ts` cases (reject-from-non-review + sign-off-to-RELEASED). tsc 0 errors; p9.test.ts 16/16 PASS.
+
 ## 1.7.0 — Phase 09 packaging and release complete (2026-08-15)
 
 - Phase 09 (Packaging and Release) implemented and verified. Added `app/src/lib/environments.ts` (ENV-001/002): register/update isolated environments with branch, worktree, port, database, storage, logs, and live status; exposes isolation configs consumed by the ENV-003 guard. Added `app/src/lib/release.ts` (VER-003 + QLT-004): records version comparison/approval/merge-readiness/release status and a release-readiness state machine (NOT_READY→TECHNICALLY_READY→COMMERCIAL_REVIEW→COMMERCIAL_READY→RELEASED) that is always DERIVED from technical/commercial verdicts so TECHNICALLY_READY can never masquerade as COMMERCIAL_READY. Added `app/src/lib/vulnAudit.ts` (NFR-007): pure `evaluateAudit` over `npm audit --json` plus `runDependencyAudit` that blocks release on any unresolved critical advisory (waivable by recorded advisory name).

@@ -17,6 +17,7 @@ import {
   evaluateReleaseReadiness,
   getReleaseReadiness,
   deriveReadinessState,
+  signOffCommercial,
 } from "../lib/release";
 import { evaluateAudit, runDependencyAudit } from "../lib/vulnAudit";
 
@@ -210,5 +211,38 @@ describe("NFR-007 — critical dependency vulnerability gate", () => {
     const verdict = runDependencyAudit({ cwd: process.cwd() });
     expect(verdict.ran).toBe(true);
     expect(typeof verdict.critical).toBe("number");
+  });
+});
+
+// QLT-004 — commercial sign-off gate (explicit owner action; never silent).
+describe("QLT-004 commercial sign-off", () => {
+  it("rejects sign-off unless state is COMMERCIAL_REVIEW", async () => {
+    const projectId = (await prisma.project.create({ data: { name: uniq("P-SIGNOFF"), ownerName: "tester" } })).id;
+    // TECHNICALLY_READY, not COMMERCIAL_REVIEW.
+    await evaluateReleaseReadiness(projectId, {
+      technicalReady: true,
+      commercialReady: false,
+      blockingChecks: [],
+    });
+    await expect(
+      signOffCommercial(projectId, { approvedBy: "owner@x", releasedVersion: "v1.7.0" }),
+    ).rejects.toThrow(/COMMERCIAL_REVIEW/);
+  });
+
+  it("signs off from COMMERCIAL_REVIEW -> RELEASED with version + approver", async () => {
+    const projectId = (await prisma.project.create({ data: { name: uniq("P-SIGNOFF2"), ownerName: "tester" } })).id;
+    await evaluateReleaseReadiness(projectId, {
+      technicalReady: true,
+      commercialReady: true,
+      blockingChecks: [],
+    });
+    const rec = await signOffCommercial(projectId, {
+      approvedBy: "owner@x",
+      releasedVersion: "v1.7.0",
+      notes: "licensed + priced",
+    });
+    expect(rec.readinessState).toBe("RELEASED");
+    expect(rec.commercialReady).toBe(true);
+    expect(rec.releasedVersion).toBe("v1.7.0");
   });
 });

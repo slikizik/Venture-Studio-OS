@@ -41,7 +41,7 @@ phases:
   specification: 07-build-phases/PHASE_08_TESTING.md
 - id: 9
   name: Packaging and Release
-  status: IN_PROGRESS
+  status: COMPLETE
   specification: 07-build-phases/PHASE_09_PACKAGING.md
 requiredTrackingFiles:
 - PROJECT_STATUS.md

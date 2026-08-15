@@ -171,3 +171,59 @@ export async function evaluateReleaseReadiness(
 export async function getReleaseReadiness(projectId: string) {
   return prisma.releaseReadiness.findUnique({ where: { projectId } });
 }
+
+/**
+ * QLT-004 — Explicit owner commercial-readiness sign-off. This is the human gate
+ * that distinguishes COMMERCIAL_REVIEW from a released product; it can NEVER be
+ * reached by a silent `commercialReady=true` flag. Rules:
+ *
+ *   - Requires an existing readiness record in COMMERCIAL_REVIEW (technical AND
+ *     commercial already true, no blocking checks).
+ *   - Requires `releasedVersion` to be set (you cannot sign off a release with no
+ *     version identity).
+ *   - Records the named approver + timestamp and flips commercialReady, deriving
+ *     the state to RELEASED (or back to COMMERCIAL_REVIEW if the version is cleared).
+ *   - Anything outside COMMERCIAL_REVIEW is rejected — TECHNICALLY_READY can never
+ *     skip straight to RELEASED.
+ */
+export async function signOffCommercial(
+  projectId: string,
+  input: { approvedBy: string; releasedVersion: string; notes?: string },
+  actor = "SYSTEM",
+) {
+  const current = await prisma.releaseReadiness.findUnique({ where: { projectId } });
+  if (!current) {
+    throw new Error("No release-readiness record exists; evaluate readiness before sign-off.");
+  }
+  if (current.readinessState !== "COMMERCIAL_REVIEW") {
+    throw new Error(
+      `Commercial sign-off requires state COMMERCIAL_REVIEW, current state=${current.readinessState}. ` +
+        "TECHNICALLY_READY cannot skip to a released product.",
+    );
+  }
+  const releasedVersion = input.releasedVersion.trim();
+  if (!releasedVersion) {
+    throw new Error("releasedVersion is required to sign off a commercial release.");
+  }
+  const record = await prisma.releaseReadiness.update({
+    where: { projectId },
+    data: {
+      commercialReady: true,
+      releasedVersion,
+      releasedAt: new Date(),
+      commercialNotes: input.notes ?? current.commercialNotes,
+      readinessState: "RELEASED",
+      lastEvaluatedAt: new Date(),
+    },
+  });
+  await recordAudit({
+    actor,
+    action: "COMMERCIAL_SIGN_OFF",
+    entityType: "RELEASE_READINESS",
+    entityId: record.id,
+    projectId,
+    summary: `Commercial sign-off for ${releasedVersion} by ${input.approvedBy}`,
+    metadata: { releasedVersion, approvedBy: input.approvedBy },
+  });
+  return record;
+}
