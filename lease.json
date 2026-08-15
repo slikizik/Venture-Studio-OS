@@ -2,10 +2,11 @@
   "acquiredAt": "2026-08-15T15:57:29.486792+00:00",
   "branch": "develop",
   "expiresAt": "2026-08-15T16:02:29.467570+00:00",
-  "expiresEpoch": 1786809749.4675698,
+  "expiresEpoch": 0,
   "heartbeatAt": "2026-08-15T15:57:29.486792+00:00",
   "owner": "DESKTOP-GMB6N92",
   "project": "VSO",
+  "releasedAt": "2026-08-15T21:56:39.743394+00:00",
   "schemaVersion": 1,
-  "status": "ACTIVE"
+  "status": "RELEASED"
 }
