@@ -1,0 +1,51 @@
+schemaVersion: 1
+placeholders:
+  - id: PH-001
+    class: PHASE_00_VERIFICATION
+    location: 04-architecture/APPROVED_VERSIONS.yaml
+    description: Exact compatible application tool versions are intentionally unresolved until Phase 00 verifies current official versions.
+    introducedFor: Avoid locking stale dependency versions before implementation begins.
+    conversionTrigger: PHASE_00
+    conversionOwner: Hermes executing Phase 00
+    mustBeResolvedBy: PHASE_00
+    blockingLevel: PHASE
+    validation: APPROVED_VERSIONS.yaml status must become VERIFIED and required version fields must be non-null.
+    resolvedAt: 2026-08-13T14:54:33Z
+    resolution: Phase 00 verified current stable versions from official npm/Node sources and recorded them in 04-architecture/APPROVED_VERSIONS.yaml (status VERIFIED, all version fields non-null). No application stack installed.
+    status: RESOLVED
+
+  - id: PH-002
+    class: CONFIGURATION
+    location: .env.telegram.example
+    description: Example Telegram bot token uses replace_me and is never used directly at runtime.
+    introducedFor: Document local secret configuration without committing credentials.
+    conversionTrigger: Before Telegram sandbox testing
+    conversionOwner: Project Owner
+    mustBeResolvedBy: TELEGRAM_SANDBOX
+    blockingLevel: FEATURE
+    validation: Local .env.telegram exists outside Git and TELEGRAM_BOT_TOKEN passes Telegram getMe.
+    status: OPEN
+
+  - id: PH-003
+    class: CONFIGURATION
+    location: 09-hermes/telegram/PROJECT_COMMUNICATION_REGISTRY.json
+    description: Telegram chatId/topicId are zero and project route is disabled until the owner performs discovery.
+    introducedFor: Prevent accidental routing before Telegram configuration.
+    conversionTrigger: Before enabling a project Telegram route
+    conversionOwner: Project Owner
+    mustBeResolvedBy: TELEGRAM_SANDBOX
+    blockingLevel: FEATURE
+    validation: verify_project_routing.py passes with explicit allowedUserIds and non-zero route IDs.
+    status: OPEN
+
+  - id: PH-004
+    class: CONFIGURATION
+    location: .vso-machine.example.json
+    description: Example workstation identity must be copied to .vso-machine.local.json and made unique on each workstation.
+    introducedFor: Cross-platform workstation identification without committing machine-local state.
+    conversionTrigger: Before Smart Git Sync or execution lease use
+    conversionOwner: Project Owner
+    mustBeResolvedBy: CROSS_PC_USE
+    blockingLevel: FEATURE
+    validation: .vso-machine.local.json exists locally, is ignored by Git, and contains a non-empty unique machineId.
+    status: OPEN

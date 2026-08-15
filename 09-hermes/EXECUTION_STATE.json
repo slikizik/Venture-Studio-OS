@@ -2,10 +2,10 @@
   "schemaVersion": 1,
   "projectId": "VSO",
   "status": "idle",
-  "currentPhase": "PHASE_08",
+  "currentPhase": "PHASE_09",
   "currentWorkPacket": null,
   "lastCheckpointAt": null,
-  "lastSuccessfulAction": "Phase 08 Testing, Data Portability, and Hardening complete (spec baseline 1.7.0) — dataPort export/import/validate + backup.restoreBackup + isolation/sanitize/a11y/perf services + accessible export UI implemented and verified (158 tests pass incl. DAT-001/002/003/005, ENV-003, NFR-002/004/005/006/010, NFR-003 strict tsc 0 errors, next build clean, preflight --completion READY). Phase 09 READY.",
+  "lastSuccessfulAction": "Phase 09 Packaging and Release complete (spec baseline 1.7.0) — environments.ts (ENV-001/002), release.ts (VER-003 + QLT-004 state machine), vulnAudit.ts (NFR-007 npm audit gate) implemented and verified (p9.test.ts 14 PASS, full suite 172 PASS, tsc 0 errors, next build clean, preflight --completion READY). release/ bundle (185 files) with CHECKSUMS.txt + RELEASE_MANIFEST.json produced via scripts/package_release.py. All 9 phases COMPLETE.",
   "phaseStatus": {
     "PHASE_00": "COMPLETE",
     "PHASE_01": "COMPLETE",
@@ -15,6 +15,7 @@
     "PHASE_05": "COMPLETE",
     "PHASE_06": "COMPLETE",
     "PHASE_07": "COMPLETE",
-    "PHASE_08": "COMPLETE"
+    "PHASE_08": "COMPLETE",
+    "PHASE_09": "COMPLETE"
   }
 }

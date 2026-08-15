@@ -1,4 +1,4 @@
-activePhase: PHASE_06
+activePhase: PHASE_09
 queue:
 - id: P00-001
   title: Validate required files and paths
@@ -341,3 +341,41 @@ queue:
   status: COMPLETE
   dependencies:
   - P08-006
+
+- id: P09-001
+  title: Extend Prisma schema with EnvironmentRegistration (ENV-001/002), ReleaseRecord (VER-003), ReleaseReadiness (QLT-004) + db push + generate
+  status: COMPLETE
+  dependencies:
+  - P08-007
+- id: P09-002
+  title: Implement environment registry service (ENV-001/002) in app/src/lib/environments.ts — registerEnvironment/updateEnvironment/isolation configs
+  status: COMPLETE
+  dependencies:
+  - P09-001
+- id: P09-003
+  title: Implement release/version service (VER-003) + release-readiness state machine (QLT-004) in app/src/lib/release.ts — compare/approve/merge-readiness; tech vs commercial distinct
+  status: COMPLETE
+  dependencies:
+  - P09-001
+- id: P09-004
+  title: Implement dependency vulnerability gate (NFR-007) in app/src/lib/vulnAudit.ts — evaluateAudit (pure) + runDependencyAudit (npm audit)
+  status: COMPLETE
+  dependencies:
+  - P09-001
+- id: P09-005
+  title: Write Phase 09 tests (p9.test.ts ENV-001/002, VER-003, QLT-004, NFR-007) + run full suite
+  status: COMPLETE
+  dependencies:
+  - P09-002
+  - P09-003
+  - P09-004
+- id: P09-006
+  title: Author release docs (RUN_GUIDE.md, USER_GUIDE.md, ARCHITECTURE_SUMMARY.md) + package_release.py producing release/ bundle with CHECKSUMS.txt + RELEASE_MANIFEST.json
+  status: COMPLETE
+  dependencies:
+  - P09-005
+- id: P09-007
+  title: Verify preflight --completion, tsc, next build, package_release.py; update trackers + EXECUTION_STATE + write PHASE_09_REPORT.md; mark COMPLETE
+  status: in_progress
+  dependencies:
+  - P09-006

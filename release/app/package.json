@@ -1,0 +1,40 @@
+{
+  "name": "venture-studio-os",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint",
+    "db:generate": "prisma generate",
+    "db:migrate": "prisma migrate dev --name",
+    "db:backup": "tsx src/scripts/backup-cli.ts",
+    "test": "vitest run",
+    "test:unit": "vitest run src/__tests__/dat004-backup.test.ts src/__tests__/nfr003-strict-ts.test.ts",
+    "test:e2e": "vitest run src/__tests__/nfr001-run.test.ts"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.19.3",
+    "next": "16.3.0",
+    "prisma": "^6.19.3",
+    "react": "19.2.8",
+    "react-dom": "19.2.8",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "@vitejs/plugin-react": "^6.0.5",
+    "eslint": "^9",
+    "eslint-config-next": "16.3.0",
+    "tailwindcss": "^4",
+    "tsx": "^4.23.12",
+    "typescript": "^5",
+    "typescript-eslint": "^8.67.0",
+    "vitest": "^4.1.10"
+  },
+  "packageManager": "npm@12.0.2"
+}
