@@ -8,35 +8,49 @@
         "type": "tabs",
         "children": [
           {
-            "id": "67d34cae14f37c0a",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "START_HERE.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "START_HERE"
-            }
-          },
-          {
             "id": "6ba9d9d864586af0",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "docs/OWNER_BUILD_GUIDE.md",
+                "file": "PROJECT_STATUS.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "OWNER_BUILD_GUIDE"
+              "title": "PROJECT_STATUS"
+            }
+          },
+          {
+            "id": "1c5a7a8ac949bbf5",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "09-hermes/prompts/REUSABLE_PHASE_PROMPT.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "REUSABLE_PHASE_PROMPT"
+            }
+          },
+          {
+            "id": "e53e4ffec5254324",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "docs/RUN_GUIDE.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "RUN_GUIDE"
             }
           }
         ],
-        "currentTab": 1
+        "currentTab": 2
       }
     ],
     "direction": "vertical"
@@ -200,8 +214,53 @@
       "bases:Create new base": false
     }
   },
-  "active": "6ba9d9d864586af0",
+  "active": "e53e4ffec5254324",
   "lastOpenFiles": [
-    "START_HERE.md"
+    "release/RELEASE_MANIFEST.json",
+    "release/CHECKSUMS.txt",
+    "release/08-quality/RELEASE_READINESS_MODEL.md",
+    "release/08-quality",
+    "release/02-requirements/REQUIREMENTS_TRACEABILITY.csv",
+    "release/02-requirements",
+    "release/09-hermes/PLACEHOLDER_REGISTER.yaml",
+    "release/09-hermes/OPERATIONAL_READINESS_REGISTER.md",
+    "release/09-hermes",
+    "release/CHANGELOG.md",
+    "release/BUILD_MANIFEST.yaml",
+    "release/docs/architecture-atlas/DIAGRAM_TRACEABILITY.csv",
+    "release/docs/architecture-atlas/README.md",
+    "release/docs/architecture-atlas/22-sevl.md",
+    "release/docs/architecture-atlas/21-owner-attention-autonomy.md",
+    "release/docs/architecture-atlas/20-commercial-quality-loop.md",
+    "release/docs/architecture-atlas/19-five-engines.md",
+    "release/docs/architecture-atlas/18-deployment-security.md",
+    "release/docs/architecture-atlas/17-review-approval-state-machine.md",
+    "release/docs/architecture-atlas/16-work-packet-state-machine.md",
+    "release/docs/architecture-atlas/15-core-data-model.md",
+    "release/docs/architecture-atlas/14-application-components.md",
+    "release/docs/architecture-atlas/13-c4-containers.md",
+    "release/docs/architecture-atlas/12-c4-system-context.md",
+    "release/docs/architecture-atlas/11-multi-project-routing.md",
+    "release/docs/architecture-atlas/10-smart-git-sync.md",
+    "release/docs/architecture-atlas/09-gateway-recovery.md",
+    "release/docs/architecture-atlas/08-telegram-control.md",
+    "release/docs/architecture-atlas/07-autonomous-hermes.md",
+    "release/docs/architecture-atlas/04-human-ai-collaboration.md",
+    "release/docs/architecture-atlas/06-direction-workflow.md",
+    "release/docs/architecture-atlas/05-work-packet-execution.md",
+    "release/docs/architecture-atlas/02-system-architecture.md",
+    "release/docs/architecture-atlas/03-project-lifecycle.md",
+    "release/docs/architecture-atlas",
+    "release/docs",
+    "release/app/public/next.svg",
+    "release/app/public/vercel.svg",
+    "release/app/public/window.svg",
+    "release/app/public/file.svg",
+    "release/app/public/globe.svg",
+    "app/public/window.svg",
+    "app/public/vercel.svg",
+    "app/public/next.svg",
+    "app/public/globe.svg",
+    "app/public/file.svg"
   ]
 }
