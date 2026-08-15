@@ -1,54 +1,105 @@
-// TEST-GOV-003 — Record project versions and change summaries.
+// TEST-GOV-001/002 — Immutable decision records, risk register, and the
+// governance audit trail linkage.
 import { describe, it, expect, beforeAll, afterAll } from "vitest";
 import { setupTestDb, teardownTestDb, cleanupStrayTestDbs } from "./testdb";
 
-const db = setupTestDb("gov");
+const db = setupTestDb("gov-p5");
 
 async function load() {
-  const versions = await import("../lib/versions");
-  const proj = await import("../lib/projects");
+  const decisions = await import("../lib/decisions");
+  const risks = await import("../lib/risks");
   const audit = await import("../lib/audit");
+  const proj = await import("../lib/projects");
   const { prisma } = await import("../lib/prisma");
-  return { versions, proj, audit, prisma };
+  return { decisions, risks, audit, proj, prisma };
 }
 let api: Awaited<ReturnType<typeof load>>;
 
 beforeAll(async () => { api = await load(); });
 afterAll(() => { teardownTestDb(db); cleanupStrayTestDbs(); });
 
-describe("TEST-GOV-003: project versions and change summaries", () => {
-  it("seeds an initial DEVELOPMENT version on project creation", async () => {
-    const p = await api.proj.createProject({ name: "Gov1", ownerName: "Owner" });
-    const versions = await api.versions.listVersions(p.id);
-    expect(versions.length).toBe(1);
-    expect(versions[0].type).toBe("DEVELOPMENT");
-    expect(versions[0].label).toBeTruthy();
-    expect(versions[0].changeSummary).toBeTruthy();
-  });
+async function makeProject(name = "P") {
+  return api.proj.createProject({ name, ownerName: "Owner" });
+}
 
-  it("records a new version with a change summary", async () => {
-    const p = await api.proj.createProject({ name: "Gov2", ownerName: "Owner" });
-    const v = await api.versions.recordVersion({
-      projectId: p.id, versionLabel: "v0.2.0", versionType: "OFFICIAL",
-      changeSummary: "Added deliverables module", createdBy: "Owner",
+describe("TEST-GOV-001: immutable decision records", () => {
+  it("records a decision with options and selected option", async () => {
+    const p = await makeProject("gov1");
+    const d = await api.decisions.createDecision({
+      projectId: p.id,
+      decisionId: "DEC-1",
+      title: "Adopt cadence",
+      context: "How often to sync",
+      options: [{ id: "WEEKLY", label: "Weekly" }, { id: "BIWEEKLY", label: "Biweekly" }],
+      selectedOption: "WEEKLY",
+      rationale: "Faster feedback",
+      decidedBy: "OWNER",
     });
-    expect(v.versionLabel).toBe("v0.2.0");
-    expect(v.changeSummary).toBe("Added deliverables module");
-    const versions = await api.versions.listVersions(p.id);
-    expect(versions.some((x) => x.id === v.id)).toBe(true);
+    expect(d.id).toBeTruthy();
+    expect(d.selectedOption).toBe("WEEKLY");
+    // immutability: the persisted record carries no update path, so re-read equals write
+    const refetched = await api.decisions.getDecisionOrThrow(d.id);
+    expect(refetched.selectedOption).toBe("WEEKLY");
+    expect(refetched.title).toBe("Adopt cadence");
   });
 
-  it("rejects invalid version input without persisting", async () => {
-    const p = await api.proj.createProject({ name: "Gov3", ownerName: "Owner" });
-    await expect(api.versions.recordVersion({ projectId: p.id, versionLabel: "", versionType: "OFFICIAL", createdBy: "Owner" })).rejects.toThrow();
-    const versions = await api.versions.listVersions(p.id);
-    expect(versions.length).toBe(1); // only the seeded one
+  it("rejects a selectedOption that is not among the options", async () => {
+    const p = await makeProject("gov1b");
+    await expect(api.decisions.createDecision({
+      projectId: p.id, decisionId: "DEC-2", title: "x", context: "c",
+      options: [{ id: "A", label: "A" }], selectedOption: "Z", rationale: "r", decidedBy: "OWNER",
+    })).rejects.toThrow(/selectedOption must be one of options/i);
   });
 
-  it("records an audit event for version creation", async () => {
-    const p = await api.proj.createProject({ name: "Gov4", ownerName: "Owner" });
-    const v = await api.versions.recordVersion({ projectId: p.id, versionLabel: "v0.3.0", versionType: "TEST", changeSummary: "x", createdBy: "Owner" });
+  it("records an audit event for the decision", async () => {
+    const p = await makeProject("gov2");
+    const d = await api.decisions.createDecision({
+      projectId: p.id,
+      decisionId: "DEC-3",
+      title: "Cut feature X",
+      context: "Scope decision",
+      options: [{ id: "CUT", label: "Cut" }, { id: "KEEP", label: "Keep" }],
+      selectedOption: "CUT",
+      rationale: "r",
+      decidedBy: "OWNER",
+    });
     const trail = await api.audit.listAuditForProject(p.id, 10);
-    expect(trail.some((a) => a.entityId === v.id && a.action === "VERSION_RECORDED")).toBe(true);
+    expect(trail.some((a) => a.entityId === d.id && a.action === "DECISION_CREATED")).toBe(true);
+  });
+
+  it("lists decisions for the project", async () => {
+    const p = await makeProject("gov2b");
+    await api.decisions.createDecision({
+      projectId: p.id, decisionId: "DEC-4", title: "t", context: "c",
+      options: [{ id: "X", label: "X" }], selectedOption: "X", rationale: "r", decidedBy: "OWNER",
+    });
+    const list = await api.decisions.listDecisions(p.id);
+    expect(list.some((x) => x.id)).toBe(true);
+  });
+});
+
+describe("TEST-GOV-002: risk register", () => {
+  it("registers a risk and updates status to mitigating with a mitigation", async () => {
+    const p = await makeProject("gov3");
+    const r = await api.risks.createRisk({ projectId: p.id, title: "Key person dependency", impact: "HIGH", likelihood: "MEDIUM" });
+    expect(r.id).toBeTruthy();
+    expect(r.status).toBe("OPEN");
+    const u = await api.risks.updateRisk(r.id, { status: "MITIGATING", mitigation: "Cross-train" });
+    expect(u.status).toBe("MITIGATING");
+    expect(u.mitigation).toBe("Cross-train");
+  });
+
+  it("rejects an invalid risk status", async () => {
+    const p = await makeProject("gov3b");
+    const r = await api.risks.createRisk({ projectId: p.id, title: "R", impact: "LOW", likelihood: "LOW" });
+    await expect(api.risks.updateRisk(r.id, { status: "MITIGATED" as unknown as "OPEN" })).rejects.toThrow();
+  });
+
+  it("lists risks for the project", async () => {
+    const p = await makeProject("gov4");
+    await api.risks.createRisk({ projectId: p.id, title: "R1", impact: "LOW", likelihood: "LOW" });
+    await api.risks.createRisk({ projectId: p.id, title: "R2", impact: "LOW", likelihood: "LOW" });
+    const list = await api.risks.listRisks(p.id);
+    expect(list.length).toBe(2);
   });
 });

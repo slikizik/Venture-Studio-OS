@@ -1,7 +1,7 @@
 product: Venture Studio OS
 specificationBaseline: 1.7.0
 targetVersion: 0.1.0
-currentPhase: 4
+currentPhase: 5
 phases:
 - id: 0
   name: Validation
@@ -25,11 +25,11 @@ phases:
   specification: 07-build-phases/PHASE_04_WORK_PACKETS.md
 - id: 5
   name: Reviews, Decisions, Risks, and Exceptions
-  status: READY
+  status: COMPLETE
   specification: 07-build-phases/PHASE_05_REVIEWS.md
 - id: 6
   name: Templates
-  status: NOT_STARTED
+  status: READY
   specification: 07-build-phases/PHASE_06_TEMPLATES.md
 - id: 7
   name: Dashboards and Environment Identity

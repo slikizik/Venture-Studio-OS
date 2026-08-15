@@ -300,3 +300,158 @@ export const queueItemUpdateSchema = z.object({
 });
 export type QueueItemUpdateInput = z.infer<typeof queueItemUpdateSchema>;
 
+// ---- Phase 05: Reviews, decisions, risks, direction, exceptions, learning, quality gates ----
+
+export const ReviewStatusEnum = z.enum(["PENDING", "APPROVED", "REVISION_REQUESTED", "REJECTED", "SUPERSEDED"]);
+export const ReviewDecision = z.enum(["APPROVED", "REVISION_REQUESTED", "REJECTED"]);
+export const DirectionRequestStatus = z.enum(["OPEN", "ANSWERED", "SUPERSEDED"]);
+export const IssueSeverity = z.enum(["RECOVERABLE", "ASSUMPTION", "DIRECTION_REQUIRED", "CRITICAL"]);
+export const IssueClassification = IssueSeverity;
+export const IssueStatus = z.enum(["OPEN", "MITIGATING", "ACCEPTED", "RESOLVED", "CLOSED"]);
+export const LearningConversionTarget = z.enum(["BACKLOG", "REQUIREMENT", "CHANGE_REQUEST"]);
+
+// REV-001/002/003 — criterion-based review records
+export const reviewCreateSchema = z.object({
+  workPacketId: z.string().min(1),
+  reviewerName: z.string().min(1).max(120),
+  summary: z.string().max(2000).optional().nullable(),
+  submittedVersion: z.number().int().min(1),
+  status: ReviewStatusEnum.default("PENDING"),
+  criteria: z.array(z.object({
+    criterionId: z.string().min(1).optional().nullable(),
+    result: z.enum(["PASS", "FAIL", "WAIVED"]),
+    note: z.string().max(1000).optional().nullable(),
+  })).default([]),
+});
+export type ReviewCreateInput = z.infer<typeof reviewCreateSchema>;
+
+export const reviewDecisionSchema = z.object({
+  decision: ReviewDecision,
+  decidedBy: z.string().min(1).max(120).default("OWNER"),
+  note: z.string().max(2000).optional().nullable(),
+});
+export type ReviewDecisionInput = z.infer<typeof reviewDecisionSchema>;
+
+export const reviewCommentSchema = z.object({
+  authorName: z.string().min(1).max(120),
+  body: z.string().min(1).max(2000),
+  criterionId: z.string().min(1).optional().nullable(),
+});
+export type ReviewCommentInput = z.infer<typeof reviewCommentSchema>;
+
+// GOV-001 — immutable decision records
+export const decisionCreateSchema = z.object({
+  projectId: z.string().min(1).optional().nullable(),
+  decisionId: z.string().min(1).max(80),
+  title: z.string().min(1).max(180),
+  context: z.string().min(1),
+  options: z.array(z.object({ id: z.string().min(1), label: z.string().min(1) })).min(1),
+  selectedOption: z.string().min(1),
+  rationale: z.string().min(1),
+  affectedRequirementIds: z.array(z.string().min(1)).default([]),
+  decidedBy: z.string().min(1).max(120),
+}).superRefine((val, ctx) => {
+  if (!val.options.some((o) => o.id === val.selectedOption)) {
+    ctx.addIssue({ code: z.ZodIssueCode.custom, message: "selectedOption must be one of options", path: ["selectedOption"] });
+  }
+});
+export type DecisionCreateInput = z.infer<typeof decisionCreateSchema>;
+
+// GOV-002 — risk register
+export const riskCreateSchema = z.object({
+  projectId: z.string().min(1),
+  title: z.string().min(1).max(180),
+  description: z.string().optional().nullable(),
+  impact: RiskImpact,
+  likelihood: RiskLikelihood,
+  status: RiskStatus.default("OPEN"),
+  mitigation: z.string().optional().nullable(),
+  ownerAgentId: z.string().min(1).optional().nullable(),
+  targetDate: z.coerce.date().optional().nullable(),
+  reviewDate: z.coerce.date().optional().nullable(),
+});
+export type RiskCreateInput = z.infer<typeof riskCreateSchema>;
+
+export const riskUpdateSchema = z.object({
+  title: z.string().min(1).max(180).optional(),
+  description: z.string().optional().nullable(),
+  impact: RiskImpact.optional(),
+  likelihood: RiskLikelihood.optional(),
+  status: RiskStatus.optional(),
+  mitigation: z.string().optional().nullable(),
+  ownerAgentId: z.string().min(1).optional().nullable(),
+  targetDate: z.coerce.date().optional().nullable(),
+  reviewDate: z.coerce.date().optional().nullable(),
+}).refine((v) => Object.keys(v).length > 0, { message: "no fields to update" });
+export type RiskUpdateInput = z.infer<typeof riskUpdateSchema>;
+
+// EXC-001 — classify issues/exceptions
+export const exceptionCreateSchema = z.object({
+  projectId: z.string().min(1),
+  classification: IssueClassification.default("RECOVERABLE"),
+  title: z.string().min(1).max(180),
+  detail: z.string().optional().nullable(),
+  status: IssueStatus.default("OPEN"),
+});
+export type ExceptionCreateInput = z.infer<typeof exceptionCreateSchema>;
+
+export const exceptionResolveSchema = z.object({
+  status: z.enum(["RESOLVED", "CLOSED", "ACCEPTED", "MITIGATING"]),
+  resolvedBy: z.string().min(1).max(120).default("SYSTEM"),
+});
+export type ExceptionResolveInput = z.infer<typeof exceptionResolveSchema>;
+
+// EXC-002 — formal direction requests
+export const directionRequestCreateSchema = z.object({
+  projectId: z.string().min(1),
+  title: z.string().min(1).max(180),
+  question: z.string().min(1),
+  context: z.string().optional().nullable(),
+  options: z.array(z.object({ id: z.string().min(1), label: z.string().min(1), recommended: z.boolean().optional() })).default([]),
+  severity: IssueSeverity.default("DIRECTION_REQUIRED"),
+});
+export type DirectionRequestCreateInput = z.infer<typeof directionRequestCreateSchema>;
+
+// EXC-004 — record owner decision on a direction request (cannot be bypassed)
+export const directionRequestResolveSchema = z.object({
+  resolution: z.string().min(1),
+  decidedBy: z.string().min(1).max(120).default("OWNER"),
+});
+export type DirectionRequestResolveInput = z.infer<typeof directionRequestResolveSchema>;
+
+// LRN-001/002 — learning records + conversion
+export const learningCreateSchema = z.object({
+  projectId: z.string().min(1),
+  sourceType: LearningSource,
+  summary: z.string().min(1).max(2000),
+  evidenceIds: z.array(z.string().min(1)).default([]),
+  impact: z.string().max(2000).optional().nullable(),
+  status: LearningStatus.default("NEW"),
+});
+export type LearningCreateInput = z.infer<typeof learningCreateSchema>;
+
+export const learningConvertSchema = z.object({
+  target: LearningConversionTarget,
+  reference: z.string().min(1).max(200),
+  note: z.string().max(2000).optional().nullable(),
+});
+export type LearningConvertInput = z.infer<typeof learningConvertSchema>;
+
+// QLT-002 — quality gate evaluation using retained evidence
+export const qualityGateCreateSchema = z.object({
+  projectId: z.string().min(1),
+  level: GateLevel,
+  entityId: z.string().min(1),
+  outcome: GateOutcome,
+  criterionResults: z.array(z.object({
+    criterion: z.string().min(1),
+    passed: z.boolean(),
+    evidenceId: z.string().min(1).optional().nullable(),
+    note: z.string().max(1000).optional().nullable(),
+  })).default([]),
+  evidenceIds: z.array(z.string().min(1)).default([]),
+  riskDecisionId: z.string().min(1).optional().nullable(),
+  evaluatedBy: z.string().min(1).max(120).default("SYSTEM"),
+});
+export type QualityGateCreateInput = z.infer<typeof qualityGateCreateSchema>;
+

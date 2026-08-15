@@ -52,6 +52,8 @@ model Project {
   requirements         Requirement[]
   agentActivities      AgentActivity[]
   queueItems           ExecutionQueueItem[]
+  directionRequests    DirectionRequest[]
+  exceptions           Exception[]
 
   @@index([status])
   @@index([archivedAt])
@@ -263,7 +265,7 @@ model RiskRecord {
   id           String    @id @default(uuid())
   projectId    String
   title        String
-  description  String
+  description  String?
   impact       String // RiskImpact
   likelihood   String // RiskLikelihood
   status       String    @default("OPEN") // RiskStatus
@@ -547,4 +549,47 @@ model ExecutionQueueItem {
 
   @@index([projectId])
   @@index([dependsOnId])
+}
+
+// EXC-001/002/003/004 — Consequential ambiguity / direction-required escalation.
+// A DirectionRequest is created when an agent hits a consequential ambiguity it
+// cannot resolve within approved boundaries. It blocks the dependent work until a
+// persisted owner response is recorded (decidedBy + resolution + decidedAt).
+model DirectionRequest {
+  id          String   @id @default(uuid())
+  projectId   String
+  title       String // 1..180
+  question    String // markdown
+  context     String? // markdown rationale
+  options     String   @default("[]") // JSON array of { id, label, recommended? }
+  status      String   @default("OPEN") // DirectionRequestStatus
+  severity    String   @default("DIRECTION_REQUIRED") // IssueSeverity
+  resolution  String? // chosen option id or free-text owner decision
+  decidedBy   String?
+  decidedAt   DateTime?
+  createdAt   DateTime @default(now()) @map("createdAt")
+  updatedAt   DateTime @updatedAt @map("updatedAt")
+  project     Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@index([projectId])
+  @@index([status])
+}
+
+// EXC-001 — Classify recoverable assumptions, direction-required, and critical issues.
+model Exception {
+  id            String   @id @default(uuid())
+  projectId     String
+  classification String  @default("RECOVERABLE") // IssueClassification
+  title         String // 1..180
+  detail        String? // markdown
+  status        String   @default("OPEN") // IssueStatus
+  resolvedBy    String?
+  resolvedAt    DateTime?
+  createdAt     DateTime @default(now()) @map("createdAt")
+  updatedAt     DateTime @updatedAt @map("updatedAt")
+  project       Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@index([projectId])
+  @@index([classification])
+  @@index([status])
 }

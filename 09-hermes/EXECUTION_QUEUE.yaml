@@ -1,4 +1,4 @@
-activePhase: PHASE_04
+activePhase: PHASE_05
 queue:
 - id: P00-001
   title: Validate required files and paths
@@ -184,3 +184,50 @@ queue:
   status: COMPLETE
   dependencies:
   - P04-008
+- id: P05-001
+  title: Extend schema with DirectionRequest + Exception models + Project back-relations
+  status: COMPLETE
+  dependencies: []
+- id: P05-002
+  title: Implement review service (REV-001..003) — criterion records, decision transition, immutable + append-only comments
+  status: COMPLETE
+  dependencies:
+  - P05-001
+- id: P05-003
+  title: Implement decision + risk services (GOV-001/002) — immutable decisions, risk register
+  status: COMPLETE
+  dependencies:
+  - P05-001
+- id: P05-004
+  title: Implement exception + direction services (EXC-001..004) — classify/resolve, owner-only escalation
+  status: COMPLETE
+  dependencies:
+  - P05-001
+- id: P05-005
+  title: Implement learning + quality-gate services (LRN-001/002, QLT-002) — capture/convert, evidence-backed gates
+  status: COMPLETE
+  dependencies:
+  - P05-001
+- id: P05-006
+  title: Implement API routes (reviews, decisions, risks, direction-requests, exceptions, learnings, quality-gates)
+  status: COMPLETE
+  dependencies:
+  - P05-002
+  - P05-003
+  - P05-004
+  - P05-005
+- id: P05-007
+  title: Implement UI (governance pages + client components for reviews/decisions/risks/exceptions/direction/learnings/quality-gates)
+  status: COMPLETE
+  dependencies:
+  - P05-006
+- id: P05-008
+  title: Write Phase 05 tests (rev/gov/exc/lrn/qlt/sevl) + run full suite (101 tests)
+  status: COMPLETE
+  dependencies:
+  - P05-007
+- id: P05-009
+  title: Verify preflight --completion, tsc, eslint; update trackers + EXECUTION_STATE + write PHASE_05_REPORT.md
+  status: COMPLETE
+  dependencies:
+  - P05-008

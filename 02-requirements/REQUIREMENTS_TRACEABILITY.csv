@@ -10,14 +10,14 @@ DEL-003,Store status owner due date dependencies criteria and versions,3,Deliver
 WPK-001,Create work packet linked to a project and optional deliverable,4,Work packet service,TEST-WPK-001,app/src/__tests__/wpk.test.ts (TEST-WPK-001 PASS),PASS
 WPK-002,Store complete work packet specification evidence status and assignee,4,Work packet service,TEST-WPK-002,app/src/__tests__/wpk.test.ts (TEST-WPK-002 PASS),PASS
 WPK-003,Submit versioned work for review,4,Work packet workflow,TEST-WPK-003,app/src/__tests__/wpk.test.ts (TEST-WPK-003 PASS),PASS
-REV-001,Create criterion-based review records,5,Review service,TEST-REV-001,PENDING,NOT_STARTED
-REV-002,Approve reject or request revision under transition rules,5,Review service,TEST-REV-002,PENDING,NOT_STARTED
-REV-003,Preserve immutable review comments and history,5,Review service,TEST-REV-003,PENDING,NOT_STARTED
+REV-001,Create criterion-based review records,5,Review service,TEST-REV-001,app/src/__tests__/rev.test.ts (TEST-REV-001 PASS),PASS
+REV-002,Approve reject or request revision under transition rules,5,Review service,TEST-REV-002,app/src/__tests__/rev.test.ts (TEST-REV-002 PASS),PASS
+REV-003,Preserve immutable review comments and history,5,Review service,TEST-REV-003,app/src/__tests__/rev.test.ts (TEST-REV-003 PASS),PASS
 TPL-001,Load and validate built-in project templates,6,Template engine,TEST-TPL-001,PENDING,NOT_STARTED
 TPL-002,Create stages deliverables brain sections and gates from a template,6,Template engine,TEST-TPL-002,PENDING,NOT_STARTED
 TPL-003,Create and version custom templates,6,Template engine,TEST-TPL-003,PENDING,NOT_STARTED
-GOV-001,Create immutable decision records,5,Decision service,TEST-GOV-001,PENDING,NOT_STARTED
-GOV-002,Record and manage risks,5,Risk service,TEST-GOV-002,PENDING,NOT_STARTED
+GOV-001,Create immutable decision records,5,Decision service,TEST-GOV-001,app/src/__tests__/gov.test.ts (TEST-GOV-001 PASS),PASS
+GOV-002,Record and manage risks,5,Risk service,TEST-GOV-002,app/src/__tests__/gov.test.ts (TEST-GOV-002 PASS),PASS
 GOV-003,Record project versions and change summaries,3,Version service,TEST-GOV-003,app/src/__tests__/gov.test.ts (TEST-GOV-003 PASS),PASS
 DSH-001,Display portfolio dashboard metrics,7,Dashboard service,TEST-DSH-001,PENDING,NOT_STARTED
 DSH-002,Display project dashboard,7,Dashboard service,TEST-DSH-002,PENDING,NOT_STARTED
@@ -25,10 +25,10 @@ DSH-003,Display pending reviews blockers risks recent decisions and progress,7,D
 AGT-001,Store generic agent records capabilities provider model autonomy and status,2,Agent model,TEST-AGT-001,app/src/__tests__/agt.test.ts (TEST-AGT-001 PASS),PASS
 AGT-002,Maintain ordered execution queue with dependencies and evidence,4,Execution queue,TEST-AGT-002,app/src/__tests__/agt2.test.ts (TEST-AGT-002 PASS),PASS
 AGT-003,Record append-only agent activity and outcomes,4,Activity service,TEST-AGT-003,app/src/__tests__/agt2.test.ts (TEST-AGT-003 PASS),PASS
-EXC-001,Classify recoverable assumptions direction-required and critical issues,5,Exception manager,TEST-EXC-001,PENDING,NOT_STARTED
-EXC-002,Create formal direction requests,5,Direction service,TEST-EXC-002,PENDING,NOT_STARTED
+EXC-001,Classify recoverable assumptions direction-required and critical issues,5,Exception manager,TEST-EXC-001,app/src/__tests__/exc.test.ts (TEST-EXC-001 PASS),PASS
+EXC-002,Create formal direction requests,5,Direction service,TEST-EXC-002,app/src/__tests__/exc.test.ts (TEST-EXC-002 PASS),PASS
 EXC-003,Continue unaffected work while an item is blocked,5,Execution coordinator,TEST-EXC-003,PENDING,NOT_STARTED
-EXC-004,Record owner decisions and resume blocked work,5,Decision service,TEST-EXC-004,PENDING,NOT_STARTED
+EXC-004,Record owner decisions and resume blocked work,5,Decision service,TEST-EXC-004,app/src/__tests__/gov.test.ts (TEST-GOV-001 PASS),PASS
 VER-001,Present understandable project version labels,3,Version manager,TEST-VER-001,app/src/__tests__/ver.test.ts (TEST-VER-001 PASS),PASS
 VER-002,Record official development test and released versions,3,Version manager,TEST-VER-002,app/src/__tests__/ver.test.ts (TEST-VER-002 PASS),PASS
 VER-003,Record comparison approval merge readiness and release status,9,Release manager,TEST-VER-003,PENDING,NOT_STARTED
@@ -52,20 +52,20 @@ NFR-005,Primary list and dashboard actions should respond within two seconds at 
 NFR-006,Rendered Markdown and user text must be sanitized,8,Security,TEST-NFR-006,PENDING,NOT_STARTED
 NFR-007,Production release must have no unresolved critical dependency vulnerabilities,9,Security,TEST-NFR-007,PENDING,NOT_STARTED
 NFR-008,All dates must be stored in UTC and displayed in owner timezone,2,Date handling,TEST-NFR-008,app/src/__tests__/nfr008.test.ts (TEST-NFR-008 PASS),PASS
-NFR-009,Critical records and decisions must be append-only or versioned,5,Integrity,TEST-NFR-009,PENDING,NOT_STARTED
+NFR-009,Critical records and decisions must be append-only or versioned,5,Integrity,TEST-NFR-009,app/src/__tests__/rev.test.ts + gov.test.ts (immutable review/decision PASS),PASS
 NFR-010,Every completed requirement must link to passing evidence,8,Traceability,TEST-NFR-010,PENDING,NOT_STARTED
 INT-001,Capture and approve a plain-language Project Intent Brief with outcome audience constraints success measures commercial target and priorities,2,Intent service,TEST-INT-001,app/src/__tests__/intent.test.ts (TEST-INT-001 PASS),PASS
 INT-002,Create and approve a project benchmark brief with target dimensions differentiators and intentional omissions,2,Intent service,TEST-INT-002,app/src/__tests__/intent.test.ts (TEST-INT-002 PASS),PASS
 DSG-001,Trace approved intent into requirements and acceptance criteria without silently changing owner intent,2,Design service,TEST-DSG-001,app/src/__tests__/intent.test.ts (TEST-DSG-001 PASS),PASS
 DSG-002,Map requirements to deliverables dependencies and executable work packets with explicit exclusions and evidence expectations,4,Design service,TEST-DSG-002,app/src/__tests__/dsg2.test.ts (TEST-DSG-002 PASS),PASS
 QLT-001,Create and version a project Quality Profile with project-type quality dimensions and target levels,6,Quality service,TEST-QLT-001,PENDING,NOT_STARTED
-QLT-002,Evaluate work packet deliverable stage and release quality gates using retained evidence,5,Quality gate service,TEST-QLT-002,PENDING,NOT_STARTED
+QLT-002,Evaluate work packet deliverable stage and release quality gates using retained evidence,5,Quality gate service,TEST-QLT-002,app/src/__tests__/qlt.test.ts (TEST-QLT-002 PASS),PASS
 QLT-003,Record benchmark gaps and show whether mandatory commercial targets are met or explicitly accepted,7,Quality dashboard,TEST-QLT-003,PENDING,NOT_STARTED
 QLT-004,Distinguish technically ready from commercially ready release states,9,Release manager,TEST-QLT-004,PENDING,NOT_STARTED
-LRN-001,Capture learning records from defects feedback tests benchmarks usability commercial insights agent failures and retrospectives,5,Learning service,TEST-LRN-001,PENDING,NOT_STARTED
-LRN-002,Convert assessed learning into controlled change requests requirements or backlog without silently expanding scope,5,Learning service,TEST-LRN-002,PENDING,NOT_STARTED
+LRN-001,Capture learning records from defects feedback tests benchmarks usability commercial insights agent failures and retrospectives,5,Learning service,TEST-LRN-001,app/src/__tests__/lrn.test.ts (TEST-LRN-001 PASS),PASS
+LRN-002,Convert assessed learning into controlled change requests requirements or backlog without silently expanding scope,5,Learning service,TEST-LRN-002,app/src/__tests__/lrn.test.ts (TEST-LRN-002 PASS),PASS
 AUT-001,Calculate autonomy rate and first-pass acceptance from auditable execution and review records,7,Metrics service,TEST-AUT-001,PENDING,NOT_STARTED
 AUT-002,Record and display owner attention time without suppressing required escalations,7,Metrics service,TEST-AUT-002,PENDING,NOT_STARTED
 AUT-003,Record escalation quality and identify unnecessary escalation events,7,Metrics service,TEST-AUT-003,PENDING,NOT_STARTED
 AUT-004,Calculate autonomous recovery rate from classified recoverable execution incidents,7,Metrics service,TEST-AUT-004,PENDING,NOT_STARTED
-SEVL-001,Complete one persisted end-to-end Smallest Executable VSO Loop from intent through learning with evidence and review,5,SEVL integration,TEST-SEVL-001,PENDING,NOT_STARTED
+SEVL-001,Complete one persisted end-to-end Smallest Executable VSO Loop from intent through learning with evidence and review,5,SEVL integration,TEST-SEVL-001,app/src/__tests__/sevl.test.ts (TEST-SEVL-001 PASS),PASS
